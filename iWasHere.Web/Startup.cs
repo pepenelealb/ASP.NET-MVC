@@ -20,10 +20,16 @@ namespace iWasHere.Web
 {
     public class Startup
     {
+        /// <summary>
+        
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+
+        //am adaugat ceva
 
         public IConfiguration Configuration { get; }
 
