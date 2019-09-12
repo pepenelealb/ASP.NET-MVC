@@ -17,6 +17,7 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult Privacy()
         {
+            //
             return View();
         }
 
