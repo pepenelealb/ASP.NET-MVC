@@ -14,7 +14,6 @@ namespace iWasHere.Web
     {
         public static void Main(string[] args)
         {
-            //marmelada
             CreateWebHostBuilder(args).Build().Run();
         }
 
