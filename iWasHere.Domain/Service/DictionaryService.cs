@@ -10,9 +10,14 @@ namespace iWasHere.Domain.Service
     public class DictionaryService
     {
         private readonly DatabaseContext _dbContext;
+        private readonly BlackWidowContext _bwContext;
         public DictionaryService(DatabaseContext databaseContext)
         {
             _dbContext = databaseContext;
+        }
+        public DictionaryService(BlackWidowContext databaseContext)
+        {
+            _bwContext = databaseContext;
         }
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
@@ -24,6 +29,17 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryLandmarkTypeModels;
+        }
+
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
+            List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
+            {
+                Id = a.CountryId,
+                Name = a.CountryName
+            }).ToList();
+
+            return dictionaryCountryModels;
         }
     }
 }
