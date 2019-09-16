@@ -41,5 +41,10 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
+
+        public object GetDictionaryCountryModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
