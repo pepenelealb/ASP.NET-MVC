@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace iWasHere.Web.Domain
+namespace iWasHere.Domain.Model
 {
     public partial class DictionaryOpenSeason
     {
