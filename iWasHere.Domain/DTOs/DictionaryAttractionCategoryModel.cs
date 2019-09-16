@@ -7,16 +7,8 @@ namespace iWasHere.Domain.DTOs
 {
     public class DictionaryAttractionCategoryModel
     {
-        private DictionaryAttractionCategory dictionaryAttractionCategory;
-
         public int AttractionCategoryId { get; set; }
         public string AttractionCategoryName { get; set; }
 
-        public DictionaryAttractionCategoryModel(DictionaryAttractionCategory dictionaryAttractionCategory)
-        {
-            this.dictionaryAttractionCategory = dictionaryAttractionCategory;
-        }
-
-        
     }
 }
