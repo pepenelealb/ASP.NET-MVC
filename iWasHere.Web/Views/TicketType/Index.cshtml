@@ -24,7 +24,7 @@
            .ButtonCount(5))
        .DataSource(dataSource => dataSource
            .Ajax()
-           .Read(read => read.Action("GetDictionaryTicketModels", "Grid"))
+           .Read(read => read.Action("TicketsRead", "TicketType"))
            .PageSize(20)
        )
 )

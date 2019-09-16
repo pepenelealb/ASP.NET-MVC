@@ -30,5 +30,17 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmarkTypeModels;
         }
+
+        public List<DictionaryTicketModel> GetDictionaryTicketModels()
+        {
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            {
+                DictionaryTicketId = a.DictionaryTicketId,
+                TicketCategory = a.TicketCategory
+            }) .ToList();
+
+            return dictionaryTicketModels;
+        }
+
     }
 }
