@@ -1,10 +1,9 @@
 ﻿
-
-@(Html.Kendo().Grid <iWasHere.Domain.Model.DictionaryCountry>()
+@(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>()
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.CountryName).Width(140);
+            columns.Bound(c => c.Name).Width(140);
         })
         .HtmlAttributes(new { style = "height: 380px;" })
         .Scrollable()
@@ -16,6 +15,7 @@
             .ButtonCount(5))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .ServerOperation(false)
+           // .ServerOperation(false)
+            .Read(read => read.Action("GetCountries","DictionaryCountry"))
         )
 )

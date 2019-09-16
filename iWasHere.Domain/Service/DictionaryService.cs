@@ -31,15 +31,15 @@ namespace iWasHere.Domain.Service
             return dictionaryLandmarkTypeModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        public List<DictionaryTicketModel> GetDictionaryTicketModels()
         {
-            List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
             {
-                Id = a.CountryId,
-                Name = a.CountryName
-            }).ToList();
+                DictionaryTicketId = a.DictionaryTicketId,
+                TicketCategory = a.TicketCategory
+            }) .ToList();
 
-            return dictionaryCountryModels;
+            return dictionaryTicketModels;
         }
 
         public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels()

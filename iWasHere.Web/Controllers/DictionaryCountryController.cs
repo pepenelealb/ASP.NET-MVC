@@ -23,8 +23,8 @@ namespace iWasHere.Web.Controllers
         }
         public IActionResult Index()
         {
-            List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
-            return View(dictionaryCountryModel);
+           // List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+            return View();
         }
 
 
