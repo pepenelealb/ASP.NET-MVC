@@ -1,5 +1,5 @@
 ﻿using System;
-using iiWasHere.Domain.Model;
+using iWasHere.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 

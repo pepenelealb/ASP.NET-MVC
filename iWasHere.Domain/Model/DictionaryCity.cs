@@ -1,4 +1,4 @@
-﻿using iiWasHere.Domain.Model;
+﻿using iWasHere.Domain.Model;
 using System;
 using System.Collections.Generic;
 
@@ -17,5 +17,6 @@ namespace iWasHere.Domain.Model
 
         public virtual DictionaryCounty County { get; set; }
         public virtual ICollection<TouristicObjective> TouristicObjective { get; set; }
+       
     }
 }
