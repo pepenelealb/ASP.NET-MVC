@@ -10,9 +10,14 @@ namespace iWasHere.Domain.Service
     public class DictionaryService
     {
         private readonly DatabaseContext _dbContext;
+        private readonly BlackWidowContext _bwContext;
         public DictionaryService(DatabaseContext databaseContext)
         {
             _dbContext = databaseContext;
+        }
+        public DictionaryService(BlackWidowContext databaseContext)
+        {
+            _bwContext = databaseContext;
         }
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
@@ -24,17 +29,6 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryLandmarkTypeModels;
-        }
-
-        public List<DictionaryTicketModel> GetDictionaryTicketModels()
-        {
-            List<DictionaryTicketModel> dictionaryTickeyModels = _dbContext.DictionaryTickets.Select(a => new DictionaryTicketModel()
-            {
-                DictionaryTicketId = a.DictionaryTicketId,
-                TicketCategory = a.TicketCategory
-            }).ToList();
-
-            return dictionaryTickeyModels;
         }
     }
 }
