@@ -16,6 +16,7 @@ namespace iWasHere.Domain.Model
         }
 
         public virtual DbSet<DictionaryLandmarkType> DictionaryLandmarkType { get; set; }
+        public virtual DbSet<DictionaryCity> DictionaryCity { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

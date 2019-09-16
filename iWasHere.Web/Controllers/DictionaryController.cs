@@ -20,9 +20,11 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult Index()
         {
-           // List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dictionaryService.GetDictionaryLandmarkTypeModels();
+            List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dictionaryService.GetDictionaryLandmarkTypeModels();
 
             return View();
         }
+
+        
     }
 }

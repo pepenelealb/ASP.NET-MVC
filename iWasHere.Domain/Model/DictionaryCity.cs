@@ -17,5 +17,6 @@ namespace iWasHere.Domain.Model
 
         public virtual DictionaryCounty County { get; set; }
         public virtual ICollection<TouristicObjective> TouristicObjective { get; set; }
+       
     }
 }
