@@ -24,11 +24,13 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult Index()
         {
-            List<DictionaryCity> dictionaryCity = _dictionaryCityService.GetCity();
-
-            return View(dictionaryCity);
-        }              
-
-
+            return View();
+        }  
+        
+        public ActionResult Read([DataSourceRequest]DataSourceRequest request)
+        {
+            List<CityDTO> dictionaryCity = _dictionaryCityService.GetCity();
+            return Json(dictionaryCity.ToDataSourceResult(request));
+        }
     }
 }

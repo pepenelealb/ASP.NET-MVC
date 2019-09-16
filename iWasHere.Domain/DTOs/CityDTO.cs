@@ -10,9 +10,9 @@ namespace iWasHere.Domain.DTOs
     public class CityDTO 
 
     {
-        public int cityId { get; set; }
+       
         public string cityName { get; set; }
-        public int countyId { get; set; }
+        public string county { get; set; }
         
     }
 }

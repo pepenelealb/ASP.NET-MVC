@@ -4,14 +4,13 @@
 }
 
 <br / >
-@(Html.Kendo().Grid<iWasHere.Domain.Model.DictionaryCity>()
+@(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
     .Name("grid")
         .Columns(columns =>
-        {
+        {            
             
-            columns.Bound(c => c.CityId);
-            columns.Bound(c => c.CityName);
-            columns.Bound(c => c.CountyId).Width(150);
+            columns.Bound(c => c.cityName);
+            columns.Bound(c => c.county).Width(150);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
@@ -23,7 +22,7 @@
             .ButtonCount(5))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .Read(read => read.Action("Customers_Read", "Grid"))
+            .Read(read => read.Action("Read", "City"))
             .PageSize(20)
         )
     
