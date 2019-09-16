@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iiWasHere.Domain.Model;
+using System;
 using System.Collections.Generic;
 
 namespace iWasHere.Domain.Model
