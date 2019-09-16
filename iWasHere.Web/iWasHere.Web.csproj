@@ -21,7 +21,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\DictionaryAttractionCategory\" />
     <Folder Include="wwwroot\lib\kendo-ui\" />
   </ItemGroup>
 

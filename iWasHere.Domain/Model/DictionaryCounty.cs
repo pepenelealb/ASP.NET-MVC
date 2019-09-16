@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace iiWasHere.Domain.Model
+namespace iWasHere.Domain.Model
 {
     public partial class DictionaryCounty
     {
