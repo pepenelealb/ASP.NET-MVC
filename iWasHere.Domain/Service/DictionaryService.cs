@@ -25,5 +25,16 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmarkTypeModels;
         }
+
+        public List<DictionaryTicketModel> GetDictionaryTicketModels()
+        {
+            List<DictionaryTicketModel> dictionaryTickeyModels = _dbContext.DictionaryTickets.Select(a => new DictionaryTicketModel()
+            {
+                DictionaryTicketId = a.DictionaryTicketId,
+                TicketCategory = a.TicketCategory
+            }).ToList();
+
+            return dictionaryTickeyModels;
+        }
     }
 }

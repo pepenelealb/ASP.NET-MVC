@@ -1,4 +1,4 @@
-﻿using iiWasHere.Domain.Model;
+﻿using iWasHere.Domain.Model;
 using System;
 using System.Collections.Generic;
 
