@@ -1,4 +1,4 @@
-﻿    ()
+﻿
 @{
     ViewData["Title"] = "Index";
 }
@@ -24,7 +24,7 @@
         .DataSource(dataSource => dataSource
             .Ajax()
             .Read(read => read.Action("Read", "City"))
-            .PageSize(20)
+            .PageSize(2)
         )
 
 )

@@ -25,8 +25,16 @@ namespace iWasHere.Web.Controllers
         }
         public ActionResult Read([DataSourceRequest]DataSourceRequest request)
         {
-            List<County_DTO> dictionaryCounty = _dictionaryCountyService.GetDictionaryCounty();
-            return Json(dictionaryCounty.ToDataSourceResult(request));
+            int totalRows = 0;
+            int PageSize = request.PageSize;
+            int Page = request.Page;
+            DataSourceResult response = new DataSourceResult();
+            List<County_DTO> dictionaryCounty = _dictionaryCountyService.GetDictionaryCounty(PageSize,Page,out totalRows);
+
+            response.Total = totalRows;
+            response.Data = dictionaryCounty;
+            return Json(response);
+            
         }
     }
 }

@@ -63,8 +63,11 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
-        public List<County_DTO> GetDictionaryCounty()
+        public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows)
         {
+            totalRows = _bwContext.DictionaryCounty.Count();
+
+            int skip = (Page -1) * PageSize;
             List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
             {
                 CountyId = a.CountyId,
@@ -72,7 +75,7 @@ namespace iWasHere.Domain.Service
                 CountryId = a.CountryId,
                 CountryName =a.Country.CountryName
             }) 
-            .ToList();
+            .Skip(skip).Take(PageSize).ToList();
 
             return dictionaryCounty;
         }
