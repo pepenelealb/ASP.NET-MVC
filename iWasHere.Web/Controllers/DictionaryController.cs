@@ -22,7 +22,7 @@ namespace iWasHere.Web.Controllers
         {
             List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dictionaryService.GetDictionaryLandmarkTypeModels();
 
-            return View();
+            return View(dictionaryLandmarkTypeModels);
         }
 
         

@@ -16,15 +16,16 @@ namespace iWasHere.Web.Controllers
     public class DictionaryCountryController : Controller
     {
         private readonly DictionaryService _bwContext;
+        private readonly DictionaryService _dictionaryService;
 
         public DictionaryCountryController(DictionaryService dictionaryService)
         {
-            _bwContext = dictionaryService;
+            _dictionaryService = dictionaryService;
         }
         public IActionResult Index()
         {
-            List<DictionaryCountryModel> dictionaryCountryModel = _bwContext.GetDictionaryCountryModels();
-            return View(dictionaryCountryModel);
+           // List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -37,5 +38,10 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_bwContext.GetDictionaryCountryModels().ToDataSourceResult(request));
         }
+        //private static IEnumerable<DictionaryCountry> GetCountries()
+        //{
+        //    var a=new S
+        //}
+
     }
 }
