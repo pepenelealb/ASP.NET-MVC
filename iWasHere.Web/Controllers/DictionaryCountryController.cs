@@ -15,7 +15,6 @@ namespace iWasHere.Web.Controllers
 {
     public class DictionaryCountryController : Controller
     {
-        private readonly DictionaryService _dictionaryService;
         private readonly DictionaryService _bwContext;
 
         public DictionaryCountryController(DictionaryService dictionaryService)
@@ -28,7 +27,6 @@ namespace iWasHere.Web.Controllers
             return View(dictionaryCountryModel);
         }
 
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -39,20 +37,5 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_bwContext.GetDictionaryCountryModels().ToDataSourceResult(request));
         }
-
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
-        //    List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
-        //    {
-        //        Id = a.CountryId,
-        //        Name = a.CountryName
-        //    }).ToList();
-
-        //    return dictionaryCountryModels;
-        //}
-
-
-
-
     }
 }
