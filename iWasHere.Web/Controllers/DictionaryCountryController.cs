@@ -20,11 +20,11 @@ namespace iWasHere.Web.Controllers
 
         public DictionaryCountryController(DictionaryService dictionaryService)
         {
-            _dictionaryService = dictionaryService;
+            _bwContext = dictionaryService;
         }
         public IActionResult Index()
         {
-           // List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+           List<DictionaryCountryModel> dictionaryCountryModel = _bwContext.GetDictionaryCountryModels();
             return View();
         }
 

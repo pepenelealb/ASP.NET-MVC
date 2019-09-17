@@ -52,5 +52,16 @@ namespace iWasHere.Domain.Service
 
             return dictionaryAttractionCategoryModels;
         }
+
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
+            List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
+            {
+                Id = a.CountryId,
+                Name = a.CountryName
+            }).ToList();
+
+            return dictionaryCountryModels;
+        }
     }
 }
