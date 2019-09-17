@@ -25,5 +25,6 @@ namespace iWasHere.Domain.Service
 
             return dictionaryLandmarkTypeModels;
         }
+
     }
 }
