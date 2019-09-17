@@ -33,11 +33,25 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryTicketModel> GetDictionaryTicketModels()
         {
+           
             List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
             {
                 DictionaryTicketId = a.DictionaryTicketId,
                 TicketCategory = a.TicketCategory
-            }) .ToList();
+            }).ToList();
+
+            return dictionaryTicketModels;
+        }
+
+        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows)
+        {
+            noRows = _bwContext.DictionaryTicket.Count();
+            int skip = (page - 1) * pageSize;
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            {
+                DictionaryTicketId = a.DictionaryTicketId,
+                TicketCategory = a.TicketCategory
+            }).Skip(skip).Take(pageSize).ToList();
 
             return dictionaryTicketModels;
         }

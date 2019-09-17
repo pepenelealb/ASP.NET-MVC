@@ -3,17 +3,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Tip Bilete</h1>
+
+@using (Html.BeginForm())
+{
+<p>
+    Tip Bilet: @Html.TextBox("searchString")
+    <input type="submit" value="Filtreaza"  />
+    <input type="submit" value="Sterge filtre" />
+</p>
+}
 
 @(Html.Kendo().Grid<iWasHere.Domain.Model.DictionaryTicket>()
        .Name("grid")
        .Columns(columns =>
        {
            columns.Bound(c => c.DictionaryTicketId).Title("Id");
-          
+       //    .Filterable(filterable => filterable.UI("cityFilter"))
+        //   .Width(200);
+
            columns.Bound(c => c.TicketCategory).Title("Type");
-          
-       })
+
+       }).Filterable()
+
        .HtmlAttributes(new { style = "height: 550px;" })
        .Scrollable()
        .Groupable()
@@ -25,7 +37,7 @@
        .DataSource(dataSource => dataSource
            .Ajax()
            .Read(read => read.Action("TicketsRead", "TicketType"))
-           .PageSize(20)
+           .PageSize(2)
        )
 )
 <style>
