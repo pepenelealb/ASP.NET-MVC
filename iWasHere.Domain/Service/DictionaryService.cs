@@ -76,5 +76,16 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCounty;
         }
+
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels()
+        {
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
+            {
+                Id = a.OpenSeasonId,
+                Type = a.OpenSeasonType
+            }).ToList();
+
+            return dictionaryOpenSeasonModels;
+        }
     }
 }
