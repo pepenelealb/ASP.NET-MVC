@@ -1,22 +1,46 @@
 ﻿
+<h2>Dictionar Tari</h2>
+
+@using (Html.BeginForm("Index", "DictionaryCountry",FormMethod.Get))
+{
+    <p>
+        Find by Name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Filtreaza" />
+        <!--<input type="submit" value="Sterge Filtre" />-->
+    </p>
+}
+
+
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>()
+
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.Name).Width(140);
+            columns.Bound(c => c.Name).Width(200);
+            //.Filterable(filterable => filterable.UI("nameFilter"));
         })
+        //.Filterable(filterable => filterable
+        //.Extra(false)
+        //.Operators(operators => operators
+        //.ForString(str => str.Clear()
+        //.StartsWith("Starts with")
+        //.IsEqualTo("Is equal to")
+        //.IsNotEqualTo("Is not equal to")
+        //))
+        //)
         .HtmlAttributes(new { style = "height: 380px;" })
         .Scrollable()
         .Groupable()
-        .Sortable()
+        .Sortable(sortable => sortable.AllowUnsort(false))
         .Pageable(pageable => pageable
             .Refresh(true)
-            .PageSizes(true)
+            //.PageSizes(new int[] { 10, 30, 80 })
             .ButtonCount(5))
         .DataSource(dataSource => dataSource
             .Ajax()
-           // .ServerOperation(false)
-            .Read(read => read.Action("GetCountries","DictionaryCountry"))
-            .PageSize(20)
+            // .ServerOperation(false)
+            .Read(read => read.Action("GetCountries", "DictionaryCountry"))
+        .PageSize(4)
         )
 )
+
