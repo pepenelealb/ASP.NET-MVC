@@ -1,0 +1,29 @@
+﻿    ()
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br / >
+@(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
+    .Name("grid")
+        .Columns(columns =>
+        {            
+            
+            columns.Bound(c => c.cityName);
+            columns.Bound(c => c.county).Width(150);
+        })
+        .HtmlAttributes(new { style = "height: 550px;" })
+        .Scrollable()
+        .Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+        .DataSource(dataSource => dataSource
+            .Ajax()
+            .Read(read => read.Action("Read", "City"))
+            .PageSize(20)
+        )
+    
+    )

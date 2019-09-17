@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using iWasHere.Domain.DTOs;
+using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,5 +24,7 @@ namespace iWasHere.Web.Controllers
 
             return View(dictionaryLandmarkTypeModels);
         }
+
+        
     }
 }

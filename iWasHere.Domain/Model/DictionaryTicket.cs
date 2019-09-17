@@ -14,5 +14,6 @@ namespace iWasHere.Domain.Model
         public string TicketCategory { get; set; }
 
         public virtual ICollection<Ticket> Ticket { get; set; }
+
     }
 }
