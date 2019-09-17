@@ -67,9 +67,10 @@ namespace iWasHere.Domain.Service
         {
             List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
             {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
                 CountryId = a.CountryId,
-                CountyName=a.CountyName,
-                CountyId =a.CountyId
+                CountryName =a.Country.CountryName
             }) 
             .ToList();
 

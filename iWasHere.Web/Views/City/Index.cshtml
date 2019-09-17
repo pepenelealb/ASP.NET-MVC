@@ -3,12 +3,13 @@
     ViewData["Title"] = "Index";
 }
 
+<h1>Dictionar Orase</h1>
 <br />
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
     .Name("grid")
         .Columns(columns =>
-        {            
-            
+        {
+
             columns.Bound(c => c.cityName);
             columns.Bound(c => c.county).Width(150);
         })
@@ -25,5 +26,5 @@
             .Read(read => read.Action("Read", "City"))
             .PageSize(20)
         )
-    
-    )
+
+)

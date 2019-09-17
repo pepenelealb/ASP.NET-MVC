@@ -1,4 +1,6 @@
 ﻿
+<h1>Dictionar Tari</h1>
+<br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>()
         .Name("grid")
         .Columns(columns =>
@@ -16,7 +18,7 @@
         .DataSource(dataSource => dataSource
             .Ajax()
            // .ServerOperation(false)
-            .Read(read => read.Action("GetCountries","DictionaryCountry"))
+            .Read(read => read.Action("GetCountries", "DictionaryCountry"))
             .PageSize(20)
         )
 )
