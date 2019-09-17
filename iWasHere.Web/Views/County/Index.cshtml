@@ -4,15 +4,15 @@
 }
 
 <h1>Dictionar Judete</h1>
-
+<br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.County_DTO>()
             .Name("grid_county")
             .Columns(columns =>
             {
 
-                // columns.Bound(c => c.CountyId).Width(150);
+                 columns.Bound(c => c.CountyId).Width(100);
                 columns.Bound(c => c.CountyName);
-                //columns.Bound(c => c.CountryId).Width(150);
+               columns.Bound(c => c.CountryId).Width(100);
             })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Scrollable()
@@ -23,8 +23,9 @@
                 .PageSizes(true)
                 .ButtonCount(5))
             .DataSource(dataSource => dataSource
-                .Ajax()
-                .PageSize(20)
-                
+            .Ajax()
+            .Read(read => read.Action("Read", "County"))
+            .PageSize(20)
             );
+    
 )

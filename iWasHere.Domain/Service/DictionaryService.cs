@@ -52,5 +52,17 @@ namespace iWasHere.Domain.Service
 
             return dictionaryAttractionCategoryModels;
         }
+        public List<County_DTO> GetDictionaryCounty()
+        {
+            List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
+            {
+                CountryId = a.CountryId,
+                CountyName=a.CountyName,
+                CountyId =a.CountyId
+            }) 
+            .ToList();
+
+            return dictionaryCounty;
+        }
     }
 }
