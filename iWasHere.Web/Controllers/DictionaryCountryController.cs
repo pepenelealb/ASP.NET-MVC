@@ -15,18 +15,18 @@ namespace iWasHere.Web.Controllers
 {
     public class DictionaryCountryController : Controller
     {
+        private readonly DictionaryService _bwContext;
         private readonly DictionaryService _dictionaryService;
 
         public DictionaryCountryController(DictionaryService dictionaryService)
         {
-            _dictionaryService = dictionaryService;
+            _bwContext = dictionaryService;
         }
         public IActionResult Index()
         {
-           // List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+           List<DictionaryCountryModel> dictionaryCountryModel = _bwContext.GetDictionaryCountryModels();
             return View();
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -34,6 +34,10 @@ namespace iWasHere.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(_bwContext.GetDictionaryCountryModels().ToDataSourceResult(request));
+        }
         //private static IEnumerable<DictionaryCountry> GetCountries()
         //{
         //    var a=new S
