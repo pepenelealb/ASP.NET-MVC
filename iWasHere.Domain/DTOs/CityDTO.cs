@@ -1,11 +1,4 @@
-﻿using iWasHere.Domain.Model;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-
-namespace iWasHere.Domain.DTOs
+﻿namespace iWasHere.Domain.DTOs
 {
     public class CityDTO 
 
