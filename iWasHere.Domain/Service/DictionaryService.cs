@@ -34,7 +34,7 @@ namespace iWasHere.Domain.Service
             {
                 DictionaryTicketId = a.DictionaryTicketId,
                 TicketCategory = a.TicketCategory
-            }) .ToList();
+            }).ToList();
 
             return dictionaryTicketModels;
         }
@@ -50,18 +50,40 @@ namespace iWasHere.Domain.Service
             return dictionaryAttractionCategoryModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total)
+        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total, string textBoxValue)
         {
-            total = _bwContext.DictionaryCountry.Count();
             int skip = (page - 1) * pageSize;
+            List<DictionaryCountryModel> dictionaryCountryModels = new List<DictionaryCountryModel>();
+            IQueryable<DictionaryCountry> countryQuery = _bwContext.DictionaryCountry;
+
+            if (!String.IsNullOrEmpty(textBoxValue))
+            {
+                countryQuery = countryQuery.Where(a => a.CountryName.Contains(textBoxValue));
+            }
+            dictionaryCountryModels= countryQuery.Select(a => new DictionaryCountryModel()
+                {
+                    Id = a.CountryId,
+                    Name = a.CountryName
+        }).Skip(skip).Take(pageSize).ToList();
+
+            total=countryQuery.Count();
+
+            return dictionaryCountryModels;
+
+        }
+
+        public List<DictionaryCountryModel> GetDictionaryCountryModelsSelect()
+        {
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
                 Id = a.CountryId,
                 Name = a.CountryName
-            }).Skip(skip).Take(pageSize).ToList();
+            }).ToList();
 
             return dictionaryCountryModels;
         }
+
+
         public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows)
         {
             totalRows = _bwContext.DictionaryCounty.Count();
@@ -89,17 +111,5 @@ namespace iWasHere.Domain.Service
 
             return dictionaryOpenSeasonModels;
         }
-
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
-
-        //    List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
-        //    {
-        //        Id = a.CountryId,
-        //        Name = a.CountryName
-        //    }).ToList();
-
-        //    return dictionaryCountryModels;
-        //}
     }
 }

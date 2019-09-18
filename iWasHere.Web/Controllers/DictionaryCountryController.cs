@@ -10,6 +10,7 @@ using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using iWasHere.Domain.Service;
 using iWasHere.Domain.DTOs;
+using System.Data;
 
 namespace iWasHere.Web.Controllers
 {
@@ -17,15 +18,11 @@ namespace iWasHere.Web.Controllers
     {
 
         private readonly DictionaryService _dictionaryService;
+        private readonly BlackWidowContext bwContext;
 
         public DictionaryCountryController(DictionaryService dictionaryService)
         {
             _dictionaryService = dictionaryService;
-        }
-        public IActionResult Index()
-        {
-           List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -34,18 +31,17 @@ namespace iWasHere.Web.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
+        public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request, String searchCountryName)
         {
-            int totalRows = 0;
+            int total = 0;
             int pageSize = request.PageSize;
             int page = request.Page;
             DataSourceResult response = new DataSourceResult();
-            List<DictionaryCountryModel> dictionaryCountryModels = _dictionaryService.GetDictionaryCountryModels(pageSize, page, out totalRows);
+            List<DictionaryCountryModel> dictionaryCountryModels = _dictionaryService.GetDictionaryCountryModels(pageSize, page, out total, searchCountryName);
 
-            response.Total = totalRows;
+            response.Total = total;
             response.Data = dictionaryCountryModels;
             return Json(response);
-            return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
         }
 
         //public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
@@ -54,30 +50,36 @@ namespace iWasHere.Web.Controllers
 
         //    return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
         //}
-        //public IActionResult Index(string sortOrder, string searchString)
-        //{
-        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-        //    List<DictionaryCountryModel> countries = _dictionaryService.GetDictionaryCountryModels();
-        //    if (!String.IsNullOrEmpty(searchString))
-        //    {
-        //        countries = countries.Where(c => c.Name.Contains(searchString)).ToList();
-        //    }
-        //    switch (sortOrder)
-        //    {
-        //        case "name_desc":
-        //            countries = countries.OrderByDescending(c => c.Name).ToList();
-        //            break;
-        //        default:
-        //            countries = countries.OrderBy(c => c.Name).ToList();
-        //            break;
-        //    }
-
-        //    return View(countries);
-        //}
-
-        public IActionResult Index(string sortOrder, string searchString)
-        { 
+        public IActionResult Index()
+        {
             return View();
         }
+
+        //public ActionResult Update([DataSourceRequest] DataSourceRequest request, DictionaryCountryModel countries)
+        //{
+        //    var data = bwContext.DictionaryCountry.Where(c => c.CountryId == countries.Id).FirstOrDefault();
+        //    if (data != null)
+        //    {
+        //        data.CountryName = countries.Name;
+        //    }
+        //    bwContext.DictionaryCountry.Attach(data);
+        //    bwContext.Entry(data).State = System.Data.Entity.EntityState.Modified;
+        //    bwContext.SaveChanges();
+        //    return Json(new[] { countries }.ToDataSourceResult(request, ModelState));
+        //}
+
+        public ActionResult Delete([DataSourceRequest] DataSourceRequest request, DictionaryCountryModel countries)
+        {
+            var data = bwContext.DictionaryCountry.Where(c => c.CountryId == countries.Id).FirstOrDefault();
+            if (data != null)
+            {
+                bwContext.DictionaryCountry.Attach(data);
+                bwContext.DictionaryCountry.Remove(data);
+                bwContext.SaveChanges();
+            }
+
+            return View();
+        }
+
     }
 }
