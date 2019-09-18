@@ -1,5 +1,6 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,9 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
-        private readonly DatabaseContext _dbContext;
         private readonly BlackWidowContext _bwContext;
-        public DictionaryService(DatabaseContext databaseContext)
-        {
-            _dbContext = databaseContext;
-        }
+        private readonly DatabaseContext _databaseContext;
+
         public DictionaryService(BlackWidowContext databaseContext)
         {
             _bwContext = databaseContext;
@@ -22,49 +20,77 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
         {
-            List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
+            List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
                 Id = a.DictionaryItemId,
                 Name = a.DictionaryItemName
             }).ToList();
 
-            return dictionaryLandmarkTypeModels;
+            return dictionaryTicketModels;
         }
 
         public List<DictionaryTicketModel> GetDictionaryTicketModels()
         {
+           
             List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
             {
                 DictionaryTicketId = a.DictionaryTicketId,
                 TicketCategory = a.TicketCategory
-            }) .ToList();
+            }).ToList();
 
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels()
+        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows)
         {
-            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = _bwContext.DictionaryAttractionCategory.Select(a => new DictionaryAttractionCategoryModel()
+            noRows = _bwContext.DictionaryTicket.Count();
+            int skip = (page - 1) * pageSize;
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            {
+                DictionaryTicketId = a.DictionaryTicketId,
+                TicketCategory = a.TicketCategory
+            }).Skip(skip).Take(pageSize).ToList();
+
+            return dictionaryTicketModels;
+        }
+
+        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels(int skip, int take, out int total, string input)
+        {
+            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = new List<DictionaryAttractionCategoryModel>();
+            int skip_amount = (skip - 1) * take;
+
+            IQueryable<DictionaryAttractionCategory> query = _bwContext.DictionaryAttractionCategory;
+            if (!String.IsNullOrWhiteSpace(input))
+            {
+                query = query.Where(a => a.AttractionCategoryName.Contains(input));
+            }
+            total = query.Count();
+            dictionaryAttractionCategoryModels = query.Select(a => new DictionaryAttractionCategoryModel()
             {
                 AttractionCategoryId = a.AttractionCategoryId,
                 AttractionCategoryName = a.AttractionCategoryName
-            }).ToList();
+            }).Skip(skip_amount).Take(take).ToList();
 
             return dictionaryAttractionCategoryModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total)
         {
+            total = _bwContext.DictionaryCountry.Count();
+            int skip = (page - 1) * pageSize;
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
                 Id = a.CountryId,
                 Name = a.CountryName
-            }).ToList();
+            }).Skip(skip).Take(pageSize).ToList();
 
             return dictionaryCountryModels;
         }
-        public List<County_DTO> GetDictionaryCounty()
+        public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows)
         {
+            totalRows = _bwContext.DictionaryCounty.Count();
+
+            int skip = (Page -1) * PageSize;
             List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
             {
                 CountyId = a.CountyId,
@@ -72,20 +98,44 @@ namespace iWasHere.Domain.Service
                 CountryId = a.CountryId,
                 CountryName =a.Country.CountryName
             }) 
-            .ToList();
+            .Skip(skip).Take(PageSize).ToList();
 
             return dictionaryCounty;
         }
 
-        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels()
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
         {
+            totalRows = _bwContext.DictionaryOpenSeason.Count();
+            int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
                 Type = a.OpenSeasonType
-            }).ToList();
+            }).Skip(skip).Take(PageSize).ToList();
 
             return dictionaryOpenSeasonModels;
         }
+
+        public void AddAttractionCategory(string attractionCategoryName)
+        {
+            _bwContext.DictionaryAttractionCategory.Add(new DictionaryAttractionCategory
+            {
+                AttractionCategoryName = attractionCategoryName
+            });
+
+            _bwContext.SaveChanges();
+        }
+
+        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        //{
+
+        //    List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
+        //    {
+        //        Id = a.CountryId,
+        //        Name = a.CountryName
+        //    }).ToList();
+
+        //    return dictionaryCountryModels;
+        //}
     }
 }

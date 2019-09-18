@@ -3,14 +3,24 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Categorii de bilete</h1>
+<h1>Categorii de bilete</h1><br />
+<h4>Filtreaza dupa: </h4>
+
+<form>
+    <label>Tip atractie: </label>
+    <input id="attractionCategory" type="text" name="attractionCategory" value="" />
+    <button onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Filtreaza</button>
+</form>
+
 
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryAttractionCategoryModel>()
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.AttractionCategoryId);
+            columns.Bound(c => c.AttractionCategoryId).Visible(false);
             columns.Bound(c => c.AttractionCategoryName);
+            columns.Template("<a class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>");
+            //columns.Template(" <button type='button' class='k-button info' name='DeleteAttractionCategory' asp-area='' asp-controller='DictionaryAttractionCategory' asp-action='GetFilteredAttraction'> Sterge </button>");
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
@@ -22,10 +32,13 @@
             .ButtonCount(5))
         .DataSource(dataSource => dataSource
             .Ajax()
-            .PageSize(20)
-            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory"))
+            .PageSize(2)
+            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))   
         )
 )
+
+<a href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+
 <style>
     .customer-photo {
         display: inline-block;
@@ -47,3 +60,22 @@
         padding-left: 3px;
     }
 </style>
+
+<script type="text/javascript">
+    getRequestedAttractionCategory = function (e) {
+        var input = {};
+        input["attractionCategory"] = $("#attractionCategory").val();
+        console.log(input.attractionCategory);
+
+        return input;
+    }
+
+    function refresh() {
+        $("#grid").data("kendoGrid").dataSource.read();
+        $("#grid").data("kendoGrid").dataSource.page(1);
+    }
+
+    function update() {
+
+    }
+</script>

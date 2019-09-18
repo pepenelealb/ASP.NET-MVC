@@ -15,6 +15,7 @@ namespace iWasHere.Web.Controllers
 {
     public class DictionaryCountryController : Controller
     {
+
         private readonly DictionaryService _dictionaryService;
 
         public DictionaryCountryController(DictionaryService dictionaryService)
@@ -23,7 +24,7 @@ namespace iWasHere.Web.Controllers
         }
         public IActionResult Index()
         {
-           List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+      //     List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
             return View();
         }
 
@@ -35,12 +36,45 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
         {
-            return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
+            int totalRows = 0;
+            int pageSize = request.PageSize;
+            int page = request.Page;
+            DataSourceResult response = new DataSourceResult();
+            List<DictionaryCountryModel> dictionaryCountryModels = _dictionaryService.GetDictionaryCountryModels(pageSize, page, out totalRows);
+
+            response.Total = totalRows;
+            response.Data = dictionaryCountryModels;
+            return Json(response);
+       //     return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
         }
-        //private static IEnumerable<DictionaryCountry> GetCountries()
+
+        //public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
         //{
-        //    var a=new S
+        //    List<DictionaryCountryModel> dictionaryCountryModels = _dictionaryService.GetDictionaryCountryModels();
+
+        //    return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
+        //}
+        //public IActionResult Index(string sortOrder, string searchString)
+        //{
+        //    ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+        //    List<DictionaryCountryModel> countries = _dictionaryService.GetDictionaryCountryModels();
+        //    if (!String.IsNullOrEmpty(searchString))
+        //    {
+        //        countries = countries.Where(c => c.Name.Contains(searchString)).ToList();
+        //    }
+        //    switch (sortOrder)
+        //    {
+        //        case "name_desc":
+        //            countries = countries.OrderByDescending(c => c.Name).ToList();
+        //            break;
+        //        default:
+        //            countries = countries.OrderBy(c => c.Name).ToList();
+        //            break;
+        //    }
+
+        //    return View(countries);
         //}
 
+      
     }
 }

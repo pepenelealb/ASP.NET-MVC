@@ -25,10 +25,47 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public IActionResult GetAttractionCategory([DataSourceRequest]DataSourceRequest request)
+        public IActionResult GetAttractionCategory([DataSourceRequest]DataSourceRequest request, String attractionCategory)
         {
-            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels();
-            return Json(dictionaryAttractionCategoryModels.ToDataSourceResult(request));
+            int total = 0;
+            DataSourceResult dataSourceResult = new DataSourceResult();
+            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels(request.Page, request.PageSize,out total, attractionCategory);
+            dataSourceResult.Total = total;
+            dataSourceResult.Data = dictionaryAttractionCategoryModels;
+
+            return Json(dataSourceResult);
+        }
+
+        public IActionResult AddAttractionCategory(string id)
+        {
+            if(Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                return View();
+            }
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddAttractionCategory(DictionaryAttractionCategoryModel dictionaryAttractionCategoryModel, string submitButton, string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                dictionaryService.AddAttractionCategory(dictionaryAttractionCategoryModel.AttractionCategoryName);
+                if(submitButton == "save")
+                {
+                    return View("Index");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+
+            return View();
         }
     }
 }
