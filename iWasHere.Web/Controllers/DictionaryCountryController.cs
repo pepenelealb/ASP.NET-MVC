@@ -22,6 +22,11 @@ namespace iWasHere.Web.Controllers
         {
             _dictionaryService = dictionaryService;
         }
+        public IActionResult Index()
+        {
+           List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
@@ -40,6 +45,7 @@ namespace iWasHere.Web.Controllers
             response.Total = totalRows;
             response.Data = dictionaryCountryModels;
             return Json(response);
+            return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
         }
 
         //public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)

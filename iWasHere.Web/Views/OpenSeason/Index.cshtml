@@ -3,14 +3,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Categorii de bilete</h1>
+<h1>Sezonabilitate</h1>
 
-@(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryAttractionCategoryModel>()
+@(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryOpenSeasonModel>()
         .Name("grid")
         .Columns(columns =>
         {
-           // columns.Bound(c => c.AttractionCategoryId);
-            columns.Bound(c => c.AttractionCategoryName);
+           // columns.Bound(c => c.Id);
+            columns.Bound(c => c.Type);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
         .Scrollable()
@@ -23,7 +23,7 @@
         .DataSource(dataSource => dataSource
             .Ajax()
             .PageSize(20)
-            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory"))
+            .Read(read => read.Action("GetOpenSeason", "OpenSeason"))
         )
 )
 <style>
