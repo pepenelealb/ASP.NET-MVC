@@ -103,13 +103,15 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
-        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels()
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
         {
+            totalRows = _bwContext.DictionaryOpenSeason.Count();
+            int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
                 Type = a.OpenSeasonType
-            }).ToList();
+            }).Skip(skip).Take(PageSize).ToList();
 
             return dictionaryOpenSeasonModels;
         }
