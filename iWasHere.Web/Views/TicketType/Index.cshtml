@@ -5,41 +5,73 @@
 
 <h1>Tip Bilete</h1>
 
-@using (Html.BeginForm())
+
+
+@using (Html.BeginForm("Filter", "Ticket", FormMethod.Post))
 {
 <p>
-    Tip Bilet: @Html.TextBox("searchString")
-    <input type="submit" value="Filtreaza"  />
+
+    <label> Tip bilet:  </label>
+    <input type="text" id="txtSearchedValue" />
+    <!-- <input type="submit" value="Filtreaza" /> -->
+    <button type="button" onclick="refresh()" asp-controller="TicketType" asp-action="TicketsRead">Filtreaza</button>
+    <!-- <button onclick="tickets.getFilter()">Filtreaza</button> -->
     <input type="submit" value="Sterge filtre" />
 </p>
 }
+
+
 
 @(Html.Kendo().Grid<iWasHere.Domain.Model.DictionaryTicket>()
        .Name("grid")
        .Columns(columns =>
        {
            columns.Bound(c => c.DictionaryTicketId).Title("Id");
-       //    .Filterable(filterable => filterable.UI("cityFilter"))
-        //   .Width(200);
+
 
            columns.Bound(c => c.TicketCategory).Title("Type");
 
-       }).Filterable()
+       })
 
        .HtmlAttributes(new { style = "height: 550px;" })
        .Scrollable()
        .Groupable()
        .Sortable()
+       .Filterable()
        .Pageable(pageable => pageable
            .Refresh(true)
            .PageSizes(true)
            .ButtonCount(5))
        .DataSource(dataSource => dataSource
            .Ajax()
-           .Read(read => read.Action("TicketsRead", "TicketType"))
-           .PageSize(2)
+           .Read(read => read.Action("TicketsRead", "TicketType").Data("getFilter"))
+           .PageSize(10)
+
        )
 )
+<body>
+    <script type="text/javascript">
+
+       function getFilter () {
+            var tickets = {};
+            tickets["ticketType"] = $("#txtSearchedValue").val();
+            console.log(tickets.ticketType);
+
+            return tickets;
+        }
+
+        
+
+       function refresh () {
+            $("#grid").data("kendoGrid").dataSource.read();
+            $("#grid").data("kendoGrid").dataSource.page(1);
+
+        }
+
+
+    </script>
+</body>
+
 <style>
     .customer-photo {
         display: inline-block;

@@ -19,6 +19,7 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
         {
+
             List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
                 Id = a.DictionaryItemId,
@@ -40,11 +41,12 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows)
+        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows, string ticketType)
         {
             noRows = _bwContext.DictionaryTicket.Count();
             int skip = (page - 1) * pageSize;
-            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Where(a=> !String.IsNullOrWhiteSpace(ticketType) ? a.TicketCategory == ticketType : a.TicketCategory ==a.TicketCategory)
+                .Select(a => new DictionaryTicketModel()
             {
                 DictionaryTicketId = a.DictionaryTicketId,
                 TicketCategory = a.TicketCategory
@@ -119,5 +121,17 @@ namespace iWasHere.Domain.Service
 
         //    return dictionaryCountryModels;
         //}
+
+        public static void DeleteUsuarios(int id)
+        {/*
+            var usuario = _bwContext.Ticket.FirstOrDefault(x => x.DictionaryTicketId == id);
+            if (usuario != null)
+            {
+               _bwContext.Ticket.Remove(usuario);
+            }*/
+        }
+
+
+      
     }
 }
