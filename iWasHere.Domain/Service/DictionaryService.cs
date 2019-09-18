@@ -42,13 +42,15 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels()
+        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels(int skip, int take, out int total)
         {
+            total = _bwContext.DictionaryAttractionCategory.Count();
+            int skip_amount = (skip - 1) * take;
             List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = _bwContext.DictionaryAttractionCategory.Select(a => new DictionaryAttractionCategoryModel()
             {
                 AttractionCategoryId = a.AttractionCategoryId,
                 AttractionCategoryName = a.AttractionCategoryName
-            }).ToList();
+            }).Skip(skip_amount).Take(take).ToList();
 
             return dictionaryAttractionCategoryModels;
         }
