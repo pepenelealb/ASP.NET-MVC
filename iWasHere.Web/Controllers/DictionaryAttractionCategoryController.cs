@@ -27,8 +27,22 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult GetAttractionCategory([DataSourceRequest]DataSourceRequest request)
         {
-            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels();
-            return Json(dictionaryAttractionCategoryModels.ToDataSourceResult(request));
+            int total = 0;
+            DataSourceResult dataSourceResult = new DataSourceResult();
+            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels(request.Page, request.PageSize,out total);
+            dataSourceResult.Total = total;
+            dataSourceResult.Data = dictionaryAttractionCategoryModels;
+
+            return Json(dataSourceResult);
         }
+
+        //public IActionResult GetFilteredAttraction(string attractionCategory, [DataSourceRequest]DataSourceRequest request)
+        //{
+        //    ViewBag.attractionCategory = attractionCategory;
+        //    List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels();
+        //    dictionaryAttractionCategoryModels.Where(a => a.AttractionCategoryName.Contains(request));
+
+        //    return Json(dictionaryAttractionCategoryModels.ToDataSourceResult(request));
+        //}
     }
 }

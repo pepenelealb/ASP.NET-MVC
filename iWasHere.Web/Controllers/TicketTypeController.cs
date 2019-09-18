@@ -20,20 +20,35 @@ namespace iWasHere.Web.Controllers
         {
             _dictionaryService = dictionaryService;
         }
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            
-
+          //  var tickets = from t in _dictionaryService.GetDictionaryTicketModels()
+          //                 select t;
+          /*  if (!String.IsNullOrEmpty(searchString))
+            {
+                tickets = tickets.Where(t => t.TicketCategory.Contains(searchString));
+            }*/
             return View();
         }
 
 
+      
+
         public ActionResult TicketsRead([DataSourceRequest] DataSourceRequest request)
         {
-          //  List<DictionaryTicketModel> dictionaryTicketModel = _dictionaryService.GetDictionaryTicketModels();
-            return Json(_dictionaryService.GetDictionaryTicketModels().ToDataSourceResult(request));
+            int noRows = 0;
+            int pageSize = request.PageSize;
+            int page = request.Page;
+
+            DataSourceResult response = new DataSourceResult();
+
+            List<DictionaryTicketModel> ticketModel = _dictionaryService.GetDictionaryTicketPagination(pageSize, page, out noRows);
+            response.Total = noRows;
+            response.Data = ticketModel;
+          
+            return Json(response);
         }
 
-       
+      
     }
 }

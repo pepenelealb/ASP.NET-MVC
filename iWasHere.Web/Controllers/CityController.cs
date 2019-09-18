@@ -16,6 +16,7 @@ namespace iWasHere.Web.Controllers
     {
 
         private readonly DictionaryCityService _dictionaryCityService;
+        
 
         public CityController(DictionaryCityService dictionaryCityService)
         {
@@ -25,12 +26,37 @@ namespace iWasHere.Web.Controllers
         public IActionResult Index()
         {
             return View();
-        }  
-        
-        public ActionResult Read([DataSourceRequest]DataSourceRequest request)
-        {
-            List<CityDTO> dictionaryCity = _dictionaryCityService.GetCity();
-            return Json(dictionaryCity.ToDataSourceResult(request));
         }
+
+        public ActionResult Read([DataSourceRequest]DataSourceRequest request)
+        {            
+           
+                int take = request.PageSize;
+                int skip = request.Page;
+                int totalRows = 0;
+                DataSourceResult response = new DataSourceResult();
+
+                List<CityDTO> dictionaryCity = _dictionaryCityService.GetCity(take, skip, out totalRows);
+                response.Total = totalRows;
+                response.Data = dictionaryCity;
+
+                return Json(response);
+            
+              
+        }
+
+        public JsonResult Read_County()
+        {
+            var JsonVariable = _dictionaryCityService.GetCounty();            
+            return Json(JsonVariable);
+        }
+
+        [HttpPost]
+        public ActionResult Filter(CityDTO model)
+        {           
+           List<CityDTO> dictionaryCity = _dictionaryCityService.GetFilterCity(model.cityName, model.county);
+          
+           return View("Index", model);
+        }        
     }
 }
