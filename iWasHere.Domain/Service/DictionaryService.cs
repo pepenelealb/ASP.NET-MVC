@@ -1,5 +1,6 @@
 ﻿using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -53,11 +54,18 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels(int skip, int take, out int total)
+        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels(int skip, int take, out int total, string input)
         {
-            total = _bwContext.DictionaryAttractionCategory.Count();
+            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = new List<DictionaryAttractionCategoryModel>();
             int skip_amount = (skip - 1) * take;
-            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = _bwContext.DictionaryAttractionCategory.Select(a => new DictionaryAttractionCategoryModel()
+
+            IQueryable<DictionaryAttractionCategory> query = _bwContext.DictionaryAttractionCategory;
+            if (!String.IsNullOrWhiteSpace(input))
+            {
+                query = query.Where(a => a.AttractionCategoryName.Contains(input));
+            }
+            total = query.Count();
+            dictionaryAttractionCategoryModels = query.Select(a => new DictionaryAttractionCategoryModel()
             {
                 AttractionCategoryId = a.AttractionCategoryId,
                 AttractionCategoryName = a.AttractionCategoryName
@@ -104,6 +112,16 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryOpenSeasonModels;
+        }
+
+        public void AddAttractionCategory(string attractionCategoryName)
+        {
+            _bwContext.DictionaryAttractionCategory.Add(new DictionaryAttractionCategory
+            {
+                AttractionCategoryName = attractionCategoryName
+            });
+
+            _bwContext.SaveChanges();
         }
 
         //public List<DictionaryCountryModel> GetDictionaryCountryModels()

@@ -53,7 +53,7 @@ namespace iWasHere.Domain.Model
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
 
-                entity.Property(e => e.Id).ValueGeneratedNever();
+               // entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
@@ -69,7 +69,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.AttractionCategoryId)
                     .HasName("PK__TAttract__904246DD5E41B0AB");
 
-                entity.Property(e => e.AttractionCategoryId).ValueGeneratedNever();
+                //entity.Property(e => e.AttractionCategoryId).ValueGeneratedNever();
 
                 entity.Property(e => e.AttractionCategoryName)
                     .IsRequired()
@@ -81,7 +81,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.CityId)
                     .HasName("PK__Dictiona__F2D21B768ABBE864");
 
-                entity.Property(e => e.CityId).ValueGeneratedNever();
+               // entity.Property(e => e.CityId).ValueGeneratedNever();
 
                 entity.Property(e => e.CityName)
                     .IsRequired()
@@ -99,7 +99,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.CountryId)
                     .HasName("PK__TDiction__10D1609FEC86AEE1");
 
-                entity.Property(e => e.CountryId).ValueGeneratedNever();
+               // entity.Property(e => e.CountryId).ValueGeneratedNever();
 
                 entity.Property(e => e.CountryName)
                     .IsRequired()
@@ -111,7 +111,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.CountyId)
                     .HasName("PK__Dictiona__B68F9D9764B0071D");
 
-                entity.Property(e => e.CountyId).ValueGeneratedNever();
+               // entity.Property(e => e.CountyId).ValueGeneratedNever();
 
                 entity.Property(e => e.CountyName)
                     .IsRequired()
@@ -126,7 +126,7 @@ namespace iWasHere.Domain.Model
 
             modelBuilder.Entity<DictionaryCurrency>(entity =>
             {
-                entity.Property(e => e.DictionaryCurrencyId).ValueGeneratedNever();
+                //entity.Property(e => e.DictionaryCurrencyId).ValueGeneratedNever();
 
                 entity.Property(e => e.CurrencyCode)
                     .IsRequired()
@@ -138,7 +138,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.OpenSeasonId)
                     .HasName("PK__TOpenSea__FF90875FDE8448CC");
 
-                entity.Property(e => e.OpenSeasonId).ValueGeneratedNever();
+                //entity.Property(e => e.OpenSeasonId).ValueGeneratedNever();
 
                 entity.Property(e => e.OpenSeasonType)
                     .IsRequired()
@@ -147,7 +147,7 @@ namespace iWasHere.Domain.Model
 
             modelBuilder.Entity<DictionaryTicket>(entity =>
             {
-                entity.Property(e => e.DictionaryTicketId).ValueGeneratedNever();
+                //entity.Property(e => e.DictionaryTicketId).ValueGeneratedNever();
 
                 entity.Property(e => e.TicketCategory)
                     .IsRequired()
@@ -159,7 +159,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.DictionaryExchangeRateId)
                     .HasName("PK__Dictiona__143357EAD5F6A6C1");
 
-                entity.Property(e => e.DictionaryExchangeRateId).ValueGeneratedNever();
+                //entity.Property(e => e.DictionaryExchangeRateId).ValueGeneratedNever();
 
                 entity.Property(e => e.CurrentDate).HasColumnType("datetime");
 
@@ -168,7 +168,7 @@ namespace iWasHere.Domain.Model
 
             modelBuilder.Entity<Feedback>(entity =>
             {
-                entity.Property(e => e.FeedbackId).ValueGeneratedNever();
+                //entity.Property(e => e.FeedbackId).ValueGeneratedNever();
 
                 entity.Property(e => e.Comment)
                     .IsRequired()
@@ -201,7 +201,7 @@ namespace iWasHere.Domain.Model
                 entity.HasKey(e => e.ImageId)
                     .HasName("PK__TImage__7516F70CCD566FE6");
 
-                entity.Property(e => e.ImageId).ValueGeneratedNever();
+               // entity.Property(e => e.ImageId).ValueGeneratedNever();
 
                 entity.Property(e => e.Picture1).HasColumnName("Picture");
 
@@ -214,7 +214,7 @@ namespace iWasHere.Domain.Model
 
             modelBuilder.Entity<Ticket>(entity =>
             {
-                entity.Property(e => e.TicketId).ValueGeneratedNever();
+                //entity.Property(e => e.TicketId).ValueGeneratedNever();
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 0)");
 
@@ -249,7 +249,7 @@ namespace iWasHere.Domain.Model
                     .HasName("UQ__Touristi__BE83950C09CA8056")
                     .IsUnique();
 
-                entity.Property(e => e.TouristicObjectiveId).ValueGeneratedNever();
+               // entity.Property(e => e.TouristicObjectiveId).ValueGeneratedNever();
 
                 entity.Property(e => e.TouristicObjectiveCode)
                     .IsRequired()
