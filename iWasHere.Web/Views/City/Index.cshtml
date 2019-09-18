@@ -1,29 +1,64 @@
-﻿    ()
+﻿@model iWasHere.Domain.DTOs.CityDTO
 @{
     ViewData["Title"] = "Index";
 }
 
 <br />
-@(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
-    .Name("grid")
-        .Columns(columns =>
-        {            
-            
-            columns.Bound(c => c.cityName);
-            columns.Bound(c => c.county).Width(150);
-        })
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        .Groupable()
-        .Sortable()
-        .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("Read", "City"))
-            .PageSize(20)
-        )
-    
+
+@using (Html.BeginForm("Filter", "City", FormMethod.Post))
+{
+    @Html.TextBoxFor(model => model.cityName)
+    <br />   
+    @(Html.Kendo().ComboBoxFor(model => model.county)                      
+                      .HtmlAttributes(new { style = "width:30%;" })
+                      .Placeholder("Selecteaza judet..")
+                      .DataTextField("Name")
+                      .DataValueField("CountyId")
+                      .Filter(FilterType.Contains)
+                      .DataSource(source =>
+                      {
+                          source.Read(read =>
+                          {
+                              read.Action("Read_County", "City");
+                          });
+
+                      })
+
     )
+    <br/>
+    <button type="submit" class="btn btn-primary">Filtreaza</button>
+}
+
+<br />
+
+<div class="row" col-6>
+    @(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
+        .Name("grid")
+            .Columns(columns =>
+            {
+
+                columns.Bound(c => c.cityName).Title("Nume Oras");
+                columns.Bound(c => c.county).Title("Nume Judet");
+            })
+            .HtmlAttributes(new { style = "height: 550px;" })
+            .Scrollable()
+            .Groupable()
+            .Sortable()
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("Read", "City"))
+                .PageSize(10)
+                )
+    )
+
+
+
+
+</div>
+
+
+

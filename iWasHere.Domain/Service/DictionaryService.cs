@@ -9,12 +9,9 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
-        private readonly DatabaseContext _dbContext;
         private readonly BlackWidowContext _bwContext;
-        public DictionaryService(DatabaseContext databaseContext)
-        {
-            _dbContext = databaseContext;
-        }
+        private readonly DatabaseContext _databaseContext;
+
         public DictionaryService(BlackWidowContext databaseContext)
         {
             _bwContext = databaseContext;
@@ -22,13 +19,13 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
         {
-            List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dbContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
+            List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
                 Id = a.DictionaryItemId,
                 Name = a.DictionaryItemName
             }).ToList();
 
-            return dictionaryLandmarkTypeModels;
+            return dictionaryTicketModels;
         }
 
         public List<DictionaryTicketModel> GetDictionaryTicketModels()
@@ -67,25 +64,31 @@ namespace iWasHere.Domain.Service
             return dictionaryAttractionCategoryModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total)
         {
+            total = _bwContext.DictionaryCountry.Count();
+            int skip = (page - 1) * pageSize;
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
                 Id = a.CountryId,
                 Name = a.CountryName
-            }).ToList();
+            }).Skip(skip).Take(pageSize).ToList();
 
             return dictionaryCountryModels;
         }
-        public List<County_DTO> GetDictionaryCounty()
+        public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows)
         {
+            totalRows = _bwContext.DictionaryCounty.Count();
+
+            int skip = (Page -1) * PageSize;
             List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
             {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
                 CountryId = a.CountryId,
-                CountyName=a.CountyName,
-                CountyId =a.CountyId
+                CountryName =a.Country.CountryName
             }) 
-            .ToList();
+            .Skip(skip).Take(PageSize).ToList();
 
             return dictionaryCounty;
         }
@@ -100,5 +103,17 @@ namespace iWasHere.Domain.Service
 
             return dictionaryOpenSeasonModels;
         }
+
+        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        //{
+
+        //    List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
+        //    {
+        //        Id = a.CountryId,
+        //        Name = a.CountryName
+        //    }).ToList();
+
+        //    return dictionaryCountryModels;
+        //}
     }
 }

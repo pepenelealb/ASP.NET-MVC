@@ -1,31 +1,55 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Judete";
 }
+   
+ <style>
+        .myHeader {
+            background-color: lightblue;
+            color: black;
+            padding: 40px;
+            text-align: center;
+            font-family:Georgia;
+        }
+</style>
+<h1 class="myHeader"> Dictionar Judete</h1>
+<br/>
 
-<h1>Dictionar Judete</h1>
+    <h3 style="font-family:courier;">Filtru cauta:</h3><br>
+
+    Nume judet: <input type="text" name="countyName"> 
+
+    <button type="button" name="Filtreza">Filtreaza</button>
+    <button type="button" onclick="alert('Filtru Sters')">Sterge filtru!</button> <br>
+
+
+
+
+
 <br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.County_DTO>()
-            .Name("grid_county")
-            .Columns(columns =>
-            {
+                .Name("grid_county")
+                .Columns(columns =>
+                {
 
-                 columns.Bound(c => c.CountyId).Width(100);
-                columns.Bound(c => c.CountyName);
-               columns.Bound(c => c.CountryId).Width(100);
-            })
-            .HtmlAttributes(new { style = "height: 550px;" })
-            .Scrollable()
-            .Groupable()
-            .Sortable()
-            .Pageable(pageable => pageable
-                .Refresh(true)
-                .PageSizes(true)
-                .ButtonCount(5))
-            .DataSource(dataSource => dataSource
-            .Ajax()
-            .Read(read => read.Action("Read", "County"))
-            .PageSize(20)
-            )
-    
+                   // columns.Bound(c => c.CountyId).Width(100);
+                    columns.Bound(c => c.CountyName).Title("Judet");
+                    columns.Bound(c => c.CountryName).Title("Tara");
+                    //columns.Bound(c => c.CountryId).Width(100) ;
+                })
+                .HtmlAttributes(new { style = "height: 550px;" })
+                .Scrollable()
+                .Groupable()
+                .Sortable()
+                .Pageable(pageable => pageable
+                    .Refresh(true)
+                    .PageSizes(true)
+                    .ButtonCount(5))
+                .DataSource(dataSource => dataSource
+                .Ajax()
+                .Read(read => read.Action("Read", "County"))
+                .PageSize(2)
+               
+                )
+
 )
