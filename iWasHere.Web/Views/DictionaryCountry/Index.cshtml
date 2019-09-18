@@ -1,24 +1,66 @@
-﻿
+﻿<h2>Dictionar Tari</h2>
+
+@using (Html.BeginForm("Index", "DictionaryCountry", FormMethod.Get))
+{
+    <p>
+        <div class="container">
+            <div id="example" style="margin-top:50px">
+                <div class="demo-section k-header wide">
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            Search by CountryName
+
+                        </div>
+                        <div class="col-md-3">
+                            <input id="Txt_search_CountryName" type="text" class='k-textbox' data-bind="value:CUN" placeholder="Country or UserName" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button id="create" data-bind="click: create" class="k-button">Search</button>
+                        </div>
+                    </div>
+    </p>
+}
+
 <h1>Dictionar Tari</h1>
 <br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>()
+
         .Name("grid")
         .Columns(columns =>
         {
-            columns.Bound(c => c.Name).Width(140);
+            columns.Bound(c => c.Name).Width(200);
+            //.Filterable(filterable => filterable.UI("nameFilter"));
         })
+        //.Filterable(filterable => filterable
+        //.Extra(false)
+        //.Operators(operators => operators
+        //.ForString(str => str.Clear()
+        //.StartsWith("Starts with")
+        //.IsEqualTo("Is equal to")
+        //.IsNotEqualTo("Is not equal to")
+        //))
+        //)
         .HtmlAttributes(new { style = "height: 380px;" })
         .Scrollable()
         .Groupable()
-        .Sortable()
+        .Sortable(sortable => sortable.AllowUnsort(false))
         .Pageable(pageable => pageable
             .Refresh(true)
-            .PageSizes(true)
+            //.PageSizes(new int[] { 10, 30, 80 })
             .ButtonCount(5))
         .DataSource(dataSource => dataSource
             .Ajax()
+            // .ServerOperation(false)
+            .Read(read => read.Action("GetCountries", "DictionaryCountry"))
+        .PageSize(4)
            // .ServerOperation(false)
             .Read(read => read.Action("GetCountries", "DictionaryCountry"))
-            .PageSize(20)
+            .PageSize(2)
         )
 )
+
