@@ -63,5 +63,29 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
+        public List<County_DTO> GetDictionaryCounty()
+        {
+            List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
+            {
+                CountyId = a.CountyId,
+                CountyName = a.CountyName,
+                CountryId = a.CountryId,
+                CountryName =a.Country.CountryName
+            }) 
+            .ToList();
+
+            return dictionaryCounty;
+        }
+
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels()
+        {
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
+            {
+                Id = a.OpenSeasonId,
+                Type = a.OpenSeasonType
+            }).ToList();
+
+            return dictionaryOpenSeasonModels;
+        }
     }
 }
