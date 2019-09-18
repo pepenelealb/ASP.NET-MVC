@@ -24,7 +24,7 @@ namespace iWasHere.Web.Controllers
         }
         public IActionResult Index()
         {
-           //List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
+      //     List<DictionaryCountryModel> dictionaryCountryModel = _dictionaryService.GetDictionaryCountryModels();
             return View();
         }
 
@@ -45,7 +45,7 @@ namespace iWasHere.Web.Controllers
             response.Total = totalRows;
             response.Data = dictionaryCountryModels;
             return Json(response);
-           // return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
+       //     return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
         }
 
         //public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
@@ -75,9 +75,6 @@ namespace iWasHere.Web.Controllers
         //    return View(countries);
         //}
 
-        public IActionResult Index(string sortOrder, string searchString)
-        { 
-            return View();
-        }
+      
     }
 }
