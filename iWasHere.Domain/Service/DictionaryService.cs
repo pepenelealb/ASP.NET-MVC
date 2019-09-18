@@ -53,13 +53,15 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels()
+        public List<DictionaryAttractionCategoryModel> GetDictionaryAttractionCategoryModels(int skip, int take, out int total)
         {
+            total = _bwContext.DictionaryAttractionCategory.Count();
+            int skip_amount = (skip - 1) * take;
             List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = _bwContext.DictionaryAttractionCategory.Select(a => new DictionaryAttractionCategoryModel()
             {
                 AttractionCategoryId = a.AttractionCategoryId,
                 AttractionCategoryName = a.AttractionCategoryName
-            }).ToList();
+            }).Skip(skip_amount).Take(take).ToList();
 
             return dictionaryAttractionCategoryModels;
         }
@@ -93,13 +95,15 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
-        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels()
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
         {
+            totalRows = _bwContext.DictionaryOpenSeason.Count();
+            int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
                 Type = a.OpenSeasonType
-            }).ToList();
+            }).Skip(skip).Take(PageSize).ToList();
 
             return dictionaryOpenSeasonModels;
         }
