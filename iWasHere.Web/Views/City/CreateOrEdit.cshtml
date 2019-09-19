@@ -4,6 +4,7 @@
     ViewData["Title"] = "CreateOrEdit";
 }
 
+
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {
     <input type="text" asp-for="cityName"  id="textBox" />
@@ -25,10 +26,10 @@
     )
     <br />
     <button type="submit"  class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
-    <br />
-    <button type="submit"  class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
-    <br />
-    <a asp-action="Index" class="btn btn-success">Anuleaza</a>
+    <br />   
+    <button type="submit" id="new"  class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+    <br />    
+    <a asp-action="Index"  class="btn btn-success">Anuleaza</a>
 }
 <script type="text/javascript">
     var ok = 1;
@@ -36,7 +37,14 @@
         return {
             text: $("#Orase").val()
         };
-    } 
+    }      
+    window.onload = set();
+    function set() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            document.getElementById("new").style.visibility = "hidden";
+        }
+    }
 
 </script>
 
