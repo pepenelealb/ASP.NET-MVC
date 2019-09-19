@@ -1,0 +1,83 @@
+﻿@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
+@{
+    ViewData["Title"] = "AddOrEdit";
+}
+
+<br />
+@using (Html.BeginForm("Create", "City", FormMethod.Post))
+{
+    <label>Nume Atractie: </label>
+    <input type="text" asp-for="AttractionName" />
+    <br /><br />
+    <label>Cod Atractie:</label>
+    <input type="text" asp-for="TouristicObjectiveCode" />
+    <br /><br />
+    <label>Descriere:</label>
+    <input type="text" asp-for="TouristicObjectiveDescription" />
+    <br /><br />
+    <label>Are bilet de intrare:</label>
+    <input type="checkbox" asp-for="HasEntry" />
+    <br /><br />
+    <label>Pret:</label>
+    <input type="text" asp-for="Price" />
+    <br /><br />
+    <label>Selecteaza Tipul Atractiei</label>
+    @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
+               .DataValueField("AttractionCategoryId")
+               .DataTextField("AttractionCategoryName")
+               .HtmlAttributes(new { style = "width:60%", id = "attraction" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
+               {
+                   read.Action("Read_Attraction", "TouristicObjective");
+               })
+               .ServerFiltering(true);
+           })
+    )
+    <br /><br />
+    <label>Selecteaza sezonul</label>
+    @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
+               .DataValueField("Id")
+               .DataTextField("Name")
+               .HtmlAttributes(new { style = "width:60%", id = "season" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
+               {
+                   read.Action("Read_Season", "TouristicObjective");
+               })
+               .ServerFiltering(true);
+           })
+    )
+    <br /><br />
+
+    <label>Selecteaza orasul</label>
+    @(Html.Kendo().ComboBoxFor(model => model.CityId)
+               .DataValueField("Id")
+               .DataTextField("Name")
+               .HtmlAttributes(new { style = "width:60%", id = "city" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
+               {
+                   read.Action("Read_City", "TouristicObjective");
+               })
+               .ServerFiltering(true);
+           })
+    )
+    <br /><br />
+    <label>Longitudine:</label>
+    <input type="text" asp-for="Longitude" />
+    <br/><br />
+    <label>Latitudine:</label>
+    <input type="text" asp-for="Latitude" />
+    <br/><br />
+
+         <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+
+}
+

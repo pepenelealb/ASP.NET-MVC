@@ -7,8 +7,10 @@
 
 @using (Html.BeginForm())
 {
+    <label>Nume Oras:</label>
     <input type="text" id="textBox" />
     <br />
+    <label>Nume Judet:</label>
     @(Html.Kendo().AutoComplete()
            .Name("Orase")
            .DataTextField("Name")
@@ -43,7 +45,8 @@
 
     function deleteFilters() {
         $('#textBox').val(""); 
-        $('#Orase').val(""); 
+        $('#Orase').val("");
+        refresh();
 
     }
     function onAdditionalData() {

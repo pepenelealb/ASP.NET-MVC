@@ -7,10 +7,11 @@
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post, new { id = "form" }))
 {
+    <label>Adauga un Oras:</label>
     <input type="text" asp-for="cityName" id="textBox" />
 
     <br />
-
+    <label>Selecteaza un Judet:</label>
     @(Html.Kendo().ComboBoxFor(model=> model.countyId)                
                .DataValueField("Id")
                .DataTextField("Name")
