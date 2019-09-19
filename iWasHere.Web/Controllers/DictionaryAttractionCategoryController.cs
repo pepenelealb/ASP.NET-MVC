@@ -25,24 +25,47 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public IActionResult GetAttractionCategory([DataSourceRequest]DataSourceRequest request)
+        public IActionResult GetAttractionCategory([DataSourceRequest]DataSourceRequest request, String attractionCategory)
         {
             int total = 0;
             DataSourceResult dataSourceResult = new DataSourceResult();
-            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels(request.Page, request.PageSize,out total);
+            List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels(request.Page, request.PageSize,out total, attractionCategory);
             dataSourceResult.Total = total;
             dataSourceResult.Data = dictionaryAttractionCategoryModels;
 
             return Json(dataSourceResult);
         }
 
-        //public IActionResult GetFilteredAttraction(string attractionCategory, [DataSourceRequest]DataSourceRequest request)
-        //{
-        //    ViewBag.attractionCategory = attractionCategory;
-        //    List<DictionaryAttractionCategoryModel> dictionaryAttractionCategoryModels = dictionaryService.GetDictionaryAttractionCategoryModels();
-        //    dictionaryAttractionCategoryModels.Where(a => a.AttractionCategoryName.Contains(request));
+        public IActionResult AddAttractionCategory(string id)
+        {
+            if(Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                return View();
+            }
 
-        //    return Json(dictionaryAttractionCategoryModels.ToDataSourceResult(request));
-        //}
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddAttractionCategory(DictionaryAttractionCategoryModel dictionaryAttractionCategoryModel, string submitButton, string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                dictionaryService.AddAttractionCategory(dictionaryAttractionCategoryModel.AttractionCategoryName);
+                if(submitButton == "save")
+                {
+                    return View("Index");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+
+            return View();
+        }
     }
 }

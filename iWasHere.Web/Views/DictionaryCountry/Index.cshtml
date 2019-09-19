@@ -1,66 +1,106 @@
-﻿<h2>Dictionar Tari</h2>
+﻿<h1>Dictionar Tari</h1>
 
-@using (Html.BeginForm("Index", "DictionaryCountry", FormMethod.Get))
-{
-    <p>
-        <div class="container">
-            <div id="example" style="margin-top:50px">
-                <div class="demo-section k-header wide">
-                    <br />
-                    <div class="row">
-                        <div class="col-md-3">
 
-                            Search by CountryName
+<p>
+    <input id="searchCountryName" type="text" />
+    <button type="button" id="btnSearch" onclick="refreshFunction()" asp-controller="DictionaryCountry" asp-action="GetCountries">Filtreaza</button>
+    <button type="button" id="btnDelete" onclick="deleteFilters()" asp-controller="DictionaryCountry" asp-action="GetCountries">Sterge Filtre</button>
+    <button type="button" id="btnAdd" onclick="" asp-controller="DictionaryCountry" asp-action="Create">Adauga</button>
+</p>
 
-                        </div>
-                        <div class="col-md-3">
-                            <input id="Txt_search_CountryName" type="text" class='k-textbox' data-bind="value:CUN" placeholder="Country or UserName" />
-                        </div>
-                    </div>
-                    <br />
-                    <div class="row">
-                        <div class="col-md-3">
-                            <button id="create" data-bind="click: create" class="k-button">Search</button>
-                        </div>
-                    </div>
-    </p>
-}
+<br />
+@(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>
+    ()
 
-<h1>Dictionar Tari</h1>
-<br/>
-@(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>()
-
-        .Name("grid")
-        .Columns(columns =>
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Bound(c => c.Id).Width(200);
+        columns.Bound(c => c.Name).Width(200);
+        //columns.Template("<button id=\"btnDelete\" onclick=\"deleteValueRow(#=CountryId#)\">Delete</button>");
+        columns.Command(c =>
         {
-            columns.Bound(c => c.Name).Width(200);
-            //.Filterable(filterable => filterable.UI("nameFilter"));
-        })
-        //.Filterable(filterable => filterable
-        //.Extra(false)
-        //.Operators(operators => operators
-        //.ForString(str => str.Clear()
-        //.StartsWith("Starts with")
-        //.IsEqualTo("Is equal to")
-        //.IsNotEqualTo("Is not equal to")
-        //))
-        //)
-        .HtmlAttributes(new { style = "height: 380px;" })
-        .Scrollable()
-        .Groupable()
-        .Sortable(sortable => sortable.AllowUnsort(false))
-        .Pageable(pageable => pageable
-            .Refresh(true)
-            //.PageSizes(new int[] { 10, 30, 80 })
-            .ButtonCount(5))
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            // .ServerOperation(false)
-            .Read(read => read.Action("GetCountries", "DictionaryCountry"))
-        .PageSize(4)
-           // .ServerOperation(false)
-            .Read(read => read.Action("GetCountries", "DictionaryCountry"))
-            .PageSize(2)
-        )
-)
+            c.Destroy();
+        });
+    })
+
+    //.Filterable(filterable => filterable.UI("nameFilter"));
+
+    //.Filterable(filterable => filterable
+    //.Extra(false)
+    //.Operators(operators => operators
+    //.ForString(str => str.Clear()
+    //.StartsWith("Starts with")
+    //.IsEqualTo("Is equal to")
+    //.IsNotEqualTo("Is not equal to")
+    //))
+    //)
+    .HtmlAttributes(new { style = "height: 380px;" })
+    .Scrollable()
+    .Groupable()
+    .Sortable(sortable => sortable.AllowUnsort(false))
+    .Pageable(pageable => pageable
+    .Refresh(true)
+    .ButtonCount(5))
+    //.ToolBar(toolbar => toolbar.Create())
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    // .Model(m=>m.Id(c=>c.Id))
+    // .Create("Create","DictionaryCountry")
+    .Destroy("Delete", "DictionaryCountry")
+    .Read(read => read.Action("GetCountries", "DictionaryCountry").Data("getFilter"))
+    .PageSize(4)
+    )
+    )
+
+
+    <script type="text/javascript">
+        getFilter = function (e) {
+            var textBoxValue = {};
+            textBoxValue["searchCountryName"] = $("#searchCountryName").val();
+            console.log(textBoxValue.searchCountryName);
+
+            return textBoxValue;
+        }
+
+        function refreshFunction() {
+            $("#grid").data("kendoGrid").dataSource.read();
+            $("#grid").data("kendoGrid").dataSource.page(1);
+        }
+
+        function deleteFilters() {
+            $('#searchCountryName').val("");
+            refreshFunction();
+
+        }
+
+        //function deleteValueRow(int CountryId) {
+
+        //}
+
+//        var processURL = crudServiceBaseUrl + '?method=Delete';
+//function deleteValueRow(id, row){
+//    if (confirm('#getResource("person.detail.confirmdel")#')) {
+//        $.ajax({
+//            type: 'POST',
+//            url: processURL,
+//            data: {
+//                PERS_KY: id
+//            },
+//            success: function (data){
+//                var thingToDelete = row;
+//                var grid = $("#grid").data("kendoGrid");
+//                grid.removeRow(thingToDelete);
+//            },
+//            error: function (xhr, textStatus, errorThrown){
+//                alert("Error while soft-deleting person"+ "\n"+ xhr + "\n"+ textStatus + "\n" + errorThrown);
+//            }
+//        });
+//    }
+//}
+
+
+    </script>
+
+   
 
