@@ -35,6 +35,7 @@
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
         <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
     </environment>
     <environment exclude="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
@@ -42,6 +43,7 @@
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
                 integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -80,10 +82,10 @@
                         </li>
                         <!--adaugare dictionare-->
 
-                        <li  class="nav-link text-dark">
+                        <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
                         </li>
-                        <li class="nav-link text-dark" >
+                        <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="County" asp-action="Index">Judete</a>
                         </li>
                         <li class="nav-link text-dark">
@@ -98,6 +100,23 @@
                         <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
                         </li>
+                        <!--  <a class="nav-link text-dark subnavbtn" asp-area="" asp-controller="" asp-action="">Nu e dictionare</a>
+      <div class="subnav-content">
+          <li><a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a></li>
+          @*<a  asp-area="" asp-controller="County" asp-action="Index">Judete</a>
+          <a href="#">Orase</a>
+          <a href="#">Valuta</a>
+          <a href="#">Tip Bilete</a>
+          <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
+          <a href="#">Sezonabilitate</a>*@
+         <li> <a href="#">Tari</a> </li>
+         <li> <a asp-area="" asp-controller="County" asp-action="Index">Judete</a> </li>
+         <li> <a href="#">Orase</a> </li>
+         <li> <a href="#">Valuta</a> </li>
+         <li> <a asp-area="" asp-controller="TicketType" asp-action="Index">Tip Bilete</a> </li>
+         <li> <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a> </li>
+         <li> <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezonabilitate</a> </li>
+      </div>   -->
 
                     </ul>
                     

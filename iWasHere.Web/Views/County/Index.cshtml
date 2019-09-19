@@ -13,43 +13,82 @@
         }
 </style>
 <h1 class="myHeader"> Dictionar Judete</h1>
-<br/>
-
-    <h3 style="font-family:courier;">Filtru cauta:</h3><br>
-
-    Nume judet: <input type="text" name="countyName"> 
-
-    <button type="button" name="Filtreza">Filtreaza</button>
-    <button type="button" onclick="alert('Filtru Sters')">Sterge filtru!</button> <br>
 
 
+@*<div id="filter">
+    <br />
+    @(Html.Kendo().AutoComplete()
+           .Name("Judete")
+           .DataTextField("Name")
+           .HtmlAttributes(new { style = "width:50%" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+                   {
+               source.Read(read =>
+               {
+                   read.Action("Read_Country", "County").Data("f_autocomplete");
+               })
+               .ServerFiltering(true);
+           })
+    )
+
+</div>*@
+<form>
+    <h4>Filtru Judete</h4> <br>
+    <input style="width:50%" id="txt_county" type="text" name="adumi judet" value="" />
+    <button onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
+    <button onclick="deleteFilters()" type="button" class="btn btn-primary" >Sterge filtru</button>
+</form>
+@*<button onclick="" type="submit" id="#filter" class="btn btn-primary">Filtreaza</button>*@
+<script  type="text/javascript">
+
+    function filtrare() {
+
+    var txt_judet = {};
+    txt_judet["txt_county"] = $("#txt_county").val();
+
+    return txt_judet;
+    }
+    function deleteFilters() {
+        $('#txt_county').val("");
+        alert("Filtru curatat!");
+        $("#grid_county").data("kendoGrid").dataSource.refresh();
+    }
+    function refresh() {     
+        $("#grid_county").data("kendoGrid").dataSource.read();
+            $("#grid_county").data("kendoGrid").dataSource.page(1);
+        
+    }
+    </script>
 
 
 
 <br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.County_DTO>()
-                .Name("grid_county")
-                .Columns(columns =>
-                {
+                        .Name("grid_county")
+                        .Columns(columns =>
+                        {
 
-                   // columns.Bound(c => c.CountyId).Width(100);
-                    columns.Bound(c => c.CountyName).Title("Judet");
-                    columns.Bound(c => c.CountryName).Title("Tara");
-                    //columns.Bound(c => c.CountryId).Width(100) ;
-                })
-                .HtmlAttributes(new { style = "height: 550px;" })
-                .Scrollable()
-                .Groupable()
-                .Sortable()
-                .Pageable(pageable => pageable
-                    .Refresh(true)
-                    .PageSizes(true)
-                    .ButtonCount(5))
-                .DataSource(dataSource => dataSource
-                .Ajax()
-                .Read(read => read.Action("Read", "County"))
-                .PageSize(2)
-               
-                )
+                            columns.Bound(c => c.CountyId).Width(100).Hidden(true);
+                            columns.Bound(c => c.CountyName).Title("Judet");
+                            columns.Bound(c => c.CountryName).Title("Tara");
+                            columns.Bound(c => c.CountyId).Width(100).Hidden(true);
+                            columns.Template(" <input type='button'  class='k-button info' name='btn_edit' value='Edit' /> ").Width(150);
+                            columns.Template(" <input type='button' class='k-button info' name='btn_delete' value='Delete' /> ").Width(150);
+                            columns.Bound(c => c.CountryId).Width(100).Hidden(true) ;
+                        })
+                        .HtmlAttributes(new { style = "height: 650px;" })
+                        .Scrollable()
+                        .Sortable()
+                        .Pageable(pageable => pageable
+                            .Refresh(true)
+                            .PageSizes(true)
+                            .ButtonCount(5))
+                        .DataSource(dataSource => dataSource
+                        .Ajax()
+                        .Read(read => read.Action("Read", "County").Data("filtrare"))
+                        .PageSize(10)
+
+                        ) 
 
 )
