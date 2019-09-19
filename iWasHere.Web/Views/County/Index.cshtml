@@ -40,18 +40,6 @@
         )
 
     </div>*@
-<br />
-<div class="filter">
-<form >
-    <br/>
-    <h3 style="font-family:courier;">Cauta Judet:</h3>
-   <input style="width:50%" id="txt_county" type="text" name="adumi judet" value="" />
-   <button id="btn_filter" onclick="refresh()" type="button" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
-    <button id="btn_r_filter" onclick="deleteFilters()" type="button" >Sterge filtru</button>
-</form>
-    <br/>
-</div>
-
 <script type="text/javascript">
     var getInput;
 
@@ -80,7 +68,7 @@
     function setEdit() {
         getInput = "edit"
         localStorage.setItem("storageName", getInput);
-        
+
     }
 
     //pt btuoane
@@ -99,6 +87,19 @@
     });
 
 </script>
+<br />
+<div class="filter">
+<form >
+    <br/>
+    <h3 style="font-family:courier;">Cauta Judet:</h3>
+   <input style="width:50%" id="txt_county" type="text" name="adumi judet" value="" />
+   <button id="btn_filter" onclick="refresh()" type="button" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
+    <button id="btn_r_filter" onclick="deleteFilters()" type="button" >Sterge filtru</button>
+</form>
+    <br/>
+</div>
+
+
 
 
 

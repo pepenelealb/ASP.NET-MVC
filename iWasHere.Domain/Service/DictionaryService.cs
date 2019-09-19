@@ -188,6 +188,30 @@ namespace iWasHere.Domain.Service
                 return "Judetul nu poate fi sters!";
             }
         }
+        public string Update(County_DTO model)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(model.CountyName))
+                {
+                    return "Numele judetului este obligatoriu";
+                }
+
+                else
+                {
+                    DictionaryCounty county = _bwContext.DictionaryCounty.Find(model.CountyId);
+                    county.CountyName = model.CountyName;
+                    county.CountyId = model.CountyId;
+                    _bwContext.Update(county);
+                    _bwContext.SaveChanges();
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return "Campurile sunt obligatorii";
+            }
+        }
         //pana aici
         public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
