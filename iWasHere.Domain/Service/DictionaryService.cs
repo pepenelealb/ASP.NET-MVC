@@ -174,8 +174,8 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
 
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
