@@ -36,7 +36,7 @@ namespace iWasHere.Domain.Service
                 cityId = a.CityId,
                 cityName = a.CityName,
                 county = a.County.CountyName,
-                countyId = a.CountyId
+                //countyId = a.CountyId
                 
 
             }).Skip((skip-1) * take).Take(take).ToList();
@@ -79,7 +79,7 @@ namespace iWasHere.Domain.Service
                     cityId = a.CityId,
                     cityName = a.CityName,
                     county = a.County.CountyName,
-                    countyId = a.CountyId
+                    //countyId = a.CountyId
 
 
                 }).First();

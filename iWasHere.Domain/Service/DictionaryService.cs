@@ -172,8 +172,8 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
 
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
@@ -182,6 +182,45 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryCountryModels;
+        }
+
+        public string DeleteCountry(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryCountry.Single(a => a.CountryId == id));
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return "Aceasta tara nu poate fi stearsa";
+            }
+        }
+
+        public void AddCountry(DictionaryCountryModel dictionaryCountryModel)
+        {
+
+            _bwContext.DictionaryCountry.Add(new DictionaryCountry
+            {
+                CountryName = dictionaryCountryModel.Name,
+                CountryId = dictionaryCountryModel.Id
+            });
+            _bwContext.SaveChanges();
+        }
+
+        public DictionaryCountryModel UpdateCountry(int id)
+        {
+
+            DictionaryCountryModel dictionaryCountry = _bwContext.DictionaryCountry
+                .Where(a => a.CountryId == id)
+                .Select(a => new DictionaryCountryModel()
+                {
+                    Id = a.CountryId,
+                    Name = a.CountryName,
+                }).First();
+
+            return dictionaryCountry;
         }
     }
 }
