@@ -16,7 +16,7 @@
     <!-- <input type="submit" value="Filtreaza" /> -->
     <button type="button" onclick="refresh()" asp-controller="TicketType" asp-action="TicketsRead">Filtreaza</button>
     <!-- <button onclick="tickets.getFilter()">Filtreaza</button> -->
-    <input type="submit" value="Sterge filtre" />
+    <button type="button" onclick="stergeFiltru()" asp-controller="TicketType" asp-action="TicketsRead"> Sterge filtre </button>
 </p>
 }
 
@@ -28,8 +28,11 @@
        {
            columns.Bound(c => c.DictionaryTicketId).Title("Id");
 
-
+        
            columns.Bound(c => c.TicketCategory).Title("Type");
+           columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+          // columns.Template(" <input type='button' class='k-button info' name='info' value='Modifica' /> ");
+          //    columns.Template(" <input type='button' class='k-button info' name='info' value='Sterge' /> ");
 
        })
 
@@ -38,6 +41,7 @@
        .Groupable()
        .Sortable()
        .Filterable()
+
        .Pageable(pageable => pageable
            .Refresh(true)
            .PageSizes(true)
@@ -46,7 +50,7 @@
            .Ajax()
            .Read(read => read.Action("TicketsRead", "TicketType").Data("getFilter"))
            .PageSize(10)
-
+            .Destroy( destroy => destroy.Action( "Delete", "TicketType"))
        )
 )
 <body>
@@ -66,6 +70,13 @@
             $("#grid").data("kendoGrid").dataSource.read();
             $("#grid").data("kendoGrid").dataSource.page(1);
 
+        }
+
+        function stergeFiltru() {
+          // $("#txtSearchedValue").Clear();
+         //   refresh();
+            $("#txtSearchedValue").val("");
+             refresh();
         }
 
 

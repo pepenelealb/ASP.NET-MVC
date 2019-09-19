@@ -9,6 +9,7 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
+
         private readonly BlackWidowContext _bwContext;
         private readonly DatabaseContext _databaseContext;
 
@@ -121,15 +122,7 @@ namespace iWasHere.Domain.Service
 
         //    return dictionaryCountryModels;
         //}
-
-        public static void DeleteUsuarios(int id)
-        {/*
-            var usuario = _bwContext.Ticket.FirstOrDefault(x => x.DictionaryTicketId == id);
-            if (usuario != null)
-            {
-               _bwContext.Ticket.Remove(usuario);
-            }*/
-        }
+       
 
 
       

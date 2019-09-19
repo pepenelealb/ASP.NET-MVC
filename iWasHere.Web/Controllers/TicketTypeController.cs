@@ -8,6 +8,7 @@ using iWasHere.Domain.Model;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
+using iWasHere.Web.Data;
 
 namespace iWasHere.Web.Controllers
 {
@@ -47,14 +48,16 @@ namespace iWasHere.Web.Controllers
             return Json(response);
         }
 
-        public ActionResult Delete([DataSourceRequest] DataSourceRequest request, iWasHere.Domain.DTOs.DictionaryTicketModel tickets)
-        {
-            if (tickets != null && ModelState.IsValid)
-            {
-                DictionaryService.DeleteUsuarios(tickets.DictionaryTicketId);
-            }
 
-            return Json(ModelState.ToDataSourceResult());
+        public IActionResult Delete()
+        {
+          //  DictionaryTicketModel model = _dictionaryService.GetDictionaryTicketModels().Find(id);
+          
+            return View();
+
+          //  _dictionaryService.GetDictionaryTicketModels().RemoveAll(ticket => ticket.DictionaryTicketId == id);
+
+            //return NoContent();
         }
 
     }
