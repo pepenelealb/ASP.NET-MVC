@@ -152,8 +152,8 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
 
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
@@ -163,5 +163,62 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
+
+        public void DeleteTicketType(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryTicket.Single(a => a.DictionaryTicketId == id));
+                _bwContext.SaveChanges();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DictionaryTicketModel GetTicketFromDB(int id)
+        {
+
+            DictionaryTicketModel model = _bwContext.DictionaryTicket
+                .Where(a => a.DictionaryTicketId == id)
+                .Select(a => new DictionaryTicketModel()
+                {
+                    DictionaryTicketId = a.DictionaryTicketId,
+                    TicketCategory = a.TicketCategory
+                  
+
+                }).First();
+
+            return model;
+        }
+
+        public void UpdateTicket(DictionaryTicketModel model)
+        {
+
+ 
+           
+            DictionaryTicket ticket = new DictionaryTicket()
+            {
+                DictionaryTicketId = model.DictionaryTicketId,
+                TicketCategory = model.TicketCategory
+             
+            };
+            _bwContext.DictionaryTicket.Update(ticket);
+            _bwContext.SaveChanges();
+        }
+
+        public void InsertTicket(DictionaryTicketModel model)
+        {
+
+            _bwContext.DictionaryTicket.Add(new DictionaryTicket
+            {
+               TicketCategory = model.TicketCategory,
+            
+            });
+            _bwContext.SaveChanges();
+        }
+
     }
 }

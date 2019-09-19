@@ -17,6 +17,14 @@
     <button type="button" onclick="refresh()" asp-controller="TicketType" asp-action="TicketsRead">Filtreaza</button>
     <!-- <button onclick="tickets.getFilter()">Filtreaza</button> -->
     <button type="button" onclick="stergeFiltru()" asp-controller="TicketType" asp-action="TicketsRead"> Sterge filtre </button>
+
+    <br />
+
+
+    <div >
+        <a href="@Url.Action("CreateTicketType", "TicketType", 0)" class="btn btn-info">&nbsp;  Adauga tip bilet</a>
+    </div>
+    <br />
 </p>
 }
 
@@ -30,9 +38,11 @@
 
         
            columns.Bound(c => c.TicketCategory).Title("Type");
-           columns.Command(command => { command.Edit(); command.Destroy(); }).Width(200);
+             columns.Template("<a href='"+@Url.Action("CreateTicketType", "TicketType")+"?id=#=DictionaryTicketId#' class='btn btn-info'> Modifica</a> ");
+           columns.Command(command => { command.Destroy(); }).Width(200);
           // columns.Template(" <input type='button' class='k-button info' name='info' value='Modifica' /> ");
           //    columns.Template(" <input type='button' class='k-button info' name='info' value='Sterge' /> ");
+
 
        })
 
@@ -50,7 +60,8 @@
            .Ajax()
            .Read(read => read.Action("TicketsRead", "TicketType").Data("getFilter"))
            .PageSize(10)
-            .Destroy( destroy => destroy.Action( "Delete", "TicketType"))
+            .Model(model => model.Id(t => t.DictionaryTicketId))
+                .Destroy(update => update.Action("Delete", "TicketType"))
        )
 )
 <body>

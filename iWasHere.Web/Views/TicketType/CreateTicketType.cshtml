@@ -1,0 +1,27 @@
+﻿@model iWasHere.Domain.DTOs.DictionaryTicketModel
+
+@{
+    ViewData["Title"] = "CreateTicketType";
+}
+
+<h1>Adauga tip bilet</h1>
+
+@using (Html.BeginForm("Create", "TicketType", FormMethod.Post))
+{<label> Adauga:  </label>
+    <input type="text" asp-for="TicketCategory" id="txtInputValue" />
+
+    <br />
+    <button type="submit" class="btn btn-primary"  name ="submitButton" value="Save">Salveaza</button>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-dark"   name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+    <br />
+    <br />
+    <a asp-action="Index" class="btn btn-success">Anuleaza</a>
+}
+
+<script type=" text/javascript ">
+    function cleanTxt(){
+     $("#txtInputValue").val("");
+    }
+</script>
