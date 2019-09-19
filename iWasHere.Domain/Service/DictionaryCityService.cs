@@ -44,7 +44,7 @@ namespace iWasHere.Domain.Service
 
         public List<CityDTO> GetFilterCity(string cityName, string countyName)
         {
-            cityName = null;
+            
             List<CityDTO> dictionaryCity = _dbContext.DictionaryCity
                 .Where(a=> !string.IsNullOrWhiteSpace(cityName) ? a.CityName.ToLower().Contains(cityName.ToLower()) : a.CityName.Contains(a.CityName)
                 && !string.IsNullOrWhiteSpace(countyName) ?  a.County.CountyName.Contains(countyName) : a.County.CountyName.Contains(a.County.CountyName))
