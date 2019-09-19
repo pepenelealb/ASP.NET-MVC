@@ -1,36 +1,55 @@
 ﻿@model iWasHere.Domain.DTOs.CityDTO
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orase";
 }
 
 <br />
-
-@using (Html.BeginForm())
-{
-    <label>Nume Oras:</label>
-    <input type="text" id="textBox" />
-    <br />
-    <label>Nume Judet:</label>
-    @(Html.Kendo().AutoComplete()
-           .Name("Orase")
-           .DataTextField("Name")
-           .HtmlAttributes(new { style = "width:40%" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-                   {
-               source.Read(read =>
-               {
-                   read.Action("Read_County", "City").Data("onAdditionalData");
-               })
-               .ServerFiltering(true);
-           })
-    )
-
+<style>
+    .myHeader {
+        background-color: lightblue;
+        color: white;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        text-shadow: 2px 2px 4px #000000
+    }
+    .filter {
+        border-style: ridge;
+         border: 2px light blue;
+         border-radius: 3px;
+        background-color: hsla(120, 100%, 25%, 0.3);
 }
+</style>
+<h1 class="myHeader"> Dictionar Orase</h1>
 
-<button onclick="refresh()" type="submit"  class="btn btn-primary">Filtreaza</button><br/><br/>
-<button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+<div class="filter">
+    <br/>
+    @using (Html.BeginForm())
+    {
+        <h1 style="font-family:courier;">Filtre Oras: &nbsp;</h1>
+        <label style="font-family:courier;"> Oras: &nbsp;</label> <input type="text" id="textBox" /><br />
+        <label style="font-family:courier;"> Judet: </label> @(Html.Kendo().AutoComplete()
+.Name("Orase")
+.DataTextField("Name")
+.HtmlAttributes(new { style = "width:40%" })
+.Filter("StartsWith")
+.DataSource(source =>
+{
+source.Read(read =>
+{
+read.Action("Read_County", "City").Data("onAdditionalData");
+})
+.ServerFiltering(true);
+})
+        )
 
+    } 
+    <div align="right" >
+    <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
+    <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+</div>
+
+</div>
 <script type="text/javascript">
     var getInput;
     function setCreate() {        
@@ -86,6 +105,19 @@
             alert(message);
         }
     } 
+    $(document).ready(function () {
+        $("#btn_add").kendoButton();
+
+        $("#btn_filter").kendoButton({
+            icon: "filter"
+        });
+
+        $("#btn_r_filter").kendoButton({
+            icon: "filter-clear"
+
+        });
+
+    });
 
 </script>
 
@@ -120,14 +152,14 @@
                 .Ajax()
                 .Read(read => read.Action("Read", "City").Data("myFilter"))
                 .Events(events => events.Error("error_handler"))
-                .Model(model => model.Id(p => p.cityId))
+                .Model(model => model.Id(p => p.countyId))
                 .Destroy(update => update.Action("Delete", "City"))
                 .PageSize(10)
                 )
     )
     <br/>
     <div class="col-6" align="left">
-        <a href="@Url.Action("CreateOrEdit", "City", 0)" onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
+        <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add "onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
     </div>
 
 

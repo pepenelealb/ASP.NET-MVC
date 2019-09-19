@@ -118,8 +118,6 @@ namespace iWasHere.Domain.Service
             List<County_DTO> dictionaryCounty = new List<County_DTO>();
             int skip = (Page - 1) * PageSize;
 
-          
-
             if (string.IsNullOrWhiteSpace(f))
             {
                 dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
@@ -148,13 +146,79 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
 
         }
+        public County_DTO GetCounty_ADD_UPDATE(int id)
+        {
 
+            County_DTO dictionaryCity = _bwContext.DictionaryCounty
+                .Where(a => a.CountyId == id)
+                .Select(a => new County_DTO()
+                {
+                    CountyId = a.CountyId,
+                    CountyName = a.CountyName,
+                    CountryId = a.CountryId,
+                    CountryName = a.Country.CountryName
+
+
+                }).First();
+
+            return dictionaryCity;
+        }
+        public void Insert(County_DTO model)
+        {
+            int id = _bwContext.DictionaryCountry.Where(x => x.CountryName == model.CountryName).Select(x => x.CountryId).FirstOrDefault();
+            _bwContext.DictionaryCounty.Add(new DictionaryCounty
+            {
+               
+                CountyName = model.CountyName,
+                CountryId = id
+               
+            });
+            _bwContext.SaveChanges();
+        }
+        public string Delete_County(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryCounty.Single(a => a.CountyId == id));
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Judetul nu poate fi sters!";
+            }
+        }
+        public string Update(County_DTO model)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(model.CountyName))
+                {
+                    return "Numele judetului este obligatoriu";
+                }
+
+                else
+                {
+                    DictionaryCounty county = _bwContext.DictionaryCounty.Find(model.CountyId);
+                    county.CountyName = model.CountyName;
+                    county.CountyId = model.CountyId;
+                    _bwContext.Update(county);
+                    _bwContext.SaveChanges();
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return "Campurile sunt obligatorii";
+            }
+        }
+        //pana aici
         public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
-                .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
+               .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
                 .Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
@@ -185,5 +249,6 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
+        
     }
 }
