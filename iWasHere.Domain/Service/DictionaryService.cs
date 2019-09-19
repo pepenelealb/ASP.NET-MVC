@@ -77,15 +77,35 @@ namespace iWasHere.Domain.Service
             return dictionaryAttractionCategoryModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total)
+        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total, string textBoxValue)
         {
-            total = _bwContext.DictionaryCountry.Count();
             int skip = (page - 1) * pageSize;
+            List<DictionaryCountryModel> dictionaryCountryModels = new List<DictionaryCountryModel>();
+            IQueryable<DictionaryCountry> countryQuery = _bwContext.DictionaryCountry;
+
+            if (!String.IsNullOrEmpty(textBoxValue))
+            {
+                countryQuery = countryQuery.Where(a => a.CountryName.Contains(textBoxValue));
+            }
+            dictionaryCountryModels= countryQuery.Select(a => new DictionaryCountryModel()
+                {
+                    Id = a.CountryId,
+                    Name = a.CountryName
+        }).Skip(skip).Take(pageSize).ToList();
+
+            total=countryQuery.Count();
+
+            return dictionaryCountryModels;
+
+        }
+
+        public List<DictionaryCountryModel> GetDictionaryCountryModelsSelect()
+        {
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
                 Id = a.CountryId,
                 Name = a.CountryName
-            }).Skip(skip).Take(pageSize).ToList();
+            }).ToList();
 
             return dictionaryCountryModels;
         }
@@ -128,12 +148,14 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
 
         }
-        //pana aici
-        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
+
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
-            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
+                .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
+                .Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
                 Type = a.OpenSeasonType

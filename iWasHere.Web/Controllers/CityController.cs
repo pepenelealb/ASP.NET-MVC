@@ -67,22 +67,48 @@ namespace iWasHere.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateOrEdit(CityDTO model, string submitButton, int id)
         {
-            if (id == 0)
+            if (model != null)
             {
-                _dictionaryCityService.Insert(model);
-                if (submitButton == "SaveAndNew")
+                string errorMessage;
+                if (id == 0)
                 {
-                    return View();
+                   errorMessage =  _dictionaryCityService.Insert(model);
+                    if (String.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        if (submitButton == "SaveAndNew")
+                        {
+                            ModelState.Clear();
+                            return View();
+                        }
+                        else
+                        {
+                            return View("Index");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("a", errorMessage);
+                        return View();
+                    }
                 }
                 else
                 {
-                    return View("Index");
+                    model.cityId = id;
+                    errorMessage = _dictionaryCityService.Update(model);
+                    if (String.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        return View("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("a", errorMessage);
+                        return View();
+                    }
                 }
             }
             else
             {
-                _dictionaryCityService.Update(model);
-                return View();
+               return Json(ModelState.ToDataSourceResult());
             }
         }
 

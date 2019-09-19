@@ -30,6 +30,16 @@
 <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
 
 <script type="text/javascript">
+    var getInput;
+    function setCreate() {        
+        getInput = "create"
+        localStorage.setItem("storageName",getInput);
+    }
+
+    function setEdit() {        
+        getInput = "edit"
+        localStorage.setItem("storageName",getInput);
+    }
 
     function deleteFilters() {
         $('#textBox').val(""); 
@@ -79,10 +89,6 @@
 <br />
 
 <div class="row" col-6>
-    <div class="col-6 text-right">
-        <a href="@Url.Action("CreateOrEdit", "City", 0)" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
-    </div>
-    <br />
 
     @(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
         .Name("grid")
@@ -92,11 +98,11 @@
                 columns.Bound(c => c.countyId).Title("CountyId").Visible(false);
                 columns.Bound(c => c.cityName).Title("Nume Oras");
                 columns.Bound(c => c.county).Title("Nume Judet");
-                columns.Template("<a href='"+@Url.Action("CreateOrEdit", "City")+"?id=#=cityId#' class='btn btn-info'> Modifica</a> ");
+                columns.Template("<a href='" + @Url.Action("CreateOrEdit", "City") + "?id=#=cityId#' onclick='setEdit()' class='btn btn-success'> <i class='fas fa-edit'></i>&nbsp; Modifica</a> ");
                 columns.Command(command =>
-           {               
-                  command.Destroy().Text("Delete");
-           }); 
+           {
+                  command.Destroy().Text("<i class='fas fa-trash-alt'></i> &nbsp; Delete");
+           });
             })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Scrollable()
@@ -116,8 +122,10 @@
                 .PageSize(10)
                 )
     )
-
-
+    <br/>
+    <div class="col-6" align="left">
+        <a href="@Url.Action("CreateOrEdit", "City", 0)" onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
+    </div>
 
 
 </div>

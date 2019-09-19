@@ -4,40 +4,69 @@
     ViewData["Title"] = "CreateOrEdit";
 }
 
-@using (Html.BeginForm("Create", "City", FormMethod.Post))
+
+@using (Html.BeginForm("Create", "City", FormMethod.Post, new { id = "form" }))
 {
-    <input type="text" asp-for="cityName"  id="textBox" />
+    <input type="text" asp-for="cityName" id="textBox" />
 
     <br />
 
-    @(Html.Kendo().AutoCompleteFor(model => model.county)
-              .DataTextField("Name")
-              .HtmlAttributes(new { style = "width:40%" })
-              .Filter("StartsWith")
-              .DataSource(source =>
-              {
-                  source.Read(read =>
-                  {
-                      read.Action("Read_County", "City").Data("onAdditionalData");
-                  })
-              .ServerFiltering(true);
-              })
+    @(Html.Kendo().ComboBoxFor(model=> model.countyId)                
+               .DataValueField("Id")
+               .DataTextField("Name")
+               .HtmlAttributes(new { style = "width:60%", id="county" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
+               {
+                   read.Action("Read_County", "City");
+               })
+               .ServerFiltering(true);
+           })
     )
     <br />
-    <button type="submit"  class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
+    <button type="submit" onclick="validateData()"  id="save" class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
     <br />
-    <button type="submit"  class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+
+    <button type="submit" onclick="validateData()"  id="new" class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
     <br />
+
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
 }
 <script type="text/javascript">
+   
+
     var ok = 1;
     function onAdditionalData() {
         return {
             text: $("#Orase").val()
         };
-    } 
+    }
+    window.onload = set();
+    function set() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            document.getElementById("new").style.visibility = "hidden";
+        }
+    }
+
+    function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+    }  
+    
+    function validateData() {        
+        
+        if ( isEmptyOrSpaces($('#textBox').val()) ) {
+            alert("Numele orasului este obligatoriu");            
+        }
+        else if (isEmptyOrSpaces($('#countries').val())) {
+            alert("Numele judetului este obligatoriu");            
+        }        
+    }   
 
 </script>
+
+
 
 

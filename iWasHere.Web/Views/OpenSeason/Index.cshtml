@@ -5,59 +5,115 @@
 
 <h1>Sezonabilitate</h1>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
+<input type="text" id="textBox" />
+<button onclick="refresh()" type="button" id="btnSearch" asp-controller="OpenSeason" asp-action="GetOpenSeason">Filtreaza</button>
 
-@using (Html.BeginForm())
-{
-    <p>
-        Find by name: @Html.TextBox("SearchString")
-        <input type="submit" value="Search" />
-    </p>
-}
+<br />
+<br />
+@*@(Html.Kendo().AutoComplete()
+               .Name("Tip")
+               .DataTextField("Type")
+               .HtmlAttributes(new { style = "width:40%" })
+               .Filter("StartsWith")
+               .DataSource(source =>
+                       {
+                   source.Read(read =>
+                   {
+                       read.Action("GetOpenSeason", "OpenSeason").Data("onAdditionalData");
+                   })
+                   .ServerFiltering(true);
+               })
+        )
+
+
+
+    }*@
+
+
+
+
 
 <table>
     <tr>
-        @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryOpenSeasonModel>()
-                .Name("grid")
-                .Columns(columns =>
-                {
-                    columns.Bound(c => c.Id);
-                    columns.Bound(c => c.Type);
-                })
-                .HtmlAttributes(new { style = "height: 550px;" })
-                .Scrollable()
-                .Groupable()
-                .Sortable()
-                .Pageable(pageable => pageable
-                    .Refresh(true)
-                    .PageSizes(true)
-                    .ButtonCount(5))
-                .DataSource(dataSource => dataSource
-                    .Ajax()
-                    .PageSize(20)
-                    .Read(read => read.Action("GetOpenSeason", "OpenSeason"))
-                )
-        )
-        <style>
-            .customer-photo {
-                display: inline-block;
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                background-size: 32px 35px;
-                background-position: center center;
-                vertical-align: middle;
-                line-height: 32px;
-                box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-                margin-left: 5px;
-            }
+        @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryOpenSeasonModel>
+    ()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        //columns.Bound(c => c.Id);
+        columns.Bound(c => c.Type);
+        //columns.Template(" <input type='button' class='k-button info' name='info' value='Modifica' /> ");
+        //columns.Template(" <input type='button' class='k-button info' name='info' value='Sterge' /> ");
+        columns.Command(command => { command.Edit(); command.Destroy(); });
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Confirmati stergerea?").DisplayDeleteConfirmation("OK"))
+    .ToolBar(toolbar => toolbar.Create())
+    .HtmlAttributes(new { style = "height: 550px;" })
+    .Scrollable()
+    .Groupable()
+    .Sortable()
+    .Pageable(pageable => pageable
+    .Refresh(true)
+    .PageSizes(true)
+    .ButtonCount(5))
+    .DataSource(dataSource => dataSource
+    .Ajax()
+    .PageSize(20)
+    .Create(create => create.Action("GetOpenSeason", "OpenSeason"))
+    .Destroy(destroy => destroy.Action("GetOpenSeason", "OpenSeason"))
+    .Update(update => update.Action("GetOpenSeason", "OpenSeason"))
+    .Read(read => read.Action("GetOpenSeason", "OpenSeason").Data("myFilter"))
 
-            .customer-name {
-                display: inline-block;
-                vertical-align: middle;
-                line-height: 32px;
-                padding-left: 3px;
-            }
-        </style>
+    )
+        )
+    </tr>
+</table>
+
+<script type="text/javascript">
+    function onAdditionalData() {
+        return {
+            text: $("#OpenSeasonType").val()
+        };
+    }
+
+
+
+    function myFilter() {
+        var openSeasonType = {};
+        openSeasonType["textBox"] = $("#textBox").val();
+        console.log(openSeasonType.textBox);
+        return openSeasonType;
+    }
+
+
+
+    function refresh() {
+        $("#grid").data("kendoGrid").dataSource.read();
+        $("#grid").data("kendoGrid").dataSource.page(1);
+
+    }
+</script>
+
+
+
+<style>
+    .customer-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+</style>
