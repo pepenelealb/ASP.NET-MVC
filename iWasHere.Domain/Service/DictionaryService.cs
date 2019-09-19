@@ -125,6 +125,35 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
 
         }
+        public County_DTO GetCounty_ADD_UPDATE(int id)
+        {
+
+            County_DTO dictionaryCity = _bwContext.DictionaryCounty
+                .Where(a => a.CountyId == id)
+                .Select(a => new County_DTO()
+                {
+                    CountyId = a.CountyId,
+                    CountyName = a.CountyName,
+                    CountryId = a.CountryId,
+                    CountryName = a.Country.CountryName
+
+
+                }).First();
+
+            return dictionaryCity;
+        }
+        public void Insert(County_DTO model)
+        {
+            int id = _bwContext.DictionaryCountry.Where(x => x.CountryName == model.CountryName).Select(x => x.CountryId).FirstOrDefault();
+            _bwContext.DictionaryCounty.Add(new DictionaryCounty
+            {
+               
+                CountyName = model.CountyName,
+                CountryId = id
+               
+            });
+            _bwContext.SaveChanges();
+        }
         //pana aici
         public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
         {
@@ -149,8 +178,8 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
 
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
@@ -159,6 +188,19 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryCountryModels;
+        }
+        public string Delete_Country(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryCountry.Single(a => a.CountryId == id));
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acesta tara nu poate fi sters pentru ca are asociat un judet!!!";
+            }
         }
     }
 }

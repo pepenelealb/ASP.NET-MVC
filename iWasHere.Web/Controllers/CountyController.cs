@@ -37,12 +37,66 @@ namespace iWasHere.Web.Controllers
             return Json(response);
             
         }
-        //public JsonResult Read_Country()
-        //{
-            
-        //    var JsonVariable = _dictionaryCountyService.GetDictionaryCountryModels();
-            
-        //    return Json(JsonVariable);
-        //}
+        public IActionResult CreateOrEdit(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                County_DTO dictionaryCounty = _dictionaryCountyService.GetCounty_ADD_UPDATE(Convert.ToInt32(id));
+                return View(dictionaryCounty);
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateOrEdit(County_DTO model, string submitbutton, int id)
+        {
+            if (id == 0)
+            {
+                _dictionaryCountyService.Insert(model);
+                if (submitbutton == "SaveAndNew")
+                {
+                    return View();
+                }
+                else
+                {
+                    return View("Index");
+                }
+            }
+            else
+            {
+                //_dictionaryCountyService.Update(model);
+                return View();
+            }
+        }
+
+        public ActionResult Delete_County([DataSourceRequest] DataSourceRequest request, County_DTO county_dto)
+        {
+            if (county_dto != null)
+            {
+                string errorMessage = _dictionaryCountyService.Delete_Country(county_dto.CountyId);
+                if (string.IsNullOrWhiteSpace(errorMessage))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("a", errorMessage);
+                    return Json(ModelState.ToDataSourceResult());
+                }
+            }
+
+            return Json(ModelState.ToDataSourceResult());
+
+        }
+            public JsonResult Read_Country()
+        {
+
+            var JsonVariable = _dictionaryCountyService.GetDictionaryCountryModels();
+
+            return Json(JsonVariable);
+        }
     }
 }
