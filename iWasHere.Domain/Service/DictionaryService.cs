@@ -10,6 +10,7 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
+
         private readonly BlackWidowContext _bwContext;
         private readonly DatabaseContext _databaseContext;
 
@@ -20,6 +21,7 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
         {
+
             List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
                 Id = a.DictionaryItemId,
@@ -41,11 +43,12 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows)
+        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows, string ticketType)
         {
             noRows = _bwContext.DictionaryTicket.Count();
             int skip = (page - 1) * pageSize;
-            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Where(a=> !String.IsNullOrWhiteSpace(ticketType) ? a.TicketCategory == ticketType : a.TicketCategory ==a.TicketCategory)
+                .Select(a => new DictionaryTicketModel()
             {
                 DictionaryTicketId = a.DictionaryTicketId,
                 TicketCategory = a.TicketCategory
@@ -74,40 +77,85 @@ namespace iWasHere.Domain.Service
             return dictionaryAttractionCategoryModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total)
+        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total, string textBoxValue)
         {
-            total = _bwContext.DictionaryCountry.Count();
             int skip = (page - 1) * pageSize;
+            List<DictionaryCountryModel> dictionaryCountryModels = new List<DictionaryCountryModel>();
+            IQueryable<DictionaryCountry> countryQuery = _bwContext.DictionaryCountry;
+
+            if (!String.IsNullOrEmpty(textBoxValue))
+            {
+                countryQuery = countryQuery.Where(a => a.CountryName.Contains(textBoxValue));
+            }
+            dictionaryCountryModels= countryQuery.Select(a => new DictionaryCountryModel()
+                {
+                    Id = a.CountryId,
+                    Name = a.CountryName
+        }).Skip(skip).Take(pageSize).ToList();
+
+            total=countryQuery.Count();
+
+            return dictionaryCountryModels;
+
+        }
+
+        public List<DictionaryCountryModel> GetDictionaryCountryModelsSelect()
+        {
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
                 Id = a.CountryId,
                 Name = a.CountryName
-            }).Skip(skip).Take(pageSize).ToList();
+            }).ToList();
 
             return dictionaryCountryModels;
         }
-        public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows)
+        //ale lu paulica de aici
+
+        public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows, string f)
         {
-            totalRows = _bwContext.DictionaryCounty.Count();
+            //f filtru de judet
+            totalRows = _bwContext.DictionaryCounty.Count(); // .where de pus conditia de where  pt a refreshui
+            List<County_DTO> dictionaryCounty = new List<County_DTO>();
+            int skip = (Page - 1) * PageSize;
 
-            int skip = (Page -1) * PageSize;
-            List<County_DTO> dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
+          
+
+            if (string.IsNullOrWhiteSpace(f))
             {
-                CountyId = a.CountyId,
-                CountyName = a.CountyName,
-                CountryId = a.CountryId,
-                CountryName =a.Country.CountryName
-            }) 
-            .Skip(skip).Take(PageSize).ToList();
+                dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
+                {
+                    CountyId = a.CountyId,
+                    CountyName = a.CountyName,
+                    CountryId = a.CountryId,
+                    CountryName = a.Country.CountryName
+                })
+                .Skip(skip).Take(PageSize).ToList();
 
+            }
+            else
+            {
+                dictionaryCounty = _bwContext.DictionaryCounty.Where(a => a.CountyName.Contains(f)).Select(a => new County_DTO()
+                {
+                    CountyId = a.CountyId,
+                    CountyName = a.CountyName,
+                    CountryId = a.CountryId,
+                    CountryName = a.Country.CountryName
+                })
+               .Skip(skip).Take(PageSize).ToList();
+
+               
+            }
             return dictionaryCounty;
+
         }
 
-        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
-            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
+                .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
+                .Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
                 Type = a.OpenSeasonType
@@ -126,16 +174,16 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        //public List<DictionaryCountryModel> GetDictionaryCountryModels()
-        //{
+        public List<DictionaryCountryModel> GetDictionaryCountryModels()
+        {
 
-        //    List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
-        //    {
-        //        Id = a.CountryId,
-        //        Name = a.CountryName
-        //    }).ToList();
+            List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
+            {
+                Id = a.CountryId,
+                Name = a.CountryName
+            }).ToList();
 
-        //    return dictionaryCountryModels;
-        //}
+            return dictionaryCountryModels;
+        }
     }
 }
