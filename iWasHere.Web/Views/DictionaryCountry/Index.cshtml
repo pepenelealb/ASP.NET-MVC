@@ -17,7 +17,7 @@
     {
         columns.Bound(c => c.Id).Width(200);
         columns.Bound(c => c.Name).Width(200);
-        columns.Template("<button id=\"btnDelete\" onclick=\"deleteValueRow(#=CountryId#)\">Delete</button>");
+        //columns.Template("<button id=\"btnDelete\" onclick=\"deleteValueRow(#=CountryId#)\">Delete</button>");
         columns.Command(c =>
         {
             c.Destroy();
@@ -74,9 +74,30 @@
 
         }
 
-        function deleteValueRow(int CountryId) {
+        //function deleteValueRow(int CountryId) {
 
-        }
+        //}
+
+//        var processURL = crudServiceBaseUrl + '?method=Delete';
+//function deleteValueRow(id, row){
+//    if (confirm('#getResource("person.detail.confirmdel")#')) {
+//        $.ajax({
+//            type: 'POST',
+//            url: processURL,
+//            data: {
+//                PERS_KY: id
+//            },
+//            success: function (data){
+//                var thingToDelete = row;
+//                var grid = $("#grid").data("kendoGrid");
+//                grid.removeRow(thingToDelete);
+//            },
+//            error: function (xhr, textStatus, errorThrown){
+//                alert("Error while soft-deleting person"+ "\n"+ xhr + "\n"+ textStatus + "\n" + errorThrown);
+//            }
+//        });
+//    }
+//}
 
 
     </script>
