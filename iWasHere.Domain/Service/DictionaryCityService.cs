@@ -16,15 +16,28 @@ namespace iWasHere.Domain.Service
         }
 
 
-        public List<CityDTO> GetCity(int take, int skip, out int totalRows)
+        public List<CityDTO> GetCity(int take, int skip, out int totalRows, string cityName, string countyName)
         {
-            totalRows = _dbContext.DictionaryCity.Count();
+            IQueryable<DictionaryCity> query = _dbContext.DictionaryCity;
+            if (!String.IsNullOrWhiteSpace(cityName))
+            {
+                query = query.Where(a => a.CityName.ToLower().Contains(cityName));
+            }
+            if (!String.IsNullOrWhiteSpace(countyName))
+            {
+                query = query.Where(a => a.County.CountyName.ToLower().Contains(countyName));
+            }
+
+            totalRows = query.Count();
     
-            List<CityDTO> dictionaryCity = _dbContext.DictionaryCity.Select(a => new CityDTO()
+            List<CityDTO> dictionaryCity = query                       
+                .Select(a => new CityDTO()
             {
                 cityId = a.CityId,
                 cityName = a.CityName,
-                county = a.County.CountyName
+                county = a.County.CountyName,
+                countyId = a.CountyId
+                
 
             }).Skip((skip-1) * take).Take(take).ToList();
           
@@ -36,28 +49,72 @@ namespace iWasHere.Domain.Service
 
             List<DictionaryCountryModel> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCountryModel()
             {
+                Id = a.CountyId,
                 Name = a.CountyName
             }).ToList();
 
             return dictionaryCounty;
         }
 
-        public List<CityDTO> GetFilterCity(string cityName, string countyName)
+        public void Insert(CityDTO model)
         {
-            
-            List<CityDTO> dictionaryCity = _dbContext.DictionaryCity
-                .Where(a=> !string.IsNullOrWhiteSpace(cityName) ? a.CityName.ToLower().Contains(cityName.ToLower()) : a.CityName.Contains(a.CityName)
-                && !string.IsNullOrWhiteSpace(countyName) ?  a.County.CountyName.Contains(countyName) : a.County.CountyName.Contains(a.County.CountyName))
-                .Select(a => new CityDTO()
+
+            int id = _dbContext.DictionaryCounty.Where(x=> x.CountyName == model.county).Select(x => x.CountyId).FirstOrDefault();
+            _dbContext.DictionaryCity.Add(new DictionaryCity
             {
-                cityId = a.CityId,
-                cityName = a.CityName,
-                county = a.County.CountyName
-            }).ToList();
+                CityName = model.cityName,
+                CountyId = id
+            });
+            _dbContext.SaveChanges();
+        }
+
+
+        public CityDTO GetCityforUpdate(int id)
+        {
+
+            CityDTO dictionaryCity = _dbContext.DictionaryCity
+                .Where(a => a.CityId == id)
+                .Select(a => new CityDTO()
+                {
+                    cityId = a.CityId,
+                    cityName = a.CityName,
+                    county = a.County.CountyName,
+                    countyId = a.CountyId
+
+
+                }).First();
 
             return dictionaryCity;
         }
-         
+
+        public void Update(CityDTO model)
+        {
+            int id = _dbContext.DictionaryCounty.Where(x => x.CountyName == model.county).Select(x => x.CountyId).FirstOrDefault();
+            DictionaryCity city = new DictionaryCity()
+            {
+                CityId = model.cityId,
+                CityName = model.cityName,
+                CountyId = id
+            };
+            _dbContext.DictionaryCity.Update(city);
+            _dbContext.SaveChanges();
+        }
+
+        public string DeleteCounty(int id)
+        {
+            try
+            {
+                _dbContext.Remove(_dbContext.DictionaryCity.Single(a => a.CityId == id));
+                _dbContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Acest judet nu poate fi sters pentru ca are asociat un oras!!!";
+            }
+        }
+
+
 
 
 

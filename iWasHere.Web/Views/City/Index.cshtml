@@ -5,40 +5,98 @@
 
 <br />
 
-@using (Html.BeginForm("Filter", "City", FormMethod.Post))
+@using (Html.BeginForm())
 {
-    @Html.TextBoxFor(model => model.cityName)
-    <br />   
-    @(Html.Kendo().ComboBoxFor(model => model.county)                      
-                      .HtmlAttributes(new { style = "width:30%;" })
-                      .Placeholder("Selecteaza judet..")
-                      .DataTextField("Name")
-                      .DataValueField("CountyId")
-                      .Filter(FilterType.Contains)
-                      .DataSource(source =>
-                      {
-                          source.Read(read =>
-                          {
-                              read.Action("Read_County", "City");
-                          });
-
-                      })
-
+    <input type="text" id="textBox" />
+    <br />
+    @(Html.Kendo().AutoComplete()
+           .Name("Orase")
+           .DataTextField("Name")
+           .HtmlAttributes(new { style = "width:40%" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+                   {
+               source.Read(read =>
+               {
+                   read.Action("Read_County", "City").Data("onAdditionalData");
+               })
+               .ServerFiltering(true);
+           })
     )
-    <br/>
-    <button type="submit" class="btn btn-primary">Filtreaza</button>
+
 }
+
+<button onclick="refresh()" type="submit"  class="btn btn-primary">Filtreaza</button><br/><br/>
+<button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+
+<script type="text/javascript">
+
+    function deleteFilters() {
+        $('#textBox').val(""); 
+        $('#Orase').val(""); 
+
+    }
+    function onAdditionalData() {
+            return {
+                text: $("#Orase").val()
+            };
+    }
+
+    function myFilter() {        
+        var cityName = $("#textBox").val()
+        var countyName = $("#Orase").val()
+
+        var filter = {}
+        filter["cityName"] = cityName
+        filter["countyName"] = countyName
+        console.log(filter.cityName, filter.countyName)
+
+        return filter
+    }
+
+    function refresh() {     
+            $("#grid").data("kendoGrid").dataSource.read();
+            $("#grid").data("kendoGrid").dataSource.page(1);
+        
+    }
+    function error_handler(e) {    
+        if (e.errors) {
+            e.preventDefault();
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function() {
+                        message += this + "\n";
+                    });
+                }
+            });        
+            alert(message);
+        }
+    } 
+
+</script>
 
 <br />
 
 <div class="row" col-6>
+    <div class="col-6 text-right">
+        <a href="@Url.Action("CreateOrEdit", "City", 0)" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
+    </div>
+    <br />
+
     @(Html.Kendo().Grid<iWasHere.Domain.DTOs.CityDTO>()
         .Name("grid")
             .Columns(columns =>
             {
-
+                columns.Bound(c => c.cityId).Title("CityId").Visible(false);
+                columns.Bound(c => c.countyId).Title("CountyId").Visible(false);
                 columns.Bound(c => c.cityName).Title("Nume Oras");
                 columns.Bound(c => c.county).Title("Nume Judet");
+                columns.Template("<a href='"+@Url.Action("CreateOrEdit", "City")+"?id=#=cityId#' class='btn btn-info'> Modifica</a> ");
+                columns.Command(command =>
+           {               
+                  command.Destroy().Text("Delete");
+           }); 
             })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Scrollable()
@@ -48,9 +106,13 @@
                 .Refresh(true)
                 .PageSizes(true)
                 .ButtonCount(5))
+                .Filterable()
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("Read", "City"))
+                .Read(read => read.Action("Read", "City").Data("myFilter"))
+                .Events(events => events.Error("error_handler"))
+                .Model(model => model.Id(p => p.cityId))
+                .Destroy(update => update.Action("Delete", "City"))
                 .PageSize(10)
                 )
     )

@@ -1,0 +1,43 @@
+﻿@model iWasHere.Domain.DTOs.CityDTO
+
+@{
+    ViewData["Title"] = "CreateOrEdit";
+}
+
+@using (Html.BeginForm("Create", "City", FormMethod.Post))
+{
+    <input type="text" asp-for="cityName"  id="textBox" />
+
+    <br />
+
+    @(Html.Kendo().AutoCompleteFor(model => model.county)
+              .DataTextField("Name")
+              .HtmlAttributes(new { style = "width:40%" })
+              .Filter("StartsWith")
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("Read_County", "City").Data("onAdditionalData");
+                  })
+              .ServerFiltering(true);
+              })
+    )
+    <br />
+    <button type="submit"  class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
+    <br />
+    <button type="submit"  class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+    <br />
+    <a asp-action="Index" class="btn btn-success">Anuleaza</a>
+}
+<script type="text/javascript">
+    var ok = 1;
+    function onAdditionalData() {
+        return {
+            text: $("#Orase").val()
+        };
+    } 
+
+</script>
+
+
