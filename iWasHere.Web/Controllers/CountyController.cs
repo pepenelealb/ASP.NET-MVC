@@ -76,14 +76,14 @@ namespace iWasHere.Web.Controllers
         {
             if (county_dto != null)
             {
-                string errorMessage = _dictionaryCountyService.Delete_Country(county_dto.CountyId);
-                if (string.IsNullOrWhiteSpace(errorMessage))
+                string err = _dictionaryCountyService.Delete_County(county_dto.CountyId);
+                if (string.IsNullOrWhiteSpace(err))
                 {
                     return Json(ModelState.ToDataSourceResult());
                 }
                 else
                 {
-                    ModelState.AddModelError("a", errorMessage);
+                    ModelState.AddModelError("a", err);
                     return Json(ModelState.ToDataSourceResult());
                 }
             }
@@ -91,7 +91,7 @@ namespace iWasHere.Web.Controllers
             return Json(ModelState.ToDataSourceResult());
 
         }
-            public JsonResult Read_Country()
+        public JsonResult Read_Country()
         {
 
             var JsonVariable = _dictionaryCountyService.GetDictionaryCountryModels();

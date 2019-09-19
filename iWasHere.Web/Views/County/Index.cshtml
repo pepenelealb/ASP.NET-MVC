@@ -2,103 +2,124 @@
 @{
     ViewData["Title"] = "Judete";
 }
-   
- <style>
-        .myHeader {
-            background-color: lightblue;
-            color: black;
-            padding: 40px;
-            text-align: center;
-            font-family:Georgia;
-        }
 
+<style>
+    .myHeader {
+        background-color: lightblue;
+        color: white;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        text-shadow: 2px 2px 4px #000000
+    }
+    .filter {
+        border-style: ridge;
+         border: 2px light blue;
+         border-radius: 3px;
+        background-color: hsla(120, 100%, 25%, 0.3);
+}
 </style>
 <h1 class="myHeader"> Dictionar Judete</h1>
 
 
 @*<div id="filter">
-    <br />
-    @(Html.Kendo().AutoComplete()
-           .Name("Judete")
-           .DataTextField("Name")
-           .HtmlAttributes(new { style = "width:50%" })
-           .Filter("StartsWith")
-           .DataSource(source =>
+        <br />
+        @(Html.Kendo().AutoComplete()
+               .Name("Judete")
+               .DataTextField("Name")
+               .HtmlAttributes(new { style = "width:50%" })
+               .Filter("StartsWith")
+               .DataSource(source =>
+                       {
+                   source.Read(read =>
                    {
-               source.Read(read =>
-               {
-                   read.Action("Read_Country", "County").Data("f_autocomplete");
+                       read.Action("Read_Country", "County").Data("f_autocomplete");
+                   })
+                   .ServerFiltering(true);
                })
-               .ServerFiltering(true);
-           })
-    )
+        )
 
-</div>*@
-<br/>
-<form>
-    <h4 style="font-family:courier;" >Filtru Judete</h4> <br>
-    <input style="width:50%" id="txt_county" type="text" name="adumi judet" value="" />
-    <button id ="btn_filter" onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
-    <button id="btn_r_filter" onclick="deleteFilters()" type="button" class="btn btn-primary" >Sterge filtru</button>
-</form>
+    </div>*@
 <br />
-@*<button onclick="" type="submit" id="#filter" class="btn btn-primary">Filtreaza</button>*@
-<script  type="text/javascript">
+<div class="filter">
+<form >
+    <br/>
+    <h3 style="font-family:courier;">Cauta Judet:</h3>
+   <input style="width:50%" id="txt_county" type="text" name="adumi judet" value="" />
+   <button id="btn_filter" onclick="refresh()" type="button" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
+    <button id="btn_r_filter" onclick="deleteFilters()" type="button" >Sterge filtru</button>
+</form>
+    <br/>
+</div>
+
+<script type="text/javascript">
+    var getInput;
 
     function filtrare() {
-
-    var txt_judet = {};
-    txt_judet["txt_county"] = $("#txt_county").val();
-
-    return txt_judet;
+        var txt_judet = {};
+        txt_judet["txt_county"] = $("#txt_county").val();
+        return txt_judet;
     }
+
     function deleteFilters() {
         $('#txt_county').val("");
         alert("Filtru curatat!");
         $("#grid_county").data("kendoGrid").dataSource.refresh();
     }
-    function refresh() {     
+
+    function refresh() {
         $("#grid_county").data("kendoGrid").dataSource.read();
-            $("#grid_county").data("kendoGrid").dataSource.page(1);
+        $("#grid_county").data("kendoGrid").dataSource.page(1);
+    }
+
+    function setAdd() {
+        getInput = "create"
+        localStorage.setItem("storageName", getInput);
+    }
+
+    function setEdit() {
+        getInput = "edit"
+        localStorage.setItem("storageName", getInput);
         
     }
+
     //pt btuoane
     $(document).ready(function () {
-                    $("#btn_add").kendoButton();
+        $("#btn_add").kendoButton();
 
-                    $("#btn_filter").kendoButton({
-                        icon: "filter"
-                    });
+        $("#btn_filter").kendoButton({
+            icon: "filter"
+        });
 
-                    $("#btn_r_filter").kendoButton({
-                        icon: "filter-clear"
-                       
-                    });
+        $("#btn_r_filter").kendoButton({
+            icon: "filter-clear"
 
-                });
+        });
 
-    </script>
+    });
+
+</script>
 
 
 
-<br/>
+<br />
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.County_DTO>()
-                        .Name("grid_county")
-                        .Columns(columns =>
-                        {
+         .Name("grid_county")
+         .Columns(columns =>
+     {
+        columns.Bound(c => c.CountyId).Width(100).Hidden(true);
+        columns.Bound(c => c.CountyName).Title("Judet");
+        columns.Bound(c => c.CountryName).Title("Tara");
+        columns.Bound(c => c.CountyId).Width(100).Hidden(true);
+        columns.Template("<a href='" + @Url.Action("CreateOrEdit", "County") + "?id=#=CountyId#' onclick='setEdit()'> <i>Edit</a> ").Width(150);
 
-                            columns.Bound(c => c.CountyId).Width(100).Hidden(true);
-                            columns.Bound(c => c.CountyName).Title("Judet");
-                            columns.Bound(c => c.CountryName).Title("Tara");
-                            columns.Bound(c => c.CountyId).Width(100).Hidden(true);
-                            columns.Template(" <input type='button'  class='k-button info' name='btn_edit' value='Edit' /> ").Width(150);
-                            //columns.Template(" <input type='button' class='k-button info' name='btn_delete' value='Delete' /> ").Width(150);
-                            columns.Bound(c => c.CountryId).Width(100).Hidden(true) ;
-                            columns.Command(command =>
-                            {
-                                command.Destroy().Text("Sterge");
-                            });
-                        })
+        columns.Bound(c => c.CountryId).Width(100).Hidden(true);
+        columns.Command(command =>
+        {
+            command.Destroy().Text("Sterge");
+        }).Width(150);
+   
+            })
                         .HtmlAttributes(new { style = "height: 650px;" })
                         .Scrollable()
                         .Sortable()
@@ -109,16 +130,16 @@
                         .DataSource(dataSource => dataSource
                         .Ajax()
                         .Read(read => read.Action("Read", "County").Data("filtrare"))
-                        // .Events(events => events.Error("error_handler"))
+                        //.Events(events => events.Error("errorF"))
                         .Model(model => model.Id(p => p.CountyId))
-                        .Destroy(update => update.Action("Delete_County", "County"))
-                        .PageSize(10)
+                        .Destroy(destroy => destroy.Action("Delete_County", "County"))
+                        .PageSize(15)
 
                         )
 
 )
-<br/>
+<br />
 <p align="right">
-    <a href="@Url.Action("CreateOrEdit", "County", 0)" id="btn_add" class="k-primary">Adauga</a>
-   
+    <a href="@Url.Action("CreateOrEdit", "County", 0)" onclick='setAdd()' id="btn_add" class="k-primary">Adauga Judet</a>
+
 </p>

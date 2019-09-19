@@ -120,7 +120,7 @@
             .DataSource(dataSource => dataSource
                 .Ajax()
                 .Read(read => read.Action("Read", "City").Data("myFilter"))
-                .Events(events => events.Error("Error_Alert"))
+                .Events(events => events.Error("error_handler"))
                 .Model(model => model.Id(p => p.countyId))
                 .Destroy(update => update.Action("Delete", "City"))
                 .PageSize(10)

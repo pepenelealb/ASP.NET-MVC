@@ -118,8 +118,6 @@ namespace iWasHere.Domain.Service
             List<County_DTO> dictionaryCounty = new List<County_DTO>();
             int skip = (Page - 1) * PageSize;
 
-          
-
             if (string.IsNullOrWhiteSpace(f))
             {
                 dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
@@ -177,13 +175,26 @@ namespace iWasHere.Domain.Service
             });
             _bwContext.SaveChanges();
         }
+        public string Delete_County(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryCounty.Single(a => a.CountyId == id));
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception ex)
+            {
+                return "Judetul nu poate fi sters!";
+            }
+        }
         //pana aici
-        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows)
+        public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
-                .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
+               .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
                 .Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
@@ -214,18 +225,6 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
-        public string Delete_Country(int id)
-        {
-            try
-            {
-                _bwContext.Remove(_bwContext.DictionaryCountry.Single(a => a.CountryId == id));
-                _bwContext.SaveChanges();
-                return null;
-            }
-            catch (Exception ex)
-            {
-                return "Acesta tara nu poate fi sters pentru ca are asociat un judet!!!";
-            }
-        }
+        
     }
 }
