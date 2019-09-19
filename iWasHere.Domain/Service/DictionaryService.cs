@@ -216,19 +216,27 @@ namespace iWasHere.Domain.Service
             return model;
         }
 
-        public void UpdateTicket(DictionaryTicketModel model)
+        public string UpdateTicket(DictionaryTicketModel model)
         {
-
- 
-           
-            DictionaryTicket ticket = new DictionaryTicket()
+            try
             {
-                DictionaryTicketId = model.DictionaryTicketId,
-                TicketCategory = model.TicketCategory
-             
-            };
-            _bwContext.DictionaryTicket.Update(ticket);
-            _bwContext.SaveChanges();
+                if (String.IsNullOrWhiteSpace(model.TicketCategory))
+                {
+                    return "Tipul este obligatoriu";
+                }
+                else
+                {
+                    DictionaryTicket ticket = _bwContext.DictionaryTicket.Find(model.DictionaryTicketId);
+                    ticket.DictionaryTicketId = model.DictionaryTicketId;
+                    ticket.TicketCategory = model.TicketCategory;
+
+                    _bwContext.DictionaryTicket.Update(ticket);
+                    _bwContext.SaveChanges();
+                    return null;
+                }
+            }catch (Exception e){
+                return " Completati tipul biletului!";
+            }
         }
 
         public void InsertTicket(DictionaryTicketModel model)
