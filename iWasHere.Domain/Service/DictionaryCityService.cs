@@ -89,13 +89,10 @@ namespace iWasHere.Domain.Service
 
         public void Update(CityDTO model)
         {
-            int id = _dbContext.DictionaryCounty.Where(x => x.CountyName == model.county).Select(x => x.CountyId).FirstOrDefault();
-            DictionaryCity city = new DictionaryCity()
-            {
-                CityId = model.cityId,
-                CityName = model.cityName,
-                CountyId = id
-            };
+            DictionaryCity city = _dbContext.DictionaryCity.Find(model.cityId);
+            int countyId = _dbContext.DictionaryCounty.Where(x => x.CountyName == model.county).Select(x => x.CountyId).FirstOrDefault();
+            city.CityName = model.cityName;
+            city.CountyId = countyId;
             _dbContext.DictionaryCity.Update(city);
             _dbContext.SaveChanges();
         }

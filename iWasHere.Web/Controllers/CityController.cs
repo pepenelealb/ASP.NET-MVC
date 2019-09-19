@@ -81,8 +81,9 @@ namespace iWasHere.Web.Controllers
             }
             else
             {
+                model.cityId = id;
                 _dictionaryCityService.Update(model);
-                return View();
+                return View("Index");
             }
         }
 

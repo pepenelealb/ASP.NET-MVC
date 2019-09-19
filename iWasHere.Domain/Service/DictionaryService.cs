@@ -10,6 +10,7 @@ namespace iWasHere.Domain.Service
 {
     public class DictionaryService
     {
+
         private readonly BlackWidowContext _bwContext;
         private readonly DatabaseContext _databaseContext;
 
@@ -20,6 +21,7 @@ namespace iWasHere.Domain.Service
 
         public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
         {
+
             List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
             {
                 Id = a.DictionaryItemId,
@@ -41,11 +43,12 @@ namespace iWasHere.Domain.Service
             return dictionaryTicketModels;
         }
 
-        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows)
+        public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows, string ticketType)
         {
             noRows = _bwContext.DictionaryTicket.Count();
             int skip = (page - 1) * pageSize;
-            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            List<DictionaryTicketModel> dictionaryTicketModels = _bwContext.DictionaryTicket.Where(a=> !String.IsNullOrWhiteSpace(ticketType) ? a.TicketCategory == ticketType : a.TicketCategory ==a.TicketCategory)
+                .Select(a => new DictionaryTicketModel()
             {
                 DictionaryTicketId = a.DictionaryTicketId,
                 TicketCategory = a.TicketCategory
@@ -74,15 +77,35 @@ namespace iWasHere.Domain.Service
             return dictionaryAttractionCategoryModels;
         }
 
-        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total)
+        public List<DictionaryCountryModel> GetDictionaryCountryModels(int pageSize, int page, out int total, string textBoxValue)
         {
-            total = _bwContext.DictionaryCountry.Count();
             int skip = (page - 1) * pageSize;
+            List<DictionaryCountryModel> dictionaryCountryModels = new List<DictionaryCountryModel>();
+            IQueryable<DictionaryCountry> countryQuery = _bwContext.DictionaryCountry;
+
+            if (!String.IsNullOrEmpty(textBoxValue))
+            {
+                countryQuery = countryQuery.Where(a => a.CountryName.Contains(textBoxValue));
+            }
+            dictionaryCountryModels= countryQuery.Select(a => new DictionaryCountryModel()
+                {
+                    Id = a.CountryId,
+                    Name = a.CountryName
+        }).Skip(skip).Take(pageSize).ToList();
+
+            total=countryQuery.Count();
+
+            return dictionaryCountryModels;
+
+        }
+
+        public List<DictionaryCountryModel> GetDictionaryCountryModelsSelect()
+        {
             List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
             {
                 Id = a.CountryId,
                 Name = a.CountryName
-            }).Skip(skip).Take(pageSize).ToList();
+            }).ToList();
 
             return dictionaryCountryModels;
         }
@@ -159,7 +182,9 @@ namespace iWasHere.Domain.Service
         {
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
-            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
+                .Where(a => !String.IsNullOrWhiteSpace(openSeasonType) ? a.OpenSeasonType.Contains(openSeasonType) : a.OpenSeasonType == a.OpenSeasonType)
+                .Select(a => new DictionaryOpenSeasonModel()
             {
                 Id = a.OpenSeasonId,
                 Type = a.OpenSeasonType

@@ -8,6 +8,7 @@ using iWasHere.Domain.Model;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
+using iWasHere.Web.Data;
 
 namespace iWasHere.Web.Controllers
 {
@@ -15,6 +16,8 @@ namespace iWasHere.Web.Controllers
     {
 
         private readonly DictionaryService _dictionaryService;
+
+       
         public DictionaryTicketModel model = new DictionaryTicketModel();
         public TicketTypeController(DictionaryService dictionaryService)
         {
@@ -22,33 +25,40 @@ namespace iWasHere.Web.Controllers
         }
         public ActionResult Index()
         {
-          //  var tickets = from t in _dictionaryService.GetDictionaryTicketModels()
-          //                 select t;
-          /*  if (!String.IsNullOrEmpty(searchString))
-            {
-                tickets = tickets.Where(t => t.TicketCategory.Contains(searchString));
-            }*/
+
+          
             return View();
         }
 
 
       
 
-        public ActionResult TicketsRead([DataSourceRequest] DataSourceRequest request)
+        public ActionResult TicketsRead([DataSourceRequest] DataSourceRequest request, string ticketType)
         {
             int noRows = 0;
             int pageSize = request.PageSize;
             int page = request.Page;
-
+           
             DataSourceResult response = new DataSourceResult();
 
-            List<DictionaryTicketModel> ticketModel = _dictionaryService.GetDictionaryTicketPagination(pageSize, page, out noRows);
+            List<DictionaryTicketModel> ticketModel = _dictionaryService.GetDictionaryTicketPagination(pageSize, page, out noRows, ticketType);
             response.Total = noRows;
             response.Data = ticketModel;
           
             return Json(response);
         }
 
-      
+
+        public IActionResult Delete()
+        {
+          //  DictionaryTicketModel model = _dictionaryService.GetDictionaryTicketModels().Find(id);
+          
+            return View();
+
+          //  _dictionaryService.GetDictionaryTicketModels().RemoveAll(ticket => ticket.DictionaryTicketId == id);
+
+            //return NoContent();
+        }
+
     }
 }
