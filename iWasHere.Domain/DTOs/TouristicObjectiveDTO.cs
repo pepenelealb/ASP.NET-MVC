@@ -18,6 +18,6 @@ namespace iWasHere.Domain.DTOs
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public int DictionaryTicketId { get; set; }
-        public bool CurrencyId { get; set; }
+        public int CurrencyId { get; set; }
     }
 }

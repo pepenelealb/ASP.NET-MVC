@@ -50,27 +50,55 @@ namespace iWasHere.Domain.Service
             return city;
         }
 
+        public List<DictionaryTicketModel> GetTypeTickets()
+        {
+            List<DictionaryTicketModel> tickets = _dbContext.DictionaryTicket.Select(a => new DictionaryTicketModel()
+            {
+                DictionaryTicketId = a.DictionaryTicketId,
+                TicketCategory = a.TicketCategory
+
+            }).ToList();
+
+            return tickets;           
+            
+        }
+
+        public List<DictionaryCurrencyTicketDTO> GetCurrency()
+        {
+            List<DictionaryCurrencyTicketDTO> currency = _dbContext.DictionaryCurrency.Select(a => new DictionaryCurrencyTicketDTO()
+            {
+                Id = a.DictionaryCurrencyId,
+                Currency = a.CurrencyCode
+            }).ToList();
+
+            return currency;
+        }
+
         public string Insert(TouristicObjectiveDTO model)
         {
             if (String.IsNullOrWhiteSpace(model.TouristicObjectiveName))
             {
                 return "Numele atractiei este obligatoriu";
-            }else if (String.IsNullOrWhiteSpace(model.TouristicObjectiveCode))
+            }
+            else if (String.IsNullOrWhiteSpace(model.TouristicObjectiveCode))
             {
                 return "Cod obligatoriu";
-            }else if (model.OpenSeasonId == 0)
+            }
+            else if (model.OpenSeasonId == 0)
             {
                 return "Sezonului nu este completat";
-            }else if (model.CityId == 0)
+            }
+            else if (model.CityId == 0)
             {
                 return "Orasul este obligatoriu";
-            }else if (model.AttractionCategoryId == 0)
+            }
+            else if (model.AttractionCategoryId == 0)
             {
                 return "Tipul atractiei este obligatoriu";
             }
             //try
             //{
-                int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+            int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
                 if (id != 0)
                 {
                     return "Codul atractiei trebuie sa fie unic";
@@ -93,12 +121,13 @@ namespace iWasHere.Domain.Service
                     if (model.HasEntry)
                     {
                         model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
+                    
                        
                         _dbContext.Ticket.Add(new Ticket
                         {
                             Price = model.Price,
-                            DictionaryCurrencyId = 1,
-                            DictionaryTicketId = 3,
+                            DictionaryCurrencyId = model.CurrencyId,
+                            DictionaryTicketId = model.DictionaryTicketId,
                             DictionaryExchangeRateId = 1,
                             TouristicObjectiveId = model.TouristicObjectiveId
                         });
