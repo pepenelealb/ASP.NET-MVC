@@ -5,8 +5,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - iWasHere.Web</title>
+    <title>@ViewData["Title"] - Black Widow Web</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
+
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-nova.min.css" />
@@ -34,14 +35,14 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
-        <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>       
+        <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
-                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">           
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
         </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
@@ -63,7 +64,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">iWasHere.Web</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Black Widow</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -72,12 +73,12 @@
                     <
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @*<li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>*@
+                        @*<li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
                         <!--adaugare dictionare-->
 
                         <li class="nav-link text-dark">
@@ -101,28 +102,8 @@
                         <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="TouristicObjective" asp-action="Index">Obiective Turistice</a>
                         </li>
-                        <!--  <a class="nav-link text-dark subnavbtn" asp-area="" asp-controller="" asp-action="">Nu e dictionare</a>
-    <div class="subnav-content">
-        <li><a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a></li>
-        @*<a  asp-area="" asp-controller="County" asp-action="Index">Judete</a>
-        <a href="#">Orase</a>
-        <a href="#">Valuta</a>
-        <a href="#">Tip Bilete</a>
-        <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
-        <a href="#">Sezonabilitate</a>*@
-       <li> <a href="#">Tari</a> </li>
-       <li> <a asp-area="" asp-controller="County" asp-action="Index">Judete</a> </li>
-       <li> <a href="#">Orase</a> </li>
-       <li> <a href="#">Valuta</a> </li>
-       <li> <a asp-area="" asp-controller="TicketType" asp-action="Index">Tip Bilete</a> </li>
-       <li> <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a> </li>
-       <li> <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezonabilitate</a> </li>
-    </div>   -->
-
                     </ul>
                     
-                            
-                        
                 </div>
             </div>
         </nav>

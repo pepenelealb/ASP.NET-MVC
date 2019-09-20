@@ -1,0 +1,15 @@
+﻿@model iWasHere.Domain.DTOs.DictionaryOpenSeasonModel
+@{
+    ViewData["Title"] = "InsertOpenSeason";
+}
+
+@using (Html.BeginForm("Create", "OpenSeason", FormMethod.Post))
+{
+    <div>
+        <label>Tip sezon:</label><br />
+        <input id="openSeasonType" asp-for="Type" type="text"/>
+        <button type="submit" class="btn btn-success" name="submitButton" value="Save">Salveaza</button>
+        <button type="submit" class="btn btn-info" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+        <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
+    </div>
+}

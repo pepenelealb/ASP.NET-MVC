@@ -92,18 +92,7 @@ read.Action("Read_County", "City").Data("onAdditionalData");
         
     }
     function error_handler(e) {    
-        if (e.errors) {
-            e.preventDefault();
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function() {
-                        message += this + "\n";
-                    });
-                }
-            });        
-            alert(message);
-        }
+        alert("Acest Oras nu poate fi sters")
     } 
     $(document).ready(function () {
         $("#btn_add").kendoButton();
@@ -140,8 +129,7 @@ read.Action("Read_County", "City").Data("onAdditionalData");
            });
             })
             .HtmlAttributes(new { style = "height: 550px;" })
-            .Scrollable()
-            .Groupable()
+            .Scrollable()            
             .Sortable()
             .Pageable(pageable => pageable
                 .Refresh(true)

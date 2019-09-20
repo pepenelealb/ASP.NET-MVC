@@ -102,37 +102,29 @@ namespace iWasHere.Domain.Service
 
         public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows, string f)
         {
-            //f filtru de judet
-            totalRows = _bwContext.DictionaryCounty.Count(); // .where de pus conditia de where  pt a refreshui
-            List<County_DTO> dictionaryCounty = new List<County_DTO>();
+            //f  casuta de text filtru de judet
+            IQueryable<DictionaryCounty> query = _bwContext.DictionaryCounty;
+            
             int skip = (Page - 1) * PageSize;
-
-            if (string.IsNullOrWhiteSpace(f))
+            if (!String.IsNullOrWhiteSpace(f))
             {
-                dictionaryCounty = _bwContext.DictionaryCounty.Select(a => new County_DTO()
-                {
+                query = query.Where(a => a.CountyName.ToLower().Contains(f));
+            }
+
+            totalRows = query.Count();
+           
+            List<County_DTO> dictionaryCounty = query
+           .Select(a => new County_DTO()
+           {
                     CountyId = a.CountyId,
                     CountyName = a.CountyName,
                     CountryId = a.CountryId,
                     CountryName = a.Country.CountryName
-                })
+           })
                 .Skip(skip).Take(PageSize).ToList();
 
-            }
-            else
-            {
-                dictionaryCounty = _bwContext.DictionaryCounty.Where(a => a.CountyName.Contains(f)).Select(a => new County_DTO()
-                {
-                    CountyId = a.CountyId,
-                    CountyName = a.CountyName,
-                    CountryId = a.CountryId,
-                    CountryName = a.Country.CountryName
-                })
-               .Skip(skip).Take(PageSize).ToList();
-
-               
-            }
-            return dictionaryCounty;
+         
+             return dictionaryCounty;
 
         }
         public County_DTO GetCounty_ADD_UPDATE(int id)
@@ -154,12 +146,11 @@ namespace iWasHere.Domain.Service
         }
         public void Insert(County_DTO model)
         {
-            int id = _bwContext.DictionaryCountry.Where(x => x.CountryName == model.CountryName).Select(x => x.CountryId).FirstOrDefault();
             _bwContext.DictionaryCounty.Add(new DictionaryCounty
             {
                
                 CountyName = model.CountyName,
-                CountryId = id
+                CountryId = model.CountryId
                
             });
             _bwContext.SaveChanges();
@@ -190,7 +181,7 @@ namespace iWasHere.Domain.Service
                 {
                     DictionaryCounty county = _bwContext.DictionaryCounty.Find(model.CountyId);
                     county.CountyName = model.CountyName;
-                    county.CountyId = model.CountyId;
+                    county.CountryId = model.CountryId;
                     _bwContext.Update(county);
                     _bwContext.SaveChanges();
                     return null;
@@ -215,6 +206,34 @@ namespace iWasHere.Domain.Service
             }).Skip(skip).Take(PageSize).ToList();
 
             return dictionaryOpenSeasonModels;
+        }        
+
+        public void DeleteOpenSeason(int id)
+        {
+            _bwContext.Remove(_bwContext.DictionaryOpenSeason.Single(a => a.OpenSeasonId == id));
+            _bwContext.SaveChanges();
+        }
+
+        public void InsertOpenSeason(DictionaryOpenSeasonModel model)
+        {
+            _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+            {
+                OpenSeasonId = model.Id,
+                OpenSeasonType = model.Type
+            });
+            _bwContext.SaveChanges();
+        }
+
+        public DictionaryOpenSeasonModel UpdateOpenSeason(int id)
+        {
+
+            DictionaryOpenSeasonModel model = _bwContext.DictionaryOpenSeason
+            .Where(a => a.OpenSeasonId == id).Select(a => new DictionaryOpenSeasonModel()
+            {
+                Id = a.OpenSeasonId,
+                Type = a.OpenSeasonType
+            }).First();
+            return model;
         }
 
         public void AddAttractionCategory(string attractionCategoryName)

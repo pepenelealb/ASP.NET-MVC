@@ -29,8 +29,22 @@ namespace iWasHere.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddOrEdit(TouristicObjectiveDTO dto)
+        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton)
         {
+            string errorMessage = _dictionaryObjective.Insert(model);
+            if (String.IsNullOrWhiteSpace(errorMessage))
+            {
+                if(submitButton == "Save")
+                {
+                    return View("Index");
+                }else
+                {
+                    ModelState.Clear();
+                    return View();
+                }
+            }
+
+            ModelState.AddModelError("a", errorMessage);
             return View();
         }
 
@@ -40,17 +54,28 @@ namespace iWasHere.Web.Controllers
             return Json(JsonVariable);
         }
 
-        //public JsonResult Read_Season()
-        //{
-        //    var JsonVariable = _dictionaryCityService.GetCounty();
-        //    return Json(JsonVariable);
-        //}
+        public JsonResult Read_Season()
+        {
+            var JsonVariable = _dictionaryObjective.GetSeason();
+            return Json(JsonVariable);
+        }
 
-        //public JsonResult Read_City()
-        //{
-        //    var JsonVariable = _dictionaryCityService.GetCounty();
-        //    return Json(JsonVariable);
-        //}
+        public JsonResult Read_City()
+        {
+            var JsonVariable = _dictionaryObjective.GetCity();
+            return Json(JsonVariable);
+        }
 
+        public JsonResult Read_Ticket_Category()
+        {
+            var JsonVariable = _dictionaryObjective.GetTypeTickets();
+            return Json(JsonVariable);
+        }
+
+        public JsonResult Read_Currency()
+        {
+            var JsonVariable = _dictionaryObjective.GetCurrency();
+            return Json(JsonVariable);
+        }
     }
 }

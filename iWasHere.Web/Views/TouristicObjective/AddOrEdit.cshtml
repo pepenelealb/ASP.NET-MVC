@@ -3,24 +3,77 @@
     ViewData["Title"] = "AddOrEdit";
 }
 
+<style>
+
+    .ticket{
+        border-style:solid;        
+        border-width:1px;
+        border-color: darkcyan;  
+       
+    }
+ 
+</style>
+
 <br />
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {
     <label>Nume Atractie: </label>
-    <input type="text" asp-for="AttractionName" />
-    <br /><br />
+    <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
+    <br />
+    <br />
     <label>Cod Atractie:</label>
-    <input type="text" asp-for="TouristicObjectiveCode" />
-    <br /><br />
+    <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
+    <br />
+    <br />
     <label>Descriere:</label>
     <input type="text" asp-for="TouristicObjectiveDescription" />
-    <br /><br />
-    <label>Are bilet de intrare:</label>
-    <input type="checkbox" asp-for="HasEntry" />
-    <br /><br />
-    <label>Pret:</label>
-    <input type="text" asp-for="Price" />
-    <br /><br />
+    <br />
+    <br />
+    <label >Are bilet de intrare:</label>
+    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
+    <br />
+    <br />
+    <div id="ticket" class="ticket"><br/>
+        <label id="pricelbl">Pret:</label>
+        <input type="text" asp-for="Price" id="price" />
+        <br />
+        <br />
+        <label>Selecteaza tipul biletului</label>
+        @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
+               .DataValueField("DictionaryTicketId")
+               .DataTextField("TicketCategory")
+               .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
+               {
+                   read.Action("Read_Ticket_Category", "TouristicObjective");
+               })
+               .ServerFiltering(true);
+           })
+        )
+        <br />
+        <br />
+        <label>Selecteaza o moneda:</label>
+        @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
+              .DataValueField("Id")
+              .DataTextField("Currency")
+              .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
+          .Filter("StartsWith")
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("Read_Currency", "TouristicObjective");
+              })
+              .ServerFiltering(true);
+          })
+        )
+
+        <br />
+        <br />
+    </div>
     <label>Selecteaza Tipul Atractiei</label>
     @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
                .DataValueField("AttractionCategoryId")
@@ -36,11 +89,12 @@
                .ServerFiltering(true);
            })
     )
-    <br /><br />
+    <br />
+    <br />
     <label>Selecteaza sezonul</label>
     @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
                .DataValueField("Id")
-               .DataTextField("Name")
+               .DataTextField("Type")
                .HtmlAttributes(new { style = "width:60%", id = "season" })
            .Filter("StartsWith")
            .DataSource(source =>
@@ -52,12 +106,13 @@
                .ServerFiltering(true);
            })
     )
-    <br /><br />
+    <br />
+    <br />
 
     <label>Selecteaza orasul</label>
     @(Html.Kendo().ComboBoxFor(model => model.CityId)
-               .DataValueField("Id")
-               .DataTextField("Name")
+               .DataValueField("cityId")
+               .DataTextField("cityName")
                .HtmlAttributes(new { style = "width:60%", id = "city" })
            .Filter("StartsWith")
            .DataSource(source =>
@@ -69,15 +124,51 @@
                .ServerFiltering(true);
            })
     )
-    <br /><br />
+    <br />
+    <br />
     <label>Longitudine:</label>
     <input type="text" asp-for="Longitude" />
-    <br/><br />
+    <br />
+    <br />
     <label>Latitudine:</label>
     <input type="text" asp-for="Latitude" />
-    <br/><br />
+    <br />
+    <br />
 
-         <button type="submit" class="btn btn-success"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+    <button type="submit" onclick="validateData()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+    <button type="submit" onclick="validateData()" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
+    <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
 
 }
 
+<script type="text/javascript">
+    
+    window.onload = hidePrice();
+    function hidePrice() {
+        var checkBox = document.getElementById("entry");      
+        if (checkBox.checked == true) {
+            document.getElementById("ticket").style.display = "block";                        
+        } else {
+            document.getElementById("ticket").style.display = "none";                    
+        }
+    }   
+
+    function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+    }  
+
+    //function validateData() {       
+    //    if (isEmptyOrSpaces($("#nameAttraction").val())) {
+    //        alert("Numele obiectivului turistic este obligatoriu");
+    //    } else if (isEmptyOrSpaces($("#nameCode").val())) {
+    //        alert("Codul orasului este obligatoriu");
+    //    } else if (isEmptyOrSpaces($("#attraction").val)) {
+    //        alert("Nu ai selectat categoria atractiei")
+    //    } else if (isEmptyOrSpaces($("#season").val())) {
+    //        alert("Nu ai selectat tipul sezonului");
+    //    }          
+    //      else if (isEmptyOrSpaces($("#city").val())) {
+    //        alert("Nu ai selectat un oras pentru atractia ta");
+    //    }
+    //}    
+</script>
