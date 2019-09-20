@@ -49,5 +49,68 @@ namespace iWasHere.Domain.Service
 
             return city;
         }
+
+        public string Insert(TouristicObjectiveDTO model)
+        {
+            if (String.IsNullOrWhiteSpace(model.TouristicObjectiveName))
+            {
+                return "Numele atractiei este obligatoriu";
+            }else if (String.IsNullOrWhiteSpace(model.TouristicObjectiveCode))
+            {
+                return "Cod obligatoriu";
+            }else if (model.OpenSeasonId == 0)
+            {
+                return "Sezonului nu este completat";
+            }else if (model.CityId == 0)
+            {
+                return "Orasul este obligatoriu";
+            }else if (model.AttractionCategoryId == 0)
+            {
+                return "Tipul atractiei este obligatoriu";
+            }
+            //try
+            //{
+                int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+                if (id != 0)
+                {
+                    return "Codul atractiei trebuie sa fie unic";
+                }
+                else
+                {
+                    _dbContext.TouristicObjective.Add(new TouristicObjective
+                    {
+                        TouristicObjectiveDescription = model.TouristicObjectiveDescription,
+                        TouristicObjectiveName = model.TouristicObjectiveName,
+                        TouristicObjectiveCode = model.TouristicObjectiveCode,
+                        HasEntry = model.HasEntry,
+                        OpenSeasonId = model.OpenSeasonId,
+                        CityId = model.CityId,
+                        AttractionCategoryId = model.AttractionCategoryId,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude
+                    });
+                    _dbContext.SaveChanges();
+                    if (model.HasEntry)
+                    {
+                        model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
+                       
+                        _dbContext.Ticket.Add(new Ticket
+                        {
+                            Price = model.Price,
+                            DictionaryCurrencyId = 1,
+                            DictionaryTicketId = 3,
+                            DictionaryExchangeRateId = 1,
+                            TouristicObjectiveId = model.TouristicObjectiveId
+                        });
+                        _dbContext.SaveChanges();
+                    }
+                    return null;
+                    
+                }
+            //}catch(Exception e)
+            //{
+            //    return "Ceva a mers prost";
+            //}
+        }
     }
 }
