@@ -91,7 +91,9 @@ namespace iWasHere.Web.Controllers
                 _dictionaryService.AddCountry(dictionaryCountry);
                 if (btn == "SaveAndNew")
                 {
+                   
                     return View();
+                    
                 }
                 else
                 {
