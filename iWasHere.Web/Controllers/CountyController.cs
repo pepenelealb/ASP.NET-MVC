@@ -67,8 +67,9 @@ namespace iWasHere.Web.Controllers
             }
             else
             {
-                //_dictionaryCountyService.Update(model);
-                return View();
+                model.CountyId = id;
+                _dictionaryCountyService.Update(model);
+                return View("Index");
             }
         }
 
