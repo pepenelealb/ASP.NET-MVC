@@ -20,15 +20,7 @@
         border-radius: 4px;
     }
 </style>
-<script type="text/javascript">
-    var ok = 1;
-    function countryNameF() {
-        return {
-            text: $("#Tari").val()
-        };
-    }
 
-</script>
 
 <h1 class="myHeader"> Adauga sau Modifica Judete</h1>
 
@@ -37,28 +29,47 @@
 
     {
         <h4>Judet:</h4>
-        <input id="txt_county" asp-for="CountyName" type="text" value="" class="f1" />
+        <input  type="text" asp-for="CountyName" class="f1" />
         <br />
         <br />
         <h4>Tara:</h4>
-        @(Html.Kendo().AutoCompleteFor(model => model.CountryName)
+        @(Html.Kendo().ComboBoxFor(model => model.CountryId)
+                   .DataValueField("Id")
                    .DataTextField("Name")
-                   .HtmlAttributes(new { style = "width:40%" })
-                   .Filter("StartsWith")
-                   .DataSource(source =>
+                   .HtmlAttributes(new { style = "width:60%", id = "county" })
+               .Filter("StartsWith")
+               .DataSource(source =>
+               {
+                   source.Read(read =>
                    {
-                       source.Read(read =>
-                       {
-                           read.Action("Read_Country", "County").Data("countryNameF");
-                       })
-                   .ServerFiltering(true);
+                       read.Action("Read_Country", "County").Data("countryNameF");
                    })
+                   .ServerFiltering(true);
+               })
         )
         <br />
+        <br />
         <button type="submit" id="btn_save_or_saveEdit" class="btn k-primary" name="submitbutton" value="Save">Salveaza</button>
-        <button type="submit" id="btn_save_and_new" class="btn k-primary" name="submitbutton" value="SaveAndNew">Salveaza si nou</button>
+        <button type="submit" id="new" class="btn k-primary" name="submitbutton" value="SaveAndNew">Salveaza si nou</button>
         <a id="exit" class="btn k-primary" asp-action="Index">Renunta</a>
+      
         <br />
     }
 
 </div>
+<script type="text/javascript">
+    var ok = 1;
+    function countryNameF() {
+        return {
+            text: $("#Tari").val()
+        };
+    }
+    window.onload = set();
+    function set() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            document.getElementById("new").style.visibility = "hidden";
+        }
+    }
+
+</script>

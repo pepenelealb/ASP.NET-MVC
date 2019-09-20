@@ -44,42 +44,63 @@ namespace iWasHere.Web.Controllers
             return Json(response);
         }
 
-        //public IActionResult GetCountries([DataSourceRequest] DataSourceRequest request)
-        //{
-        //    List<DictionaryCountryModel> dictionaryCountryModels = _dictionaryService.GetDictionaryCountryModels();
-
-        //    return Json(_dictionaryService.GetDictionaryCountryModels().ToDataSourceResult(request));
-        //}
         public IActionResult Index()
         {
             return View();
         }
 
-        //public ActionResult Update([DataSourceRequest] DataSourceRequest request, DictionaryCountryModel countries)
-        //{
-        //    var data = bwContext.DictionaryCountry.Where(c => c.CountryId == countries.Id).FirstOrDefault();
-        //    if (data != null)
-        //    {
-        //        data.CountryName = countries.Name;
-        //    }
-        //    bwContext.DictionaryCountry.Attach(data);
-        //    bwContext.Entry(data).State = System.Data.Entity.EntityState.Modified;
-        //    bwContext.SaveChanges();
-        //    return Json(new[] { countries }.ToDataSourceResult(request, ModelState));
-        //}
 
         public ActionResult Delete([DataSourceRequest] DataSourceRequest request, DictionaryCountryModel countries)
         {
-            var data = bwContext.DictionaryCountry.Where(c => c.CountryId == countries.Id).FirstOrDefault();
-            if (data != null)
+            string errorMessage= _dictionaryService.DeleteCountry(countries.Id);
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                bwContext.DictionaryCountry.Attach(data);
-                bwContext.DictionaryCountry.Remove(data);
-                bwContext.SaveChanges();
+                ModelState.AddModelError("e", errorMessage);
+                return Json(ModelState.ToDataSourceResult());
             }
-
-            return View();
+            else
+            {
+                if (countries != null)
+                {
+                    _dictionaryService.DeleteCountry(countries.Id);
+                }
+                return Json(ModelState.ToDataSourceResult());
+            }
         }
 
+
+        public IActionResult AddCountry(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                DictionaryCountryModel dictionaryCountry = _dictionaryService.UpdateCountry(Convert.ToInt32(id));
+                return View(dictionaryCountry);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddCountry(DictionaryCountryModel dictionaryCountry, string btn, int id)
+        {
+            if (id == 0)
+            {
+                _dictionaryService.AddCountry(dictionaryCountry);
+                if (btn == "SaveAndNew")
+                {
+                   
+                    return View();
+                    
+                }
+                else
+                {
+                    return View("Index");
+                } 
+            }
+            return View();
+        }
     }
 }
