@@ -66,5 +66,16 @@ namespace iWasHere.Web.Controllers
             return Json(JsonVariable);
         }
 
+        public JsonResult Read_Ticket_Category()
+        {
+            var JsonVariable = _dictionaryObjective.GetTypeTickets();
+            return Json(JsonVariable);
+        }
+
+        public JsonResult Read_Currency()
+        {
+            var JsonVariable = _dictionaryObjective.GetCurrency();
+            return Json(JsonVariable);
+        }
     }
 }
