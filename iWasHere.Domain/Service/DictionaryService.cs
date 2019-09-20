@@ -98,17 +98,6 @@ namespace iWasHere.Domain.Service
             return dictionaryCountryModels;
 
         }
-
-        public List<DictionaryCountryModel> GetDictionaryCountryModelsSelect()
-        {
-            List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
-            {
-                Id = a.CountryId,
-                Name = a.CountryName
-            }).ToList();
-
-            return dictionaryCountryModels;
-        }
         //ale lu paulica de aici
 
         public List<County_DTO> GetDictionaryCounty(int PageSize, int Page, out int totalRows, string f)
@@ -329,15 +318,15 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public void AddCountry(DictionaryCountryModel dictionaryCountryModel)
+        public string AddCountry(DictionaryCountryModel dictionaryCountryModel)
         {
-
             _bwContext.DictionaryCountry.Add(new DictionaryCountry
             {
                 CountryName = dictionaryCountryModel.Name,
                 CountryId = dictionaryCountryModel.Id
             });
             _bwContext.SaveChanges();
+            return null;
         }
 
         public DictionaryCountryModel UpdateCountry(int id)
@@ -353,5 +342,24 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountry;
         }
+
+        public string Update(DictionaryCountryModel dictionaryCountryModel)
+        {
+            try
+            {
+                DictionaryCountry dictionaryCountry = _bwContext.DictionaryCountry.Find(dictionaryCountryModel.Id);
+                dictionaryCountry.CountryName = dictionaryCountryModel.Name;
+                _bwContext.DictionaryCountry.Update(dictionaryCountry);
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return "Campul de tara trebuie completat obligatoriu!";
+            }
+        }
+
+
+
     }
 }
