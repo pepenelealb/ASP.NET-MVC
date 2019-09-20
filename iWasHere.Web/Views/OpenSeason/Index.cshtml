@@ -7,7 +7,7 @@
 
 <input type="text" id="textBox" />
 <button onclick="refresh()" type="button" id="btnSearch" asp-controller="OpenSeason" asp-action="GetOpenSeason">Filtreaza</button>
-<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) type="button" class="btn btn-primary">Adauga</a>
+<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) onclick="setInsert()" type="button" class="btn btn-primary">Adauga</a>
 
 <br />
 
@@ -20,7 +20,7 @@
     {
         columns.Bound(c => c.Id).Visible(false);
         columns.Bound(c => c.Type);
-        columns.Template("<a class = 'btn btn-success' href='" + @Url.Action("InsertOpenSeason", "OpenSeason") + "?id=#=Id#'>Modifica</a>");
+        columns.Template("<a class = 'btn btn-success' onclick = 'setEdit()' href='" + @Url.Action("InsertOpenSeason", "OpenSeason") + "?id=#=Id#'>Modifica</a>");
         columns.Command(command => { command.Destroy(); });
     })
     .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Da").DisplayDeleteConfirmation("Confirmati stergerea?").CancelDelete("Nu"))
@@ -46,17 +46,24 @@
     </tr>
 </table>
 
-@*<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) type="button" class="btn btn-primary">Adauga</a>*@
-
 <script>
+    var input;
+    function setEdit(){
+        input = "edit";
+        localStorage.setItem("storageName",input);
+    }
+
+    function setInsert() {
+        input = "insert";
+        localStorage.setItem("storageName",input);
+    }
+
     function myFilter() {
         var openSeasonType = {};
         openSeasonType["textBox"] = $("#textBox").val();
         console.log(openSeasonType.textBox);
         return openSeasonType;
     }
-
-
 
     function refresh() {
         $("#grid").data("kendoGrid").dataSource.read();
