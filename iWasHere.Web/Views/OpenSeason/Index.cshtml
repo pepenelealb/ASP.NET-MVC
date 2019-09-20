@@ -20,7 +20,7 @@
     {
         columns.Bound(c => c.Id).Visible(false);
         columns.Bound(c => c.Type);
-        //columns.Template("<a class = 'btn btn-success' href='" + @Url.Action("AddOpenSeason", "OpenSeason") + "?id=#=OpenSeasonId#'>Modifica</a>");
+        columns.Template("<a class = 'btn btn-success' href='" + @Url.Action("InsertOpenSeason", "OpenSeason") + "?id=#=Id#'>Modifica</a>");
         columns.Command(command => { command.Destroy(); });
     })
     .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Da").DisplayDeleteConfirmation("Confirmati stergerea?").CancelDelete("Nu"))
@@ -36,7 +36,6 @@
     .DataSource(dataSource => dataSource
     .Ajax()
     .PageSize(20)
-    //.Create(create => create.Action("InsertOpenSeason", "OpenSeason"))
     .Destroy(destroy => destroy.Action("DeleteOpenSeason", "OpenSeason"))
     .Model(a => a.Id(m => m.Id))
     //.Update(update => update.Action("UpdateOpenSeason", "OpenSeason"))

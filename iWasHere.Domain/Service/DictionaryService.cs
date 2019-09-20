@@ -244,16 +244,30 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        public DictionaryOpenSeasonModel UpdateOpenSeason(int id)
+        public string UpdateOpenSeason(DictionaryOpenSeasonModel model)
         {
-
-            DictionaryOpenSeasonModel model = _bwContext.DictionaryOpenSeason
-            .Where(a => a.OpenSeasonId == id).Select(a => new DictionaryOpenSeasonModel()
+            try
             {
-                Id = a.OpenSeasonId,
-                Type = a.OpenSeasonType
-            }).First();
-            return model;
+                if (String.IsNullOrWhiteSpace(model.Type))
+                {
+                    return "Tipul este obligatoriu";
+                }
+                else
+                {
+                    DictionaryOpenSeason openSeason = _bwContext.DictionaryOpenSeason.Find(model.Id);
+                    openSeason.OpenSeasonId = model.Id;
+                    openSeason.OpenSeasonType = model.Type;
+
+                    _bwContext.DictionaryOpenSeason.Update(openSeason);
+                    _bwContext.SaveChanges();
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                return "Completati tipul sezonier!";
+            }
+
         }
 
         public void AddAttractionCategory(string attractionCategoryName)

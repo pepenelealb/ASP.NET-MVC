@@ -58,13 +58,15 @@ namespace iWasHere.Web.Controllers
         
         public IActionResult InsertOpenSeason(string id)
         {
+            DictionaryOpenSeasonModel model = new DictionaryOpenSeasonModel();
+            model.Id = Convert.ToInt32(id);
             if (Convert.ToInt32(id) == 0)
             {
                 return View();
             }
             else
             {
-                DictionaryOpenSeasonModel model = dictionaryService.UpdateOpenSeason(Convert.ToInt32(id));
+                dictionaryService.UpdateOpenSeason(model);
                 return View(model);
             }
         }
@@ -87,7 +89,7 @@ namespace iWasHere.Web.Controllers
             }
             else
             {
-                //dictionaryService.UpdateTicket(model);
+                dictionaryService.UpdateOpenSeason(model);
                 return View();
             }
         }
