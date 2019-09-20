@@ -56,16 +56,21 @@ namespace iWasHere.Domain.Service
             return dictionaryCounty;
         }
 
-        public void Insert(CityDTO model)
+        public string Insert(CityDTO model)
         {
-
-            int id = _dbContext.DictionaryCounty.Where(x=> x.CountyName == model.county).Select(x => x.CountyId).FirstOrDefault();
-            _dbContext.DictionaryCity.Add(new DictionaryCity
+            try
+            {               
+                _dbContext.DictionaryCity.Add(new DictionaryCity
+                {
+                    CityName = model.cityName,
+                    CountyId = model.countyId
+                });
+                _dbContext.SaveChanges();
+                return null;
+            }catch(Exception e)
             {
-                CityName = model.cityName,
-                CountyId = id
-            });
-            _dbContext.SaveChanges();
+                return "Campuri obligatorii";
+            }
         }
 
 
@@ -87,17 +92,28 @@ namespace iWasHere.Domain.Service
             return dictionaryCity;
         }
 
-        public void Update(CityDTO model)
+        public string Update(CityDTO model)
         {
-            int id = _dbContext.DictionaryCounty.Where(x => x.CountyName == model.county).Select(x => x.CountyId).FirstOrDefault();
-            DictionaryCity city = new DictionaryCity()
+            try
             {
-                CityId = model.cityId,
-                CityName = model.cityName,
-                CountyId = id
-            };
-            _dbContext.DictionaryCity.Update(city);
-            _dbContext.SaveChanges();
+                if (String.IsNullOrWhiteSpace(model.cityName))
+                {
+                    return "Numele orasului este obligatoriu";
+                }
+               
+                else
+                {
+                    DictionaryCity city = _dbContext.DictionaryCity.Find(model.cityId);                    
+                    city.CityName = model.cityName;
+                    city.CountyId = model.countyId;
+                    _dbContext.DictionaryCity.Update(city);
+                    _dbContext.SaveChanges();
+                    return null;
+                }
+            }catch(Exception e)
+            {
+                return "Campurile sunt obligatorii";
+            }
         }
 
         public string DeleteCounty(int id)
