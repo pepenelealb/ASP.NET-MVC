@@ -33,7 +33,7 @@ namespace iWasHere.Web.Controllers
         {
             //List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = dictionaryService.GetDictionaryOpenSeasonModels();
             int totalRows = 0;
-            int PageSize  = request.PageSize;
+            int PageSize = request.PageSize;
             int Page = request.Page;
             DataSourceResult result = new DataSourceResult();
            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = dictionaryService.GetDictionaryOpenSeasonModels(PageSize, Page, out totalRows, textBox);
@@ -43,9 +43,53 @@ namespace iWasHere.Web.Controllers
 
             //return Json(dictionaryService.GetDictionaryOpenSeasonModels().ToDataSourceResult(request));
         }
-        public IActionResult CreateOrEdit()
+        public ActionResult DeleteOpenSeason([DataSourceRequest] DataSourceRequest request, DictionaryOpenSeasonModel openSeason)
         {
-            return View();
+            int openSeasonId = openSeason.Id;
+            if (openSeason != null)
+            {
+                dictionaryService.DeleteOpenSeason(openSeasonId);
+            }
+
+            return Json(new[] { openSeason }.ToDataSourceResult(request, ModelState));
+
+        }
+
+        
+        public IActionResult InsertOpenSeason(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                DictionaryOpenSeasonModel model = dictionaryService.UpdateOpenSeason(Convert.ToInt32(id));
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult InsertOpenSeason(DictionaryOpenSeasonModel model, string submitButton, int id)
+        {
+            if (id == 0)
+            {
+                dictionaryService.InsertOpenSeason(model);
+                if (submitButton == "SaveAndNew")
+                {
+                    return View();
+                }
+                else
+                {
+                    return View("Index");
+                }
+            }
+            else
+            {
+                //dictionaryService.UpdateTicket(model);
+                return View();
+            }
         }
     }
 }

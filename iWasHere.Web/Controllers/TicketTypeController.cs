@@ -49,16 +49,55 @@ namespace iWasHere.Web.Controllers
         }
 
 
-        public IActionResult Delete()
+        public IActionResult Delete([DataSourceRequest] DataSourceRequest request, DictionaryTicketModel model)
         {
-          //  DictionaryTicketModel model = _dictionaryService.GetDictionaryTicketModels().Find(id);
+            if (model != null)
+            {
+                _dictionaryService.DeleteTicketType(model.DictionaryTicketId);
           
-            return View();
-
-          //  _dictionaryService.GetDictionaryTicketModels().RemoveAll(ticket => ticket.DictionaryTicketId == id);
-
-            //return NoContent();
+            }
+            
+            return Json(ModelState.ToDataSourceResult());
         }
 
+
+        public IActionResult CreateTicketType(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                DictionaryTicketModel model = _dictionaryService.GetTicketFromDB(Convert.ToInt32(id));
+                return View(model);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateTicketType(DictionaryTicketModel model, string submitButton, int id)
+        {
+            if (id == 0)
+            {
+                _dictionaryService.InsertTicket(model);
+                if (submitButton == "SaveAndNew")
+                {
+                    return View();
+                }
+                else
+                {
+                    return View("Index");
+                }
+            }
+            else
+            {
+
+                model.DictionaryTicketId = id;
+                    _dictionaryService.UpdateTicket(model);
+                    
+                return View("Index");
+            }
+        }
     }
 }

@@ -217,6 +217,34 @@ namespace iWasHere.Domain.Service
             }).Skip(skip).Take(PageSize).ToList();
 
             return dictionaryOpenSeasonModels;
+        }        
+
+        public void DeleteOpenSeason(int id)
+        {
+            _bwContext.Remove(_bwContext.DictionaryOpenSeason.Single(a => a.OpenSeasonId == id));
+            _bwContext.SaveChanges();
+        }
+
+        public void InsertOpenSeason(DictionaryOpenSeasonModel model)
+        {
+            _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+            {
+                OpenSeasonId = model.Id,
+                OpenSeasonType = model.Type
+            });
+            _bwContext.SaveChanges();
+        }
+
+        public DictionaryOpenSeasonModel UpdateOpenSeason(int id)
+        {
+
+            DictionaryOpenSeasonModel model = _bwContext.DictionaryOpenSeason
+            .Where(a => a.OpenSeasonId == id).Select(a => new DictionaryOpenSeasonModel()
+            {
+                Id = a.OpenSeasonId,
+                Type = a.OpenSeasonType
+            }).First();
+            return model;
         }
 
         public void AddAttractionCategory(string attractionCategoryName)
@@ -240,6 +268,109 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
         }
-        
+
+        public void DeleteTicketType(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryTicket.Single(a => a.DictionaryTicketId == id));
+                _bwContext.SaveChanges();
+                
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DictionaryTicketModel GetTicketFromDB(int id)
+        {
+
+            DictionaryTicketModel model = _bwContext.DictionaryTicket
+                .Where(a => a.DictionaryTicketId == id)
+                .Select(a => new DictionaryTicketModel()
+                {
+                    DictionaryTicketId = a.DictionaryTicketId,
+                    TicketCategory = a.TicketCategory
+                  
+
+                }).First();
+
+            return model;
+        }
+
+        public string UpdateTicket(DictionaryTicketModel model)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(model.TicketCategory))
+                {
+                    return "Tipul este obligatoriu";
+                }
+                else
+                {
+                    DictionaryTicket ticket = _bwContext.DictionaryTicket.Find(model.DictionaryTicketId);
+                    ticket.DictionaryTicketId = model.DictionaryTicketId;
+                    ticket.TicketCategory = model.TicketCategory;
+
+                    _bwContext.DictionaryTicket.Update(ticket);
+                    _bwContext.SaveChanges();
+                    return null;
+                }
+            }catch (Exception e){
+                return " Completati tipul biletului!";
+            }
+        }
+
+        public void InsertTicket(DictionaryTicketModel model)
+        {
+
+            _bwContext.DictionaryTicket.Add(new DictionaryTicket
+            {
+               TicketCategory = model.TicketCategory,
+            
+            });
+            _bwContext.SaveChanges();
+        }
+
+
+        public string DeleteCountry(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryCountry.Single(a => a.CountryId == id));
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return "Aceasta tara nu poate fi stearsa";
+            }
+        }
+
+        public void AddCountry(DictionaryCountryModel dictionaryCountryModel)
+        {
+
+            _bwContext.DictionaryCountry.Add(new DictionaryCountry
+            {
+                CountryName = dictionaryCountryModel.Name,
+                CountryId = dictionaryCountryModel.Id
+            });
+            _bwContext.SaveChanges();
+        }
+
+        public DictionaryCountryModel UpdateCountry(int id)
+        {
+
+            DictionaryCountryModel dictionaryCountry = _bwContext.DictionaryCountry
+                .Where(a => a.CountryId == id)
+                .Select(a => new DictionaryCountryModel()
+                {
+                    Id = a.CountryId,
+                    Name = a.CountryName,
+                }).First();
+
+            return dictionaryCountry;
+        }
     }
 }
