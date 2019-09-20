@@ -56,6 +56,7 @@ namespace iWasHere.Web
             services.AddKendo();
             services.AddScoped<DictionaryService>();
             services.AddScoped<DictionaryCityService>();
+            services.AddScoped<DictionaryTouristicObjectiveService>();
 
 
         }

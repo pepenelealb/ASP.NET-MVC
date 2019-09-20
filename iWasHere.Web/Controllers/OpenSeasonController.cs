@@ -36,7 +36,7 @@ namespace iWasHere.Web.Controllers
             int PageSize = request.PageSize;
             int Page = request.Page;
             DataSourceResult result = new DataSourceResult();
-            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = dictionaryService.GetDictionaryOpenSeasonModels(PageSize, Page, out totalRows, textBox);
+           List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = dictionaryService.GetDictionaryOpenSeasonModels(PageSize, Page, out totalRows, textBox);
             result.Total = totalRows;
             result.Data = dictionaryOpenSeasonModels;
             return Json(result);
