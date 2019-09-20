@@ -8,10 +8,31 @@
 @using (Html.BeginForm("Create", "DictionaryCountry", FormMethod.Post))
 {
     <div>
-        <label>Introduceti tara: </label>
-        <input id="addCountry" asp-for="Name" type="text" value="" />
-        <button type="submit" class="btn btn-info" name="btn" value="Save">Salveaza</button>
-        <button type="submit" class="btn btn-info" name="btn" value="SaveAndNew">Salveaza si Nou</button>
-        <a asp-action="Index" class="btn btn-info">Anuleaza</a>
+        <label>Tara: </label>
+        <input id="addCountry" asp-for="Name" type="text"/>
+        <button type="submit" onclick="handleErrorUpdate()" id="save" class="btn btn-info" name="btn" value="Save">Salveaza</button>
+        <button type="submit" onclick="handleErrorUpdate()" id="saveAndNew" class="btn btn-info" name="btn" value="SaveAndNew">Salveaza si Nou</button>
+        <br><a asp-action="Index" class="btn btn-info">Anuleaza</a>
     </div>
 }
+
+<script type="text/javascript">
+    window.onload = set();
+    function set() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            document.getElementById("0").style.visibility = "hidden";
+        }
+    }
+     function isEmptyOrSpaces(str){
+    return str === null || str.match(/^ *$/) !== null;
+    }  
+
+     function handleErrorUpdate(e) {
+         if (isEmptyOrSpaces($('#addCountry').val()))
+             alert("Trebuie sa introduceti obligatoriu o tara!")
+         else {
+             $('#addCountry').clearQueue();
+         }
+    }
+ </script>
