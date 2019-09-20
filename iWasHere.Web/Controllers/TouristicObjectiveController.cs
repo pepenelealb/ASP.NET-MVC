@@ -22,9 +22,17 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public IActionResult AddOrEdit()
+        public IActionResult AddOrEdit(string id)
         {
-            return View();
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                TouristicObjectiveDTO turistObjective = _dictionaryObjective.GetObjectivForUpdate(Convert.ToInt32(id));
+                return View(turistObjective);
+            }
         }
 
         [HttpPost]

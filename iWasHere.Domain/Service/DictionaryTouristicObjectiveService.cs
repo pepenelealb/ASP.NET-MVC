@@ -27,6 +27,11 @@ namespace iWasHere.Domain.Service
             return dictionaryAttraction;
         }
 
+        public TouristicObjectiveDTO GetObjectivForUpdate(int id)
+        {
+            
+        }
+
         public List<DictionaryOpenSeasonModel> GetSeason()
         {
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasons = _dbContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
