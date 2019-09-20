@@ -8,15 +8,26 @@
     ViewData["Title"] = "AddOrEdit";
 }
 
+<style>
+
+    .ticket{
+        border-style:solid;        
+        border-width:1px;
+        border-color: darkcyan;  
+       
+    }
+ 
+</style>
+
 <br />
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {
     <label>Nume Atractie: </label>
-    <input type="text" asp-for="AttractionName" />
+    <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
     <br />
     <br />
     <label>Cod Atractie:</label>
-    <input type="text" asp-for="TouristicObjectiveCode" />
+    <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
     <br />
     <br />
     <label>Descriere:</label>
@@ -27,10 +38,47 @@
     <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
     <br />
     <br />
-    <label id="pricelbl">Pret:</label>
-    <input type="text" asp-for="Price" id="price" />
-    <br />
-    <br />
+    <div id="ticket" class="ticket"><br/>
+        <label id="pricelbl">Pret:</label>
+        <input type="text" asp-for="Price" id="price" />
+        <br />
+        <br />
+        <label>Selecteaza tipul biletului</label>
+        @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
+               .DataValueField("DictionaryTicketId")
+               .DataTextField("TicketCategory")
+               .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
+               {
+                   read.Action("Read_Ticket_Category", "TouristicObjective");
+               })
+               .ServerFiltering(true);
+           })
+        )
+        <br />
+        <br />
+        <label>Selecteaza o moneda:</label>
+        @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
+              .DataValueField("Id")
+              .DataTextField("Currency")
+              .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
+          .Filter("StartsWith")
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("Read_Currency", "TouristicObjective");
+              })
+              .ServerFiltering(true);
+          })
+        )
+
+        <br />
+        <br />
+    </div>
     <label>Selecteaza Tipul Atractiei</label>
     @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
                .DataValueField("AttractionCategoryId")
@@ -103,16 +151,14 @@
 }
 
 <script type="text/javascript">
-
+    
     window.onload = hidePrice();
     function hidePrice() {
         var checkBox = document.getElementById("entry");
         if (checkBox.checked == true) {
-            document.getElementById("pricelbl").style.display = "block";
-            document.getElementById("price").style.display = "block";
+            document.getElementById("ticket").style.display = "block";                        
         } else {
-            document.getElementById("pricelbl").style.display = "none";
-            document.getElementById("price").style.display = "none";
+            document.getElementById("ticket").style.display = "none";                    
         }
     }
     $(document).ready(function() {  
@@ -128,4 +174,18 @@
     },  
 });
 
+    //function validateData() {       
+    //    if (isEmptyOrSpaces($("#nameAttraction").val())) {
+    //        alert("Numele obiectivului turistic este obligatoriu");
+    //    } else if (isEmptyOrSpaces($("#nameCode").val())) {
+    //        alert("Codul orasului este obligatoriu");
+    //    } else if (isEmptyOrSpaces($("#attraction").val)) {
+    //        alert("Nu ai selectat categoria atractiei")
+    //    } else if (isEmptyOrSpaces($("#season").val())) {
+    //        alert("Nu ai selectat tipul sezonului");
+    //    }          
+    //      else if (isEmptyOrSpaces($("#city").val())) {
+    //        alert("Nu ai selectat un oras pentru atractia ta");
+    //    }
+    //}    
 </script>
