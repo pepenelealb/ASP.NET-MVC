@@ -162,6 +162,34 @@ namespace iWasHere.Domain.Service
             }).Skip(skip).Take(PageSize).ToList();
 
             return dictionaryOpenSeasonModels;
+        }        
+
+        public void DeleteOpenSeason(int id)
+        {
+            _bwContext.Remove(_bwContext.DictionaryOpenSeason.Single(a => a.OpenSeasonId == id));
+            _bwContext.SaveChanges();
+        }
+
+        public void InsertOpenSeason(DictionaryOpenSeasonModel model)
+        {
+            _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+            {
+                OpenSeasonId = model.Id,
+                OpenSeasonType = model.Type
+            });
+            _bwContext.SaveChanges();
+        }
+
+        public DictionaryOpenSeasonModel UpdateOpenSeason(int id)
+        {
+
+            DictionaryOpenSeasonModel model = _bwContext.DictionaryOpenSeason
+            .Where(a => a.OpenSeasonId == id).Select(a => new DictionaryOpenSeasonModel()
+            {
+                Id = a.OpenSeasonId,
+                Type = a.OpenSeasonType
+            }).First();
+            return model;
         }
 
         public void AddAttractionCategory(string attractionCategoryName)

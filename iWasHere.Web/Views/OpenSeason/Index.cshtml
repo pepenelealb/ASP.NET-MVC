@@ -7,31 +7,9 @@
 
 <input type="text" id="textBox" />
 <button onclick="refresh()" type="button" id="btnSearch" asp-controller="OpenSeason" asp-action="GetOpenSeason">Filtreaza</button>
+<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) type="button" class="btn btn-primary">Adauga</a>
 
 <br />
-<br />
-@*@(Html.Kendo().AutoComplete()
-               .Name("Tip")
-               .DataTextField("Type")
-               .HtmlAttributes(new { style = "width:40%" })
-               .Filter("StartsWith")
-               .DataSource(source =>
-                       {
-                   source.Read(read =>
-                   {
-                       read.Action("GetOpenSeason", "OpenSeason").Data("onAdditionalData");
-                   })
-                   .ServerFiltering(true);
-               })
-        )
-
-
-
-    }*@
-
-
-
-
 
 <table>
     <tr>
@@ -40,14 +18,13 @@
     .Name("grid")
     .Columns(columns =>
     {
-        //columns.Bound(c => c.Id);
+        columns.Bound(c => c.Id).Visible(false);
         columns.Bound(c => c.Type);
-        //columns.Template(" <input type='button' class='k-button info' name='info' value='Modifica' /> ");
-        //columns.Template(" <input type='button' class='k-button info' name='info' value='Sterge' /> ");
-        columns.Command(command => { command.Edit(); command.Destroy(); });
+        //columns.Template("<a class = 'btn btn-success' href='" + @Url.Action("AddOpenSeason", "OpenSeason") + "?id=#=OpenSeasonId#'>Modifica</a>");
+        columns.Command(command => { command.Destroy(); });
     })
-    .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Confirmati stergerea?").DisplayDeleteConfirmation("OK"))
-    .ToolBar(toolbar => toolbar.Create())
+    .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Da").DisplayDeleteConfirmation("Confirmati stergerea?").CancelDelete("Nu"))
+    //.ToolBar(toolbar => toolbar.Create())
     .HtmlAttributes(new { style = "height: 550px;" })
     .Scrollable()
     .Groupable()
@@ -59,9 +36,10 @@
     .DataSource(dataSource => dataSource
     .Ajax()
     .PageSize(20)
-    .Create(create => create.Action("GetOpenSeason", "OpenSeason"))
-    .Destroy(destroy => destroy.Action("GetOpenSeason", "OpenSeason"))
-    .Update(update => update.Action("GetOpenSeason", "OpenSeason"))
+    //.Create(create => create.Action("InsertOpenSeason", "OpenSeason"))
+    .Destroy(destroy => destroy.Action("DeleteOpenSeason", "OpenSeason"))
+    .Model(a => a.Id(m => m.Id))
+    //.Update(update => update.Action("UpdateOpenSeason", "OpenSeason"))
     .Read(read => read.Action("GetOpenSeason", "OpenSeason").Data("myFilter"))
 
     )
@@ -69,15 +47,9 @@
     </tr>
 </table>
 
-<script type="text/javascript">
-    function onAdditionalData() {
-        return {
-            text: $("#OpenSeasonType").val()
-        };
-    }
+@*<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) type="button" class="btn btn-primary">Adauga</a>*@
 
-
-
+<script>
     function myFilter() {
         var openSeasonType = {};
         openSeasonType["textBox"] = $("#textBox").val();
