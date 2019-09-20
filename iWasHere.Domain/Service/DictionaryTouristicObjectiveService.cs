@@ -26,5 +26,28 @@ namespace iWasHere.Domain.Service
 
             return dictionaryAttraction;
         }
+
+        public List<DictionaryOpenSeasonModel> GetSeason()
+        {
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasons = _dbContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
+            {
+                Id = a.OpenSeasonId,
+                Type = a.OpenSeasonType
+            }).ToList();
+
+            return dictionaryOpenSeasons;
+        }
+
+        public List<CityDTO> GetCity()
+        {
+            List<CityDTO> city = _dbContext.DictionaryCity.Select(a => new CityDTO()
+            {
+                cityId = a.CityId,
+                cityName = a.CityName
+
+            }).ToList();
+
+            return city;
+        }
     }
 }

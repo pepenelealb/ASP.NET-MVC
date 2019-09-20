@@ -40,17 +40,17 @@ namespace iWasHere.Web.Controllers
             return Json(JsonVariable);
         }
 
-        //public JsonResult Read_Season()
-        //{
-        //    var JsonVariable = _dictionaryCityService.GetCounty();
-        //    return Json(JsonVariable);
-        //}
+        public JsonResult Read_Season()
+        {
+            var JsonVariable = _dictionaryObjective.GetSeason();
+            return Json(JsonVariable);
+        }
 
-        //public JsonResult Read_City()
-        //{
-        //    var JsonVariable = _dictionaryCityService.GetCounty();
-        //    return Json(JsonVariable);
-        //}
+        public JsonResult Read_City()
+        {
+            var JsonVariable = _dictionaryObjective.GetCity();
+            return Json(JsonVariable);
+        }
 
     }
 }
