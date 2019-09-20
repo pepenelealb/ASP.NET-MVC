@@ -19,5 +19,11 @@ namespace iWasHere.Domain.DTOs
         public double Latitude { get; set; }
         public int DictionaryTicketId { get; set; }
         public bool CurrencyId { get; set; }
+
+        ///picture
+        public int ImageId { get; set; }
+        public byte[] PictureImage { get; set; }
+        public string PictureName { get; set; }
+        
     }
 }

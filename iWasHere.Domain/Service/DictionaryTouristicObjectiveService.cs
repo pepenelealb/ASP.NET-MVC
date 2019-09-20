@@ -2,6 +2,7 @@
 using iWasHere.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -50,7 +51,7 @@ namespace iWasHere.Domain.Service
             return city;
         }
 
-        public string Insert(TouristicObjectiveDTO model)
+        public string Insert(TouristicObjectiveDTO model, IEnumerable<Picture_DTO> AsyncDocumentsFiles)
         {
             if (String.IsNullOrWhiteSpace(model.TouristicObjectiveName))
             {
@@ -104,7 +105,29 @@ namespace iWasHere.Domain.Service
                         });
                         _dbContext.SaveChanges();
                     }
-                    return null;
+                
+                  
+                    foreach (var file in AsyncDocumentsFiles)
+                    {
+                        FileStream fs = new FileStream(file.PictureName, FileMode.Open, FileAccess.Read);
+                        BinaryReader br = new BinaryReader(fs);
+                        Byte[] bytes = br.ReadBytes((Int32)fs.Length);
+
+                    var fileUpload = new Picture()
+                    {
+
+                        PictureName = file.PictureName,
+                        PictureImage = bytes,
+                        TouristicObjectiveId = 2
+                        };
+                        br.Close();
+                        fs.Close();
+                    _dbContext.Picture.Add(fileUpload);
+                    }
+                
+                
+               
+                return null;
                     
                 }
             //}catch(Exception e)
