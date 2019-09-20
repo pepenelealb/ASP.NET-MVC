@@ -49,5 +49,6 @@ namespace iWasHere.Domain.Service
 
             return city;
         }
+
     }
 }

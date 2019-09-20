@@ -12,24 +12,12 @@ namespace iWasHere.Domain.Service
     {
 
         private readonly BlackWidowContext _bwContext;
-        private readonly DatabaseContext _databaseContext;
-
+      
         public DictionaryService(BlackWidowContext databaseContext)
         {
             _bwContext = databaseContext;
         }
 
-        public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
-        {
-
-            List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
-            {
-                Id = a.DictionaryItemId,
-                Name = a.DictionaryItemName
-            }).ToList();
-
-            return dictionaryTicketModels;
-        }
 
         public List<DictionaryTicketModel> GetDictionaryTicketModels()
         {

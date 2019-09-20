@@ -73,13 +73,15 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>*@
                         @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
                         <!--adaugare dictionare-->
-
+                        <li class="nav-link text-dark">
+                            <a asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Obiectiv Turistic</a>
+                        </li>
                         <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
                         </li>
@@ -98,6 +100,7 @@
                         <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
                         </li>
+
                     </ul>
                     
                 </div>

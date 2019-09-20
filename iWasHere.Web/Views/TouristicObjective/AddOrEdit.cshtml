@@ -1,4 +1,9 @@
-﻿@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
+﻿<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.silver.min.css" />
+<link rel="stylesheet" href="http://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css" />
+<script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="http://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
+@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
 @{
     ViewData["Title"] = "AddOrEdit";
 }
@@ -18,7 +23,7 @@
     <input type="text" asp-for="TouristicObjectiveDescription" />
     <br />
     <br />
-    <label >Are bilet de intrare:</label>
+    <label>Are bilet de intrare:</label>
     <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
     <br />
     <br />
@@ -86,10 +91,14 @@
     <input type="text" asp-for="Latitude" />
     <br />
     <br />
+    <div class="demo-section k-content ">
+        <div> <input name="AsyncDocumentsFiles" id="AsyncDocumentsId" type="file" accept="doc,pdf" /> </div>
+    </div>
 
+    <div align="center";>
     <button type="submit" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
     <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
-    <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
+    <a asp-action="Index" class="btn btn-primary">Anuleaza</a> </div>
 
 }
 
@@ -97,16 +106,26 @@
 
     window.onload = hidePrice();
     function hidePrice() {
-        var checkBox = document.getElementById("entry");      
+        var checkBox = document.getElementById("entry");
         if (checkBox.checked == true) {
             document.getElementById("pricelbl").style.display = "block";
-            document.getElementById("price").style.display = "block";            
+            document.getElementById("price").style.display = "block";
         } else {
             document.getElementById("pricelbl").style.display = "none";
-            document.getElementById("price").style.display = "none";           
+            document.getElementById("price").style.display = "none";
         }
-    }   
-
-
+    }
+    $(document).ready(function() {  
+        //Enable Kendo Uploader to Normal Uploader control  
+        $("#AsyncDocumentsId").kendoUpload({});  
+        //Adding Kendo Css  
+        $("#AsyncDocumentsId").closest(".k-upload").find("span").text("+ Add Files");  
+    });
+    $("#AsyncDocumentsId").kendoUpload({  
+    async: {  
+        saveUrl: "/FileUpload/Save",  
+        autoUpload: true  
+    },  
+});
 
 </script>
