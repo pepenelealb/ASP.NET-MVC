@@ -92,7 +92,7 @@ namespace iWasHere.Web.Controllers
             }
             else
             {
-
+               
                 model.DictionaryTicketId = id;
                     _dictionaryService.UpdateTicket(model);
                     

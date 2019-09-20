@@ -11,19 +11,27 @@
     <input type="text" asp-for="TicketCategory" id="txtInputValue" />
     <br/>
     <br />
-    <button type="submit" class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
+    <button type="submit" class="btn btn-primary" name="submitButton" value="Save" id="save">Salveaza</button>
     <br />
     <br />
-    <button type="submit" class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+    <button type="submit" class="btn btn-dark" name="submitButton" value="SaveAndNew" id="saveAndNew">Salveaza si Nou</button>
+
     <br />
     <br />
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
 }
 
-<script type=" text/javascript ">
-    function cleanTxt(){
-     $("#txtInputValue").val("");
-    }
+<script >
+      
+
+          window.onload = check();
+        function check() {
+            var verify = localStorage.getItem("storageName");
+            if (verify == "edit") {
+                document.getElementById("saveAndNew").style.visibility = "hidden";
+
+            }
+
 </script>
 <style>
     .btn {

@@ -42,6 +42,13 @@ namespace iWasHere.Domain.Service
 
             return dictionaryTicketModels;
         }
+       
+
+  
+
+
+
+
 
         public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows, string ticketType)
         {
@@ -97,17 +104,6 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountryModels;
 
-        }
-
-        public List<DictionaryCountryModel> GetDictionaryCountryModelsSelect()
-        {
-            List<DictionaryCountryModel> dictionaryCountryModels = _bwContext.DictionaryCountry.Select(a => new DictionaryCountryModel()
-            {
-                Id = a.CountryId,
-                Name = a.CountryName
-            }).ToList();
-
-            return dictionaryCountryModels;
         }
         //ale lu paulica de aici
 
@@ -322,15 +318,23 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public void InsertTicket(DictionaryTicketModel model)
+        public string InsertTicket(DictionaryTicketModel model)
         {
 
-            _bwContext.DictionaryTicket.Add(new DictionaryTicket
+            if (String.IsNullOrWhiteSpace(model.TicketCategory))
             {
-               TicketCategory = model.TicketCategory,
-            
-            });
-            _bwContext.SaveChanges();
+                return "Tipul este obligatoriu";
+            }
+            else
+            {
+                _bwContext.DictionaryTicket.Add(new DictionaryTicket
+                {
+                    TicketCategory = model.TicketCategory,
+
+                });
+                _bwContext.SaveChanges();
+                return null;
+            }
         }
 
 
@@ -348,15 +352,15 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public void AddCountry(DictionaryCountryModel dictionaryCountryModel)
+        public string AddCountry(DictionaryCountryModel dictionaryCountryModel)
         {
-
             _bwContext.DictionaryCountry.Add(new DictionaryCountry
             {
                 CountryName = dictionaryCountryModel.Name,
                 CountryId = dictionaryCountryModel.Id
             });
             _bwContext.SaveChanges();
+            return null;
         }
 
         public DictionaryCountryModel UpdateCountry(int id)
@@ -372,5 +376,24 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCountry;
         }
+
+        public string Update(DictionaryCountryModel dictionaryCountryModel)
+        {
+            try
+            {
+                DictionaryCountry dictionaryCountry = _bwContext.DictionaryCountry.Find(dictionaryCountryModel.Id);
+                dictionaryCountry.CountryName = dictionaryCountryModel.Name;
+                _bwContext.DictionaryCountry.Update(dictionaryCountry);
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch (Exception e)
+            {
+                return "Campul de tara trebuie completat obligatoriu!";
+            }
+        }
+
+
+
     }
 }

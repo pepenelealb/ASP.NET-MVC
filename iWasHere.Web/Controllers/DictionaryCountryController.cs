@@ -52,7 +52,7 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult Delete([DataSourceRequest] DataSourceRequest request, DictionaryCountryModel countries)
         {
-            string errorMessage= _dictionaryService.DeleteCountry(countries.Id);
+            string errorMessage = _dictionaryService.DeleteCountry(countries.Id);
             if (!String.IsNullOrEmpty(errorMessage))
             {
                 ModelState.AddModelError("e", errorMessage);
@@ -86,21 +86,50 @@ namespace iWasHere.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddCountry(DictionaryCountryModel dictionaryCountry, string btn, int id)
         {
-            if (id == 0)
+            if (dictionaryCountry != null)
             {
-                _dictionaryService.AddCountry(dictionaryCountry);
-                if (btn == "SaveAndNew")
+                string errorMessage;
+                if (id == 0)
                 {
-                   
-                    return View();
-                    
+                    errorMessage = _dictionaryService.AddCountry(dictionaryCountry);
+                    if (String.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        if (btn == "SaveAndNew")
+                        {
+                            ModelState.Clear();
+                            return View();
+                        }
+                        else
+                        {
+                            return View("Index");
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("error", errorMessage);
+                        return View();
+                    }
                 }
                 else
                 {
-                    return View("Index");
-                } 
+                    dictionaryCountry.Id = id;
+                    errorMessage = _dictionaryService.Update(dictionaryCountry);
+                    if (String.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        return View("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("error", errorMessage);
+                        return View();
+                    }
+
+                }
             }
-            return View();
+            else
+            {
+                return Json(ModelState.ToDataSourceResult());
+            }
         }
     }
 }
