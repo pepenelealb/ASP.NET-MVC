@@ -27,6 +27,11 @@ namespace iWasHere.Domain.Service
             return dictionaryAttraction;
         }
 
+        public TouristicObjectiveDTO GetObjectivForUpdate(int id)
+        {
+            
+        }
+
         public List<DictionaryOpenSeasonModel> GetSeason()
         {
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasons = _dbContext.DictionaryOpenSeason.Select(a => new DictionaryOpenSeasonModel()
@@ -141,5 +146,43 @@ namespace iWasHere.Domain.Service
             //    return "Ceva a mers prost";
             //}
         }
+
+        public TouristicObjectiveDTO GetTouristicObjectiveById(int id)
+        {
+           
+            TouristicObjectiveDTO obj = _dbContext.TouristicObjective
+               .Where(a => a.TouristicObjectiveId == id)
+                .Select(a => new TouristicObjectiveDTO()
+                {
+                    TouristicObjectiveId = a.TouristicObjectiveId,
+                    TouristicObjectiveCode = a.TouristicObjectiveCode,
+                    TouristicObjectiveName = a.TouristicObjectiveName,
+                    TouristicObjectiveDescription = a.TouristicObjectiveDescription,
+                    HasEntry = a.HasEntry,
+                    AttractionCategoryId = a.AttractionCategoryId,
+             
+                    OpenSeasonId = a.OpenSeasonId,
+                    CityId = a.CityId,
+                    Longitude = a.Longitude,
+                    Latitude = a.Latitude
+
+                }).First();
+           
+            obj.CityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
+            obj.AttractionName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
+                (a => a.AttractionCategoryName).FirstOrDefault();
+            obj.Season = _dbContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == obj.OpenSeasonId).Select(a => a.OpenSeasonType).FirstOrDefault();
+            if(obj.HasEntry == true)
+            {
+                obj.Price = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.Price).FirstOrDefault();
+                    }
+
+            return obj;
+        }
+
+      
+
+
     }
-}
+
+    }
