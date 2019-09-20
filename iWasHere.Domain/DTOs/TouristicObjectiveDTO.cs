@@ -18,11 +18,13 @@ namespace iWasHere.Domain.DTOs
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public int DictionaryTicketId { get; set; }
-        public bool CurrencyId { get; set; }
-        public string CityName { get; set; }
-        public string AttractionName { get; set; }
-
-        public string Season { get; set; }
+        public int CurrencyId { get; set; }
+        public string TicketCategory { get; set; }
+        public string Currency { get; set; }
+        public string AttractionCategoryName { get; set; }
+        public string Type { get; set; }
+        public string cityName { get; set; }
+        public int Unique { get; set; }
 
 
     }

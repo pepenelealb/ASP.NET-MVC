@@ -5,14 +5,14 @@
 
 <style>
 
-    .ticket{
-        border-style:solid;        
-        border-width:1px;
-        border-color: darkcyan;  
-       
+    .ticket {
+        border-style: solid;
+        border-width: 1px;
+        border-color: darkcyan;
     }
- 
 </style>
+
+@Html.ValidationSummary(true)
 
 <br />
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
@@ -29,11 +29,12 @@
     <input type="text" asp-for="TouristicObjectiveDescription" />
     <br />
     <br />
-    <label >Are bilet de intrare:</label>
+    <label>Nu are bilet:</label>
     <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
     <br />
     <br />
-    <div id="ticket" class="ticket"><br/>
+    <div id="ticket" class="ticket">
+        <br />
         <label id="pricelbl">Pret:</label>
         <input type="text" asp-for="Price" id="price" />
         <br />
@@ -135,40 +136,36 @@
     <br />
     <br />
 
-    <button type="submit" onclick="validateData()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
-    <button type="submit" onclick="validateData()" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
+    <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+    <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
     <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
 
+    @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 }
 
 <script type="text/javascript">
-    
+
     window.onload = hidePrice();
     function hidePrice() {
-        var checkBox = document.getElementById("entry");      
+        var checkBox = document.getElementById("entry");
         if (checkBox.checked == true) {
-            document.getElementById("ticket").style.display = "block";                        
+            document.getElementById("ticket").style.display = "block";
         } else {
-            document.getElementById("ticket").style.display = "none";                    
+            document.getElementById("ticket").style.display = "none";
         }
-    }   
+    }
 
-    function isEmptyOrSpaces(str){
-    return str === null || str.match(/^ *$/) !== null;
-    }  
+    function checkValue() {
+        var objName = document.getElementById("nameCode");        
+        var unique = 0;
+        if (objName.defaultValue != objName.value) {
+            unique = 1;
+        }
+        $('#unique').val(unique);
+    }
 
-    //function validateData() {       
-    //    if (isEmptyOrSpaces($("#nameAttraction").val())) {
-    //        alert("Numele obiectivului turistic este obligatoriu");
-    //    } else if (isEmptyOrSpaces($("#nameCode").val())) {
-    //        alert("Codul orasului este obligatoriu");
-    //    } else if (isEmptyOrSpaces($("#attraction").val)) {
-    //        alert("Nu ai selectat categoria atractiei")
-    //    } else if (isEmptyOrSpaces($("#season").val())) {
-    //        alert("Nu ai selectat tipul sezonului");
-    //    }          
-    //      else if (isEmptyOrSpaces($("#city").val())) {
-    //        alert("Nu ai selectat un oras pentru atractia ta");
-    //    }
-    //}    
+    function isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
+
 </script>

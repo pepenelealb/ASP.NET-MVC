@@ -30,7 +30,7 @@ namespace iWasHere.Web.Controllers
             }
             else
             {
-                TouristicObjectiveDTO turistObjective = _dictionaryObjective.GetObjectivForUpdate(Convert.ToInt32(id));
+                TouristicObjectiveDTO turistObjective = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
                 return View(turistObjective);
             }
         }
@@ -49,23 +49,41 @@ namespace iWasHere.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton)
+        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton, string id)
         {
-            string errorMessage = _dictionaryObjective.Insert(model);
-            if (String.IsNullOrWhiteSpace(errorMessage))
+            if (Convert.ToInt32(id) == 0)
             {
-                if(submitButton == "Save")
+                string errorMessage = _dictionaryObjective.Insert(model);
+                if (String.IsNullOrWhiteSpace(errorMessage))
+                {
+                    if (submitButton == "Save")
+                    {
+                        return View("Index");
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        return View();
+                    }
+                }
+
+                ModelState.AddModelError(string.Empty, errorMessage);
+                return View();
+            }
+            else
+            {
+                model.TouristicObjectiveId = Convert.ToInt32(id);
+                string errorMessage = _dictionaryObjective.Update(model);
+                if (String.IsNullOrWhiteSpace(errorMessage))
                 {
                     return View("Index");
-                }else
-                {
-                    ModelState.Clear();
-                    return View();
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, errorMessage);
+                    return View();
+                }             
             }
-
-            ModelState.AddModelError("a", errorMessage);
-            return View();
         }
 
         public JsonResult Read_Attraction()

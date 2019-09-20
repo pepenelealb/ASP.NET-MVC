@@ -83,8 +83,7 @@ namespace iWasHere.Domain.Service
                 {
                     cityId = a.CityId,
                     cityName = a.CityName,
-                    county = a.County.CountyName,
-                    //countyId = a.CountyId
+                    county = a.County.CountyName,                 
 
 
                 }).First();

@@ -25,12 +25,7 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryAttraction;
-        }
-
-        public TouristicObjectiveDTO GetObjectivForUpdate(int id)
-        {
-            
-        }
+        }        
 
         public List<DictionaryOpenSeasonModel> GetSeason()
         {
@@ -78,6 +73,86 @@ namespace iWasHere.Domain.Service
 
             return currency;
         }
+
+        public string UpdateDB(TouristicObjectiveDTO model)
+        {
+                int id;
+           
+                TouristicObjective obj = _dbContext.TouristicObjective.Find(model.TouristicObjectiveId);
+                obj.TouristicObjectiveName = model.TouristicObjectiveName;
+                obj.TouristicObjectiveCode = model.TouristicObjectiveCode;
+                obj.TouristicObjectiveDescription = model.TouristicObjectiveDescription;
+                obj.HasEntry = model.HasEntry;
+                obj.OpenSeasonId = model.OpenSeasonId;
+                obj.AttractionCategoryId = model.AttractionCategoryId;
+                obj.CityId = model.CityId;
+                obj.Latitude = model.Latitude;
+                obj.Longitude = model.Longitude;
+                _dbContext.TouristicObjective.Update(obj);
+                _dbContext.SaveChanges();
+                if (model.HasEntry)
+                {
+                    id = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.TicketId).FirstOrDefault();
+                    if (id != 0)
+                    {
+                        Ticket ticket = _dbContext.Ticket.Find(id);
+                        ticket.Price = model.Price;
+                        ticket.DictionaryCurrencyId = model.CurrencyId;
+                        ticket.DictionaryTicketId = model.DictionaryTicketId;
+                        _dbContext.Ticket.Update(ticket);
+                        _dbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        Ticket ticket = new Ticket
+                        {
+                            Price = model.Price,
+                            DictionaryCurrencyId = model.CurrencyId,
+                            DictionaryTicketId = model.DictionaryTicketId,
+                            TouristicObjectiveId = model.TouristicObjectiveId,
+                            DictionaryExchangeRateId = 1
+
+                        };
+
+                        _dbContext.Ticket.Add(ticket);
+                        _dbContext.SaveChanges();
+                    }
+                }
+                else
+                {
+                    id = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.TicketId).FirstOrDefault();
+                    if (id != 0)
+                    {
+                        _dbContext.Remove(_dbContext.Ticket.Single(a => a.TicketId == id));
+                        _dbContext.SaveChanges();
+                    }
+                }
+                return null;
+            
+        }
+
+        public string Update(TouristicObjectiveDTO model)
+        {
+            if(model.Unique == 0)
+            {
+                    return UpdateDB(model);
+            }
+            else
+            {
+                int code = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+                if (code == 0)
+                {
+                    return UpdateDB(model);
+                }
+                else
+                {
+                    return "Codul tau nu este unic";
+                }
+            }
+           
+                
+        }
+        
 
         public string Insert(TouristicObjectiveDTO model)
         {
@@ -168,14 +243,18 @@ namespace iWasHere.Domain.Service
 
                 }).First();
            
-            obj.CityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
-            obj.AttractionName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
+            obj.cityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
+            obj.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
                 (a => a.AttractionCategoryName).FirstOrDefault();
-            obj.Season = _dbContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == obj.OpenSeasonId).Select(a => a.OpenSeasonType).FirstOrDefault();
+            obj.Type = _dbContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == obj.OpenSeasonId).Select(a => a.OpenSeasonType).FirstOrDefault();
             if(obj.HasEntry == true)
             {
                 obj.Price = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.Price).FirstOrDefault();
-                    }
+                obj.DictionaryTicketId = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.DictionaryTicketId).FirstOrDefault();
+                obj.CurrencyId = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.DictionaryCurrencyId).FirstOrDefault();
+                obj.TicketCategory = _dbContext.DictionaryTicket.Where(x => x.DictionaryTicketId == obj.DictionaryTicketId).Select(x => x.TicketCategory).FirstOrDefault();
+                obj.Currency = _dbContext.DictionaryCurrency.Where(x => x.DictionaryCurrencyId == obj.CurrencyId).Select(x => x.CurrencyCode).FirstOrDefault();
+            }
 
             return obj;
         }
