@@ -70,6 +70,19 @@
         localStorage.setItem("storageName", getInput);
 
     }
+    //function error_handler(e) {    
+    //    if (e.errors) {
+    //        e.preventDefault();
+    //        var message = "Errors:\n";
+    //        $.each(e.errors, function (key, value) {
+    //            if ('errors' in value) {
+    //                $.each(value.errors, function() {
+    //                    message += this + "\n";
+    //                });
+    //            }
+    //        });        
+    //        alert(message);
+    //    }
 
     //pt btuoane
     $(document).ready(function () {
@@ -131,7 +144,7 @@
                         .DataSource(dataSource => dataSource
                         .Ajax()
                         .Read(read => read.Action("Read", "County").Data("filtrare"))
-                        //.Events(events => events.Error("errorF"))
+                        //.Events(events => events.Error("error_handler"))
                         .Model(model => model.Id(p => p.CountyId))
                         .Destroy(destroy => destroy.Action("Delete_County", "County"))
                         .PageSize(15)
