@@ -1,7 +1,28 @@
-﻿
+﻿@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
+
 @{
     ViewData["Title"] = "TouristicObjectiveDetail";
 }
 
+@using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
+{
 
-
+    <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
+    <label>         ,      </label>
+    <input type="text" asp-for="CityName" id="txtObjectiveCity" />
+    <br />
+    <br />
+    <label>Cod: </label>
+    <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode"  readonly/>
+    <label>,</label>
+    <input type="text" asp-for="AttractionName" id="txtObjectiveCity" readonly />
+    <br />
+    <br />
+    <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
+    <br />
+    <br />
+    <input type="text" asp-for="Price" id="txtObjectivePrice" readonly/>
+    <br />
+    <br />
+    <input type="text" asp-for="Season" id="txtObjectiveOpenSeason" readonly />
+}

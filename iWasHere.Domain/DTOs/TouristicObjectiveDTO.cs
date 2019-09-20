@@ -11,7 +11,7 @@ namespace iWasHere.Domain.DTOs
         public string TouristicObjectiveName { get; set; }
         public string TouristicObjectiveDescription { get; set; }
         public bool HasEntry { get; set; }
-        public int Price { get; set; }        
+        public decimal Price { get; set; }        
         public int AttractionCategoryId { get; set; }        
         public int OpenSeasonId { get; set; }                
         public int CityId { get; set; }       
@@ -19,5 +19,11 @@ namespace iWasHere.Domain.DTOs
         public double Latitude { get; set; }
         public int DictionaryTicketId { get; set; }
         public bool CurrencyId { get; set; }
+        public string CityName { get; set; }
+        public string AttractionName { get; set; }
+
+        public string Season { get; set; }
+
+
     }
 }
