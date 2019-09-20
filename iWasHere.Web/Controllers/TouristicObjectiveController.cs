@@ -77,19 +77,17 @@ namespace iWasHere.Web.Controllers
             var JsonVariable = _dictionaryObjective.GetCity();
             return Json(JsonVariable);
         }
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult TouristicObjectiveDetail()
-        //{
-        //    //if (Convert.ToInt32(id) == 0)
-        //    //{
-        //    //    return View();
-        //    //}
-        //    //else
-        //    //{
-        //    //    TouristicObjectiveDTO model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
-        //    //    return View(model);
-        //    //}
-        //}
+
+        public JsonResult Read_Ticket_Category()
+        {
+            var JsonVariable = _dictionaryObjective.GetTypeTickets();
+            return Json(JsonVariable);
+        }
+
+        public JsonResult Read_Currency()
+        {
+            var JsonVariable = _dictionaryObjective.GetCurrency();
+            return Json(JsonVariable);
+        }
     }
 }

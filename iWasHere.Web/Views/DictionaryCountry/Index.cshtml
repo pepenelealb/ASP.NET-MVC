@@ -9,7 +9,7 @@
     <input id="searchCountryName" type="text" />
     <button type="button" id="btnSearch" onclick="refreshFunction()" asp-controller="DictionaryCountry" asp-action="GetCountries">Filtreaza</button>
     <button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="DictionaryCountry" asp-action="GetCountries">Sterge Filtre</button>
-    <a href=@Url.Action("AddCountry", "DictionaryCountry", 0) type="button" class="btn btn-primary">Adauga</a>
+    <a href=@Url.Action("AddCountry", "DictionaryCountry", 0) onclick="setAdd()" type="button" class="btn btn-primary">Adauga</a>
 </p>
 
 <br />
@@ -18,11 +18,12 @@
     .Name("grid")
     .Columns(columns =>
     {
-        columns.Bound(c => c.Id).Width(200);
+        columns.Bound(c => c.Id).Width(200).Visible(false);
         columns.Bound(c => c.Name).Width(200);
+         columns.Template("<a href='" + @Url.Action("AddCountry", "DictionaryCountry") + "?id=#=Id#' onclick='setEdit()' class='btn btn-success'> <i class='fas fa-edit'></i>&nbsp; Modifica</a> ");
         columns.Command(c =>
-            {
-                c.Destroy();
+        {
+            c.Destroy();
         });
     })
     .HtmlAttributes(new { style = "height: 380px;" })
@@ -32,21 +33,30 @@
     .Pageable(pageable => pageable
     .Refresh(true)
     .ButtonCount(5))
-    //.ToolBar(toolbar=>toolbar.Create())
     .DataSource(dataSource => dataSource
     .Ajax()
     .Read(read => read.Action("GetCountries", "DictionaryCountry").Data("getFilter"))
     .PageSize(4)
     .Model(model => model.Id(m => m.Id))
-    //.Create("Create","DictionaryCountry")
     .Destroy(d => d.Action("Delete", "DictionaryCountry"))
     .Events(a => a.Error("handleError"))
-
     )
 )
 
 
 <script type="text/javascript">
+
+    var getValue;
+    function setAdd() {        
+        getValue = "create"
+        localStorage.setItem("storageName",getValue);
+    }
+
+    function setEdit() {        
+        getValue = "edit"
+        localStorage.setItem("storageName", getValue);
+    }
+
     getFilter = function (e) {
         var textBoxValue = {};
         textBoxValue["searchCountryName"] = $("#searchCountryName").val();
@@ -68,10 +78,6 @@
 
     function handleError(e) {
         alert("Eroare de stergere! Aceasta tara reprezinta referinta catre alte tabele!")
-    }
-
-    function addOnClick() {
-
     }
 </script>
 
