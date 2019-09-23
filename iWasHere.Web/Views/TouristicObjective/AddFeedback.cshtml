@@ -89,6 +89,17 @@
             }
             if (isEmptyOrSpaces($('#commentDesc').val()))
                   alert("Trebuie sa introduceti obligatoriu o descriere!")
+           
+        }
+
+        function myCheckBox()
+        {
+            if (document.getElementById('checkBox').checked) {
+                $("#feedbackName").val("");
+            }
+            else {
+                $("#feedbackName").val();
+            }
             if (document.getElementById("str1").checked || document.getElementById("str2").checked || document.getElementById("str3").checked
                 || document.getElementById("str4").checked || document.getElementById("str5").checked || document.getElementById("str6").checked
                 || document.getElementById("str9").checked || document.getElementById("str8").checked || document.getElementById("str9").checked

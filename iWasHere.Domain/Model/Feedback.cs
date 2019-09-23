@@ -9,7 +9,6 @@ namespace iWasHere.Domain.Model
         public string CommentTitle { get; set; }
         public string Comment { get; set; }
         public int? Rating { get; set; }
-        public string FeedbackName { get; set; }
         public int TouristicObjectiveId { get; set; }
         public string UserId { get; set; }
         public string UserName { get; set; }

@@ -226,7 +226,7 @@ namespace iWasHere.Domain.Service
 
         public TouristicObjectiveDTO GetTouristicObjectiveById(int id)
         {
-
+            
             TouristicObjectiveDTO obj = _dbContext.TouristicObjective
                .Where(a => a.TouristicObjectiveId == id)
                 .Select(a => new TouristicObjectiveDTO()
@@ -237,17 +237,20 @@ namespace iWasHere.Domain.Service
                     TouristicObjectiveDescription = a.TouristicObjectiveDescription,
                     HasEntry = a.HasEntry,
                     AttractionCategoryId = a.AttractionCategoryId,
-
                     OpenSeasonId = a.OpenSeasonId,
                     CityId = a.CityId,
                     Longitude = a.Longitude,
-                    Latitude = a.Latitude
-
+                    Latitude = a.Latitude,
+                    PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
 
             obj.cityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
             obj.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
                 (a => a.AttractionCategoryName).FirstOrDefault();
+            obj.countyId = _dbContext.DictionaryCity.Where(x => x.CityId == obj.CityId).Select(x => x.CountyId).FirstOrDefault();
+            obj.countryId = _dbContext.DictionaryCounty.Where(x => x.CountyId == obj.countyId).Select(x => x.CountryId).FirstOrDefault();
+            obj.countryName = _dbContext.DictionaryCountry.Where(x => x.CountryId == obj.countryId).Select(x => x.CountryName).FirstOrDefault();
+          //  obj.PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.PictureName).FirstOrDefault();
             obj.Type = _dbContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == obj.OpenSeasonId).Select(a => a.OpenSeasonType).FirstOrDefault();
             if (obj.HasEntry == true)
             {
@@ -256,9 +259,7 @@ namespace iWasHere.Domain.Service
                 obj.CurrencyId = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.DictionaryCurrencyId).FirstOrDefault();
                 obj.TicketCategory = _dbContext.DictionaryTicket.Where(x => x.DictionaryTicketId == obj.DictionaryTicketId).Select(x => x.TicketCategory).FirstOrDefault();
                 obj.Currency = _dbContext.DictionaryCurrency.Where(x => x.DictionaryCurrencyId == obj.CurrencyId).Select(x => x.CurrencyCode).FirstOrDefault();
-                obj.countyId = _dbContext.DictionaryCity.Where(x => x.CityId == obj.CityId).Select(x => x.CountyId).FirstOrDefault();
-                obj.countryId = _dbContext.DictionaryCounty.Where(x => x.CountyId == obj.countyId).Select(x => x.CountryId).FirstOrDefault();
-                obj.countryName = _dbContext.DictionaryCountry.Where(x => x.CountryId == obj.countryId).Select(x => x.CountryName).FirstOrDefault();
+                
             }
 
             return obj;
@@ -299,7 +300,6 @@ namespace iWasHere.Domain.Service
                 CommentTitle = model.commentTitle,
                 Comment = model.comment,
                 Rating = model.rating,
-                FeedbackName = model.feedbackName,
                 TouristicObjectiveId = model.touristicObjectiveId,
                 UserId = model.userId,
                 UserName = model.userName

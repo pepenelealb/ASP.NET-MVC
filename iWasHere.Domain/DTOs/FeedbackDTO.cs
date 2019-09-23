@@ -13,7 +13,6 @@ namespace iWasHere.Domain.DTOs
         public string commentTitle { get; set; }
         public string comment { get; set; }
         public int rating { get; set; }
-        public string feedbackName { get; set; }
         public int touristicObjectiveId { get; set; }
         public string userId { get; set; }
         public string userName { get; set; }
