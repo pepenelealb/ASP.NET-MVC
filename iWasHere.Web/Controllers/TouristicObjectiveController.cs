@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using iWasHere.Domain.DTOs;
+using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iWasHere.Web.Controllers
@@ -29,23 +32,28 @@ namespace iWasHere.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton)
         {
-           //// string errorMessage = _dictionaryObjective.Insert(model);
-           // if (String.IsNullOrWhiteSpace(errorMessage))
-           // {
-           //     if(submitButton == "Save")
-           //     {
-           //         return View("Index");
-           //     }else
-           //     {
-           //         ModelState.Clear();
-           //         return View();
-           //     }
-           // }
 
-           // ModelState.AddModelError("a", errorMessage);
+          
+            ICollection<Picture> c = model.Picture;
             return View();
+            //// string errorMessage = _dictionaryObjective.Insert(model);
+            // if (String.IsNullOrWhiteSpace(errorMessage))
+            // {
+            //     if(submitButton == "Save")
+            //     {
+            //         return View("Index");
+            //     }else
+            //     {
+            //         ModelState.Clear();
+            //         return View();
+            //     }
+            // }
+
+            // ModelState.AddModelError("a", errorMessage);
+
         }
 
         public JsonResult Read_Attraction()

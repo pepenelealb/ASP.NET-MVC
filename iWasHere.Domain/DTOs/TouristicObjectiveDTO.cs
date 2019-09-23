@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iWasHere.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -18,12 +19,10 @@ namespace iWasHere.Domain.DTOs
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public int DictionaryTicketId { get; set; }
-        public bool CurrencyId { get; set; }
+        public int CurrencyId { get; set; }
+        public virtual ICollection<Picture> Picture { get; set; }
 
-        ///picture
-        public int ImageId { get; set; }
-        public byte[] PictureImage { get; set; }
-        public string PictureName { get; set; }
-        
+
+
     }
 }

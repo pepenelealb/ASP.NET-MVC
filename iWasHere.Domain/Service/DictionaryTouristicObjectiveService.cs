@@ -75,7 +75,7 @@ namespace iWasHere.Domain.Service
             return currency;
         }
 
-        public string Insert(TouristicObjectiveDTO model)
+        public string Insert(TouristicObjectiveDTO model,IEnumerable<Picture_DTO> model2)
         {
             if (String.IsNullOrWhiteSpace(model.TouristicObjectiveName))
             {
@@ -136,7 +136,7 @@ namespace iWasHere.Domain.Service
                     }
                 
                   
-                    foreach (var file in AsyncDocumentsFiles)
+                    foreach (var file in model2)
                     {
                         FileStream fs = new FileStream(file.PictureName, FileMode.Open, FileAccess.Read);
                         BinaryReader br = new BinaryReader(fs);

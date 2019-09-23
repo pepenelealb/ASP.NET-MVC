@@ -4,7 +4,8 @@
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
 
-@model iWasHere.Domain.DTOs.TouristicObjectiveDTO;
+@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
+
 @{
     ViewData["Title"] = "AddOrEdit";
 }
@@ -140,9 +141,11 @@
     <br />
     <br />
     //Upload img
+    @*@foreach (var img in Model.Picture.)*@
     <div class="demo-section k-content ">
-        <div> <input name="AsyncDocumentsFiles" asp-for="PictureName" id="AsyncDocumentsId" type="file" accept="doc,pdf" /> </div>
-    </div>
+            <div> <input name="AsyncDocumentsFiles" aps-for="Picture" id="AsyncDocumentsId" type="file" accept="doc,pdf" /> </div>
+        </div>
+    @*<input type="file" name="postedFile" />*@
 
     <div align="center" ;>
         <button type="submit" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
