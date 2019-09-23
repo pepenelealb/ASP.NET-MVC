@@ -37,9 +37,18 @@
     <br />
     <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
 
+    <input type="text" asp-for="Latitude" hidden id="Latitude" />
+    <input type="text" asp-for="Longitude" hidden id="Longitude" />
+
+    <div id="map"></div>
+
 }
 
 <style>
+    #map {
+        height: 400px;
+        width: 700px;
+    }
 
     #txtObjectiveName {
         font-style: oblique;
@@ -48,11 +57,13 @@
         border: transparent;
         text-align: right;
     }
-    #txtObjectiveCountry{
-         border: transparent;
+
+    #txtObjectiveCountry {
+        border: transparent;
         font-size: medium;
         text-align: left;
     }
+
     #txtObjectiveCity {
         border: transparent;
         font-size: medium;
@@ -89,3 +100,21 @@
         text-align: left;
     }
 </style>
+
+<script>
+    var map;
+    function initMap() {
+        debugger;
+        var Latitude = parseFloat($("#Latitude").val());
+        var Longitude = parseFloat($("#Longitude").val());
+        // The location of Uluru
+        var uluru = { lat: Latitude, lng: Longitude };
+        // The map, centered at Uluru
+        var map = new google.maps.Map(
+            document.getElementById('map'), { zoom: 15, center: uluru });
+        // The marker, positioned at Uluru
+        var marker = new google.maps.Marker({ position: uluru, map: map });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbRIxmMBjKw5IovRx6CF03hU8SDpqxtos&callback=initMap"
+        async defer></script>
