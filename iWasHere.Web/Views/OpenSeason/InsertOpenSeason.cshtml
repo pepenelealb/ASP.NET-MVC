@@ -7,15 +7,13 @@
 {
     <div>
         <label>Tip sezon:</label><br />
-        <input id="openSeasonType" asp-for="Type" type="text"/>
+        <input id="openSeasonType" asp-for="Type" type="text" />
         <button type="submit" onclick="success()" class="btn btn-success" name="submitButton" value="Save">Salveaza</button>
         <button type="submit" onclick="success()" class="btn btn-info" name="submitButton" id="SaveAndNew" value="SaveAndNew">Salveaza si Nou</button>
         <br />
         <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
     </div>
 }
-
-#line default
 
 <script>
     window.onload = set();

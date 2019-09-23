@@ -7,7 +7,9 @@
 
 <input type="text" id="textBox" />
 <button onclick="refresh()" type="button" id="btnSearch" asp-controller="OpenSeason" asp-action="GetOpenSeason">Filtreaza</button>
-<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) onclick="setInsert()" type="button" class="btn btn-primary">Adauga</a>
+<button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="OpenSeason" asp-action="GetOpenSeason">Sterge Filtre</button>
+<br />
+<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) onclick="setInsert()" type="button" class="btn">Adauga</a>
 
 <br />
 
@@ -40,7 +42,7 @@
     .Model(a => a.Id(m => m.Id))
     //.Update(update => update.Action("UpdateOpenSeason", "OpenSeason"))
     .Read(read => read.Action("GetOpenSeason", "OpenSeason").Data("myFilter"))
-
+    //.Events(a => a.Error("handleError"))
     )
         )
     </tr>
@@ -68,6 +70,12 @@
     function refresh() {
         $("#grid").data("kendoGrid").dataSource.read();
         $("#grid").data("kendoGrid").dataSource.page(1);
+
+    }
+
+    function deleteFilters() {
+        $('#textBox').val("");
+        refresh();
 
     }
 </script>
