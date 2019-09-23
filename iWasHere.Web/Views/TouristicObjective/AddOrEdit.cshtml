@@ -19,6 +19,8 @@
     }
 </style>
 
+@Html.ValidationSummary(true)
+
 <br />
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {
@@ -34,7 +36,7 @@
     <input type="text" asp-for="TouristicObjectiveDescription" />
     <br />
     <br />
-    <label>Are bilet de intrare:</label>
+    <label>Nu are bilet:</label>
     <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
     <br />
     <br />
@@ -147,12 +149,11 @@
         </div>
     @*<input type="file" name="postedFile" />*@
 
-    <div align="center" ;>
-        <button type="submit" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
-        <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
-        <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
-    </div>
+    <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+    <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
+    <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
 
+    @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 }
 
 <script type="text/javascript">
@@ -166,31 +167,18 @@
             document.getElementById("ticket").style.display = "none";
         }
     }
-    $(document).ready(function () {
-        //Enable Kendo Uploader to Normal Uploader control
-        $("#AsyncDocumentsId").kendoUpload({});
-        //Adding Kendo Css
-        $("#AsyncDocumentsId").closest(".k-upload").find("span").text("+ Add Files");
-    });
-    $("#AsyncDocumentsId").kendoUpload({
-        async: {
-            //saveUrl: "",
-            autoUpload: true
-        },
-    });
 
-    //function validateData() {
-    //    if (isEmptyOrSpaces($("#nameAttraction").val())) {
-    //        alert("Numele obiectivului turistic este obligatoriu");
-    //    } else if (isEmptyOrSpaces($("#nameCode").val())) {
-    //        alert("Codul orasului este obligatoriu");
-    //    } else if (isEmptyOrSpaces($("#attraction").val)) {
-    //        alert("Nu ai selectat categoria atractiei")
-    //    } else if (isEmptyOrSpaces($("#season").val())) {
-    //        alert("Nu ai selectat tipul sezonului");
-    //    }
-    //      else if (isEmptyOrSpaces($("#city").val())) {
-    //        alert("Nu ai selectat un oras pentru atractia ta");
-    //    }
-    //}
+    function checkValue() {
+        var objName = document.getElementById("nameCode");        
+        var unique = 0;
+        if (objName.defaultValue != objName.value) {
+            unique = 1;
+        }
+        $('#unique').val(unique);
+    }
+
+    function isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
+
 </script>
