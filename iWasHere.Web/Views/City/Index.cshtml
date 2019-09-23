@@ -50,65 +50,7 @@ read.Action("Read_County", "City").Data("onAdditionalData");
 </div>
 
 </div>
-<script type="text/javascript">
-    var getInput;
-    function setCreate() {        
-        getInput = "create"
-        localStorage.setItem("storageName",getInput);
-    }
 
-    function setEdit() {        
-        getInput = "edit"
-        localStorage.setItem("storageName",getInput);
-    }
-
-    function deleteFilters() {
-        $('#textBox').val(""); 
-        $('#Orase').val("");
-        refresh();
-
-    }
-    function onAdditionalData() {
-            return {
-                text: $("#Orase").val()
-            };
-    }
-
-    function myFilter() {        
-        var cityName = $("#textBox").val()
-        var countyName = $("#Orase").val()
-
-        var filter = {}
-        filter["cityName"] = cityName
-        filter["countyName"] = countyName
-        console.log(filter.cityName, filter.countyName)
-
-        return filter
-    }
-
-    function refresh() {     
-            $("#grid").data("kendoGrid").dataSource.read();
-            $("#grid").data("kendoGrid").dataSource.page(1);
-        
-    }
-    function error_handler(e) {    
-        alert("Acest Oras nu poate fi sters")
-    } 
-    $(document).ready(function () {
-        $("#btn_add").kendoButton();
-
-        $("#btn_filter").kendoButton({
-            icon: "filter"
-        });
-
-        $("#btn_r_filter").kendoButton({
-            icon: "filter-clear"
-
-        });
-
-    });
-
-</script>
 
 <br />
 
@@ -138,10 +80,10 @@ read.Action("Read_County", "City").Data("onAdditionalData");
                 .Filterable()
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("Read", "City").Data("myFilter"))
-                .Events(events => events.Error("error_handler"))
+                .Read(read => read.Action("Read", "City").Data("myFilter"))                
                 .Model(model => model.Id(p => p.countyId))
                 .Destroy(update => update.Action("Delete", "City"))
+                .Events(e => e.Error("handleError"))
                 .PageSize(10)
                 )
     )
@@ -152,6 +94,64 @@ read.Action("Read_County", "City").Data("onAdditionalData");
 
 
 </div>
+<script type="text/javascript">
+    var getInput;
+    function setCreate() {
+        getInput = "create"
+        localStorage.setItem("storageName", getInput);
+    }
 
+    function setEdit() {
+        getInput = "edit"
+        localStorage.setItem("storageName", getInput);
+    }
+
+    function deleteFilters() {
+        $('#textBox').val("");
+        $('#Orase').val("");
+        refresh();
+
+    }
+    function onAdditionalData() {
+        return {
+            text: $("#Orase").val()
+        };
+    }
+
+    function myFilter() {
+        var cityName = $("#textBox").val()
+        var countyName = $("#Orase").val()
+
+        var filter = {}
+        filter["cityName"] = cityName
+        filter["countyName"] = countyName
+        console.log(filter.cityName, filter.countyName)
+
+        return filter
+    }
+
+    function refresh() {
+        $("#grid").data("kendoGrid").dataSource.read();
+        $("#grid").data("kendoGrid").dataSource.page(1);
+
+    }
+    function handleError(e) {
+        alert("Eroare de stergere! Aceasta tara reprezinta referinta catre alte tabele!")        
+    }
+    $(document).ready(function () {
+        $("#btn_add").kendoButton();
+
+        $("#btn_filter").kendoButton({
+            icon: "filter"
+        });
+
+        $("#btn_r_filter").kendoButton({
+            icon: "filter-clear"
+
+        });
+
+    });
+
+</script>
 
 

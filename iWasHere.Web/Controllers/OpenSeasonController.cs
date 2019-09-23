@@ -36,7 +36,7 @@ namespace iWasHere.Web.Controllers
             int PageSize = request.PageSize;
             int Page = request.Page;
             DataSourceResult result = new DataSourceResult();
-           List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = dictionaryService.GetDictionaryOpenSeasonModels(PageSize, Page, out totalRows, textBox);
+            List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = dictionaryService.GetDictionaryOpenSeasonModels(PageSize, Page, out totalRows, textBox);
             result.Total = totalRows;
             result.Data = dictionaryOpenSeasonModels;
             return Json(result);
@@ -55,16 +55,18 @@ namespace iWasHere.Web.Controllers
 
         }
 
-        
+
         public IActionResult InsertOpenSeason(string id)
         {
+            DictionaryOpenSeasonModel model = new DictionaryOpenSeasonModel();
+            model.Id = Convert.ToInt32(id);
             if (Convert.ToInt32(id) == 0)
             {
                 return View();
             }
             else
             {
-                DictionaryOpenSeasonModel model = dictionaryService.UpdateOpenSeason(Convert.ToInt32(id));
+               model= dictionaryService.GetOpenSeason(model.Id);
                 return View(model);
             }
         }
@@ -73,22 +75,49 @@ namespace iWasHere.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult InsertOpenSeason(DictionaryOpenSeasonModel model, string submitButton, int id)
         {
-            if (id == 0)
+            if (model != null)
             {
-                dictionaryService.InsertOpenSeason(model);
-                if (submitButton == "SaveAndNew")
+                string errorMessage;
+                if (id == 0)
                 {
-                    return View();
+                    errorMessage = dictionaryService.InsertOpenSeason(model);
+                    if (String.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        //dictionaryService.InsertOpenSeason(model);
+                        if (submitButton == "SaveAndNew")
+                        {
+                            return View();
+                        }
+                        else
+                        {
+                            return View("Index");
+                        }
+                    }
+                    else
+                    {
+                        //dictionaryService.UpdateOpenSeason(model);
+                        ModelState.AddModelError("error", errorMessage);
+                        return View();
+                    }
                 }
                 else
                 {
-                    return View("Index");
+                    model.Id = id;
+                    errorMessage = dictionaryService.UpdateOpenSeason(model);
+                    if (String.IsNullOrWhiteSpace(errorMessage))
+                    {
+                        return View("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("error", errorMessage);
+                        return View();
+                    }
                 }
             }
             else
             {
-                //dictionaryService.UpdateTicket(model);
-                return View();
+                return Json(ModelState.ToDataSourceResult());
             }
         }
     }
