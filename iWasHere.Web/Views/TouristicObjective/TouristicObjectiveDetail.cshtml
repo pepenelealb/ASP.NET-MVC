@@ -18,6 +18,7 @@
 <br/>
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
 {
+    <input type="text"  asp-for="TouristicObjectiveId" id="touristicObjectiveId">
     <div id="div1">
     <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
     <br />
@@ -141,3 +142,10 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbRIxmMBjKw5IovRx6CF03hU8SDpqxtos&callback=initMap"
         async defer></script>
+}
+
+<input type="button" value="Adauga comentariu" onclick="location.href='@Url.Action("AddFeedback", "TouristicObjective")?id='+@Model.TouristicObjectiveId"/>
+
+<script>
+    var id = $('#touristicObjectiveId').val();
+</script>

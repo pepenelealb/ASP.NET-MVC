@@ -134,5 +134,40 @@ namespace iWasHere.Web.Controllers
             var JsonVariable = _dictionaryObjective.GetCurrency();
             return Json(JsonVariable);
         }
+
+        public IActionResult AddFeedback(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                FeedbackDTO feedbackModel = new FeedbackDTO() { touristicObjectiveId = Convert.ToInt32(id) };
+                return View(feedbackModel);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFeedback(FeedbackDTO model, string btn, string id)
+        {
+
+            string errorMessage = _dictionaryObjective.InsertFeedback(model);
+            if (!String.IsNullOrEmpty(errorMessage))
+            {
+                ModelState.AddModelError("e", errorMessage);
+                return View();
+            }
+            else
+            {
+                if (model != null)
+                {
+                    _dictionaryObjective.InsertFeedback(model);
+                }
+            }
+            return View();
+        }
+   
     }
 }

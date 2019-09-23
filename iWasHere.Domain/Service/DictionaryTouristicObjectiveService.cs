@@ -264,6 +264,8 @@ namespace iWasHere.Domain.Service
             return obj;
         }
 
+
+
         public IQueryable<TouristicObjectiveListModel> GetTuristicObjectiveListModels()
         {
             var x =
@@ -288,6 +290,28 @@ namespace iWasHere.Domain.Service
         }
 
 
+        public string InsertFeedback(FeedbackDTO model)
+        {
+            //try
+            //{
+            _dbContext.Feedback.Add(new Feedback
+            {
+                CommentTitle = model.commentTitle,
+                Comment = model.comment,
+                Rating = model.rating,
+                FeedbackName = model.feedbackName,
+                TouristicObjectiveId = model.touristicObjectiveId,
+                UserId = model.userId,
+                UserName = model.userName
+            });
+                _dbContext.SaveChanges();
+                return null;
+            //}
+            //catch (Exception e)
+            //{
+            //    return "Comentariul trebuie sa contina descriere si nume feedback!";
+            //}
+        }
     }
 
 }
