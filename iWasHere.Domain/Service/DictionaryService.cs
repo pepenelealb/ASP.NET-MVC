@@ -209,7 +209,7 @@ namespace iWasHere.Domain.Service
             _bwContext.SaveChanges();
         }
 
-        public void InsertOpenSeason(DictionaryOpenSeasonModel model)
+        public string InsertOpenSeason(DictionaryOpenSeasonModel model)
         {
             _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
             {
@@ -217,18 +217,37 @@ namespace iWasHere.Domain.Service
                 OpenSeasonType = model.Type
             });
             _bwContext.SaveChanges();
+            return null;
         }
 
-        public DictionaryOpenSeasonModel UpdateOpenSeason(int id)
+        public DictionaryOpenSeasonModel GetOpenSeason(int id)
         {
-
-            DictionaryOpenSeasonModel model = _bwContext.DictionaryOpenSeason
-            .Where(a => a.OpenSeasonId == id).Select(a => new DictionaryOpenSeasonModel()
-            {
-                Id = a.OpenSeasonId,
-                Type = a.OpenSeasonType
-            }).First();
+            DictionaryOpenSeasonModel model = _bwContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == id)
+                .Select(a => new DictionaryOpenSeasonModel()
+                {
+                    Id = a.OpenSeasonId,
+                    Type = a.OpenSeasonType
+                }).First();
             return model;
+        }
+        public string UpdateOpenSeason(DictionaryOpenSeasonModel model)
+        {
+            try
+            {                
+                    DictionaryOpenSeason openSeason = _bwContext.DictionaryOpenSeason.Find(model.Id);
+                    openSeason.OpenSeasonId = model.Id;
+                    openSeason.OpenSeasonType = model.Type;
+
+                    _bwContext.DictionaryOpenSeason.Update(openSeason);
+                    _bwContext.SaveChanges();
+                    return null;
+                
+            }
+            catch (Exception e)
+            {
+                return "Completati tipul sezonier!";
+            }
+
         }
 
         public void AddAttractionCategory(string attractionCategoryName)
