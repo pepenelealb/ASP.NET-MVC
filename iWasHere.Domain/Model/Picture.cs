@@ -8,6 +8,7 @@ namespace iWasHere.Domain.Model
         public int ImageId { get; set; }
         public byte[] Picture1 { get; set; }
         public int TouristicObjectiveId { get; set; }
+        public string PictureName { get; set; }
 
         public virtual TouristicObjective TouristicObjective { get; set; }
     }
