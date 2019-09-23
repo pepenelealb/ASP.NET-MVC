@@ -34,7 +34,7 @@ namespace iWasHere.Web.Controllers
             return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
         }
         //img
-       
+    
         //end img
 
         public IActionResult AddOrEdit(string id)
