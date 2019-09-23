@@ -22,7 +22,7 @@
 
 
     <div >
-        <a href="@Url.Action("CreateTicketType", "TicketType", 0)" class="btn btn-info">&nbsp;  Adauga tip bilet</a>
+        <a href="@Url.Action("CreateTicketType", "TicketType", 0)" id ="addTicket "onclick="setCreate()" class="btn btn-info">&nbsp;  Adauga tip bilet</a>
     </div>
     <br />
 </p>
@@ -49,7 +49,7 @@
 
         
            columns.Bound(c => c.TicketCategory).Title("Type");
-             columns.Template("<a href='"+@Url.Action("CreateTicketType", "TicketType")+"?id=#=DictionaryTicketId#' class='btn btn-info'> Modifica</a> ");
+             columns.Template("<a href='"+@Url.Action("CreateTicketType", "TicketType")+"?id=#=DictionaryTicketId#' onclick='setEdit()' class='btn btn-info'> Modifica</a> ");
            columns.Command(command => { command.Destroy(); }).Width(200);
           // columns.Template(" <input type='button' class='k-button info' name='info' value='Modifica' /> ");
           //    columns.Template(" <input type='button' class='k-button info' name='info' value='Sterge' /> ");
@@ -101,6 +101,18 @@
              refresh();
         }
 
+         var getInput;
+    function setCreate() {        
+        getInput = "create"
+        localStorage.setItem("storageName",getInput);
+    }
+
+    function setEdit() {        
+        getInput = "edit"
+        localStorage.setItem("storageName",getInput);
+        }
+
+        
 
     </script>
 </body>

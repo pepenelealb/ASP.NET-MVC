@@ -42,6 +42,13 @@ namespace iWasHere.Domain.Service
 
             return dictionaryTicketModels;
         }
+       
+
+  
+
+
+
+
 
         public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows, string ticketType)
         {
@@ -330,15 +337,23 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public void InsertTicket(DictionaryTicketModel model)
+        public string InsertTicket(DictionaryTicketModel model)
         {
 
-            _bwContext.DictionaryTicket.Add(new DictionaryTicket
+            if (String.IsNullOrWhiteSpace(model.TicketCategory))
             {
-               TicketCategory = model.TicketCategory,
-            
-            });
-            _bwContext.SaveChanges();
+                return "Tipul este obligatoriu";
+            }
+            else
+            {
+                _bwContext.DictionaryTicket.Add(new DictionaryTicket
+                {
+                    TicketCategory = model.TicketCategory,
+
+                });
+                _bwContext.SaveChanges();
+                return null;
+            }
         }
 
 

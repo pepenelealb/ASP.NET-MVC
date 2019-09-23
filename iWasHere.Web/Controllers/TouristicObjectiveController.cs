@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Service;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iWasHere.Web.Controllers
@@ -22,30 +24,73 @@ namespace iWasHere.Web.Controllers
             return View();
         }
 
-        public IActionResult AddOrEdit()
+        public IActionResult GetTuristicObjectives([DataSourceRequest] DataSourceRequest request)
         {
-            return View();
+            return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
+        }
+
+        public IActionResult AddOrEdit(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                TouristicObjectiveDTO turistObjective = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
+                return View(turistObjective);
+            }
+        }
+        public IActionResult TouristicObjectiveDetail(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                TouristicObjectiveDTO model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
+                return View(model);
+            }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton)
+        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton, string id)
         {
-            string errorMessage = _dictionaryObjective.Insert(model);
-            if (String.IsNullOrWhiteSpace(errorMessage))
+            if (Convert.ToInt32(id) == 0)
             {
-                if(submitButton == "Save")
+                string errorMessage = _dictionaryObjective.Insert(model);
+                if (String.IsNullOrWhiteSpace(errorMessage))
+                {
+                    if (submitButton == "Save")
+                    {
+                        return View("Index");
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        return View();
+                    }
+                }
+
+                ModelState.AddModelError(string.Empty, errorMessage);
+                return View();
+            }
+            else
+            {
+                model.TouristicObjectiveId = Convert.ToInt32(id);
+                string errorMessage = _dictionaryObjective.Update(model);
+                if (String.IsNullOrWhiteSpace(errorMessage))
                 {
                     return View("Index");
-                }else
+                }
+                else
                 {
-                    ModelState.Clear();
+                    ModelState.AddModelError(string.Empty, errorMessage);
                     return View();
                 }
             }
-
-            ModelState.AddModelError("a", errorMessage);
-            return View();
         }
 
         public JsonResult Read_Attraction()

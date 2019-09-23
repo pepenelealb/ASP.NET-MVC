@@ -1,7 +1,24 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
+<a href=@Url.Action("Index", "Feedback", 0) onclick="" type="button" class="btn btn-primary">Adauga comentariu</a>
+
+@(Html.Kendo().Grid<iWasHere.Domain.DTOs.TouristicObjectiveListModel>()
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.TouristicObjectiveId);
+    })
+    .Sortable()
+    .Pageable(p => p.Numeric(false).PreviousNext(false))
+    .HtmlAttributes(new { style = "height:550px;" })
+    .Scrollable(sc => sc.Endless(true))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .PageSize(20)
+        .Read(r => r.Action("GetTuristicObjectives", "TouristicObjective"))
+    )
+)
