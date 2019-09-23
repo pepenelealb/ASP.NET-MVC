@@ -53,15 +53,17 @@ namespace iWasHere.Web.Controllers
 
         public IActionResult CreateOrEdit(string id)
         {
-            if (Convert.ToInt32(id) == 0)
-            {
-                return View();
-            }
-            else
-            {
-                CityDTO dictionaryCity = _dictionaryCityService.GetCityforUpdate(Convert.ToInt32(id));
-                return View(dictionaryCity);
-            }
+            
+                if (Convert.ToInt32(id) == 0)
+                {
+                    return View();
+                }
+                else
+                {
+                    CityDTO dictionaryCity = _dictionaryCityService.GetCityforUpdate(Convert.ToInt32(id));   
+                    return View(dictionaryCity);                 
+                }
+                      
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -123,7 +125,7 @@ namespace iWasHere.Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("a", errorMessage);
+                    ModelState.AddModelError("e", errorMessage);
                     return Json(ModelState.ToDataSourceResult());
                 }
             }

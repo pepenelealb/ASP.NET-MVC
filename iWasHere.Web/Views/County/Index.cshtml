@@ -70,20 +70,9 @@
         localStorage.setItem("storageName", getInput);
 
     }
-    //function error_handler(e) {    
-    //    if (e.errors) {
-    //        e.preventDefault();
-    //        var message = "Errors:\n";
-    //        $.each(e.errors, function (key, value) {
-    //            if ('errors' in value) {
-    //                $.each(value.errors, function() {
-    //                    message += this + "\n";
-    //                });
-    //            }
-    //        });        
-    //        alert(message);
-    //    }
-
+    function h_e(e) {
+        alert("nu paote fi sters");}
+    
     //pt btuoane
     $(document).ready(function () {
         $("#btn_add").kendoButton();
@@ -144,7 +133,7 @@
                         .DataSource(dataSource => dataSource
                         .Ajax()
                         .Read(read => read.Action("Read", "County").Data("filtrare"))
-                        //.Events(events => events.Error("error_handler"))
+                        .Events(events => events.Error("h_e"))
                         .Model(model => model.Id(p => p.CountyId))
                         .Destroy(destroy => destroy.Action("Delete_County", "County"))
                         .PageSize(15)
