@@ -324,8 +324,8 @@ namespace iWasHere.Domain.Service
                             new Text("\n Sezonul de atractie este: " + model.Type))),
                                  new Paragraph(
                         new Run(
-                           new Text("\n Orasul in care se afla atractia este : " + model.cityName))),                     
-                
+                           new Text("\n Orasul in care se afla atractia este : " + model.cityName))),
+
                     new Paragraph(
                        new Run(
                           new Text("\n Pretul biletului este : " + model.Price))),
@@ -335,11 +335,12 @@ namespace iWasHere.Domain.Service
                       new Paragraph(
                        new Run(
                           new Text("\n Moneda de plata este : " + model.Currency)))
-                          ));               
-                
+                          ));
+
                 // Save changes to the main document part. 
                 package.MainDocumentPart.Document.Save();
-                
+            }
+        }
 
         public string InsertFeedback(FeedbackDTO model)
         {
@@ -365,4 +366,4 @@ namespace iWasHere.Domain.Service
     }
 
     }
-}
+
