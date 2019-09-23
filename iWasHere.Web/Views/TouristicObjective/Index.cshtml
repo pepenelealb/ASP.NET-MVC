@@ -1,10 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Index";
 }
+    <style>
 
-<h1>Index</h1>
+        .myHeader {
+            background-color: rgb(145, 250, 201);
+            padding: 40px;
+            text-align: center;
+            font-family:  Courier;
+            color: rgb(255, 165, 0);
+            text-shadow: 2px 2px 4px #000000;
+            font-size: 320%;
+        }
 
-<a href=@Url.Action("Index", "Feedback", 0) onclick="" type="button" class="btn btn-primary">Adauga comentariu</a>
+        
+    </style>
+<h1 class="myHeader"> Obiectiv Turistic-Lista</h1>
+
+
 
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.TouristicObjectiveListModel>
     ()
@@ -59,6 +72,7 @@
             <div class='col-md-12' style='text-align: end'>
                 <a href='' class='btn btn-info'><i class='fa fa-edit'></i> Edit</a>
                 <a href='' class='btn btn-success'><i class='fa fa-eye'></i> View</a>
+                <a href='' class='btn btn-success'><i class='fa fa-eye'></i> View2</a>
                 <a href='' class='btn btn-primary'><i class='fa fa-download'></i> Export</a>
             </div>
         </div>
@@ -76,7 +90,9 @@
     .Read(r => r.Action("GetTuristicObjectives", "TouristicObjective"))
     )
     )
-
+<br/>
+<a href=@Url.Action("Index", "Feedback", 0) onclick="" type="button" class="btn btn-primary">Adauga comentariu</a>
+<br/>
     <script id="name-template" type="text/x-kendo-template">
 
         <div class='row'>

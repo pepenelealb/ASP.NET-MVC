@@ -2,15 +2,33 @@
 @{
     ViewData["Title"] = "AddAttractionCategory";
 }
+>
 
 <h1>AddOrEditAttractionCategory</h1>
 @using (Html.BeginForm("AddAttractionCategory", "DictionaryAttractionCategory", FormMethod.Post))
 {
-    <div>
-        <label>Nume categorie atractie:</label><br />
-        <input id="attractionCategoryName" asp-for="AttractionCategoryName" type="text" name="attractionCategoryName" />
-        <button type="submit" class="btn btn-success" name="submitButton" value="save">Salveaza</button>
-        <button type="submit" class="btn btn-info" name="submitButton" value="saveAndNew">Salveaza si Nou</button>
-        <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
-    </div>
+<div>
+    <input hidden type ="text" asp-for="AttractionCategoryId"/>
+    <label>Nume categorie atractie:</label><br />
+    <input id="attractionCategoryName" asp-for="AttractionCategoryName" type="text"/>
+    <button id="save" type="submit" class="btn btn-success" name="submitButton" value="save">Salveaza</button>
+    <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
+    <button id="saveAndNew" type="submit" class="btn btn-info" name="submitButton" value="saveAndNew">Salveaza si Nou</button>
+</div>
 }
+
+<script type="text/javascript">
+
+    window.onload = setEdit();
+
+    function setEdit() {
+        var addOrEdit = localStorage.getItem("storageName");
+        console.log(addOrEdit)
+        if (addOrEdit == "edit") {
+            document.getElementById("saveAndNew").style.visibility = "hidden";
+        }
+        else {
+            document.getElementById("saveAndNew").style.visibility = "visible";
+        }
+    }
+</script>
