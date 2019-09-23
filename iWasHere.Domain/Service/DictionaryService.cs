@@ -29,15 +29,8 @@ namespace iWasHere.Domain.Service
             }).ToList();
 
             return dictionaryTicketModels;
-        }
-       
-
+        }  
   
-
-
-
-
-
         public List<DictionaryTicketModel> GetDictionaryTicketPagination(int pageSize, int page, out int noRows, string ticketType)
         {
             noRows = _bwContext.DictionaryTicket.Count();

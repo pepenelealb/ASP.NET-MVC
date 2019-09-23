@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
@@ -133,6 +135,14 @@ namespace iWasHere.Web.Controllers
         {
             var JsonVariable = _dictionaryObjective.GetCurrency();
             return Json(JsonVariable);
+        }
+
+        public IActionResult Download(string id)
+        {
+            TouristicObjectiveDTO model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
+            _dictionaryObjective.ExportToWord(model);
+
+            return View();
         }
     }
 }
