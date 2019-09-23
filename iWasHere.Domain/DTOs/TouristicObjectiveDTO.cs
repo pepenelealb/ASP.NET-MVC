@@ -26,6 +26,9 @@ namespace iWasHere.Domain.DTOs
         public string cityName { get; set; }
         public int Unique { get; set; }
 
+        public int countyId { get; set; }
 
+        public int countryId { get; set; }
+        public string countryName { get; set; }
     }
 }
