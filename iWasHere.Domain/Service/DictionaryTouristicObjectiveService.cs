@@ -216,23 +216,23 @@ namespace iWasHere.Domain.Service
                     }
                 
                   
-                    foreach (var file in model2)
-                    {
-                        FileStream fs = new FileStream(file.PictureName, FileMode.Open, FileAccess.Read);
-                        BinaryReader br = new BinaryReader(fs);
-                        Byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                    //foreach (var file in model2)
+                    //{
+                    //    FileStream fs = new FileStream(file.PictureName, FileMode.Open, FileAccess.Read);
+                    //    BinaryReader br = new BinaryReader(fs);
+                    //    Byte[] bytes = br.ReadBytes((Int32)fs.Length);
 
-                    var fileUpload = new Picture()
-                    {
+                    //var fileUpload = new Picture()
+                    //{
 
-                        PictureName = file.PictureName,
-                        PictureImage = bytes,
-                        TouristicObjectiveId = 2
-                        };
-                        br.Close();
-                        fs.Close();
-                    _dbContext.Picture.Add(fileUpload);
-                    }
+                    //    PictureName = file.PictureName,
+                    //    PictureImage = bytes,
+                    //    TouristicObjectiveId = 2
+                    //    };
+                    //    br.Close();
+                    //    fs.Close();
+                    //_dbContext.Picture.Add(fileUpload);
+                    //}
                 
                 
                
