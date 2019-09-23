@@ -34,8 +34,6 @@ namespace iWasHere.Web.Controllers
             return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
         }
         //img
-        [HttpPost]
-       
        
         //end img
 

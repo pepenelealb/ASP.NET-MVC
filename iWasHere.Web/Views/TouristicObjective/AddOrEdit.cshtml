@@ -26,8 +26,10 @@
         font-family: Georgia;
         color: white;
     }
-
-
+    #myDiv{
+            display: grid;
+             align-self: center;
+        }
 </style>
 <h1 class="myHeader"> Obiectiv Turistic-Add</h1>
 @Html.ValidationSummary(true)
@@ -35,40 +37,40 @@
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {<div id="myDiv">
-   
+
         <label>Nume Atractie: </label>
 
         <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
-    
-    <br />
-    <br />
-   
+
+        <br />
+        <br />
+
         <label>Cod Atractie:</label>
         <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
         <br />
         <br />
- 
+
         <label>Descriere:</label>
         <input type="text" asp-for="TouristicObjectiveDescription" />
-    
-    <br />
-    <br />
-    
+
+        <br />
+        <br />
+
         <label>Nu are bilet:</label>
         <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
-    
-    <br />
-    <br />
 
-    <div id="ticket" class="ticket">
         <br />
-      
+        <br />
+
+        <div id="ticket" class="ticket">
+            <br />
+
             <label id="pricelbl">Pret:</label>
             <input type="text" asp-for="Price" id="price" />
-       
-        <br />
-        <br />
-      
+
+            <br />
+            <br />
+
             <label>Selecteaza tipul biletului</label>
             @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
                    .DataValueField("DictionaryTicketId")
@@ -84,10 +86,10 @@
                    .ServerFiltering(true);
                })
             )
-       
-        <br />
-        <br />
-       
+
+            <br />
+            <br />
+
             <label>Selecteaza o moneda:</label>
             @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
                   .DataValueField("Id")
@@ -103,11 +105,11 @@
                   .ServerFiltering(true);
               })
             )
-      
-        <br />
-        <br />
-    </div>
-  
+
+            <br />
+            <br />
+        </div>
+
         <label>Selecteaza Tipul Atractiei</label>
         @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
                    .DataValueField("AttractionCategoryId")
@@ -123,10 +125,10 @@
                    .ServerFiltering(true);
                })
         )
-    
-    <br />
-    <br />
-   
+
+        <br />
+        <br />
+
         <label>Selecteaza sezonul</label>
         @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
                    .DataValueField("Id")
@@ -142,10 +144,10 @@
                    .ServerFiltering(true);
                })
         )
-    
-    <br />
-    <br />
-   
+
+        <br />
+        <br />
+
         <label>Selecteaza orasul</label>
         @(Html.Kendo().ComboBoxFor(model => model.CityId)
                    .DataValueField("cityId")
@@ -161,64 +163,55 @@
                    .ServerFiltering(true);
                })
         )
-    
-    <br />
-    <br />
-   
+
+        <br />
+        <br />
+
         <label>Longitudine :</label>
         <input type="text" asp-for="Longitude" />
-   
-    <br />
-    <br />
-   
+
+        <br />
+        <br />
+
         <label>Latitudine :</label>
         <input type="text" asp-for="Latitude" />
-   
-    <br />
-    <br />
-    //Upload img
-    @*@foreach (var img in Model.Picture.)*@
-    <div class="demo-section k-content ">
-        <div> <input name="AsyncDocumentsFiles" aps-for="Picture" id="AsyncDocumentsId" type="file" accept="doc,pdf" /> </div>
-    </div>
-    @*<input type="file" name="postedFile" />*@
 
-    <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
-    <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
-    <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
-
+        <br />
+        <br />
+        <p align="center">
+            <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+            <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
+            <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
+        </p>
+ </div>
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
+}
+
+<script type="text/javascript">
+    window.onload = hidePrice();
+    function hidePrice() {
+        var checkBox = document.getElementById("entry");
+        if (checkBox.checked == true) {
+            document.getElementById("ticket").style.display = "block";
+        } else {
+            document.getElementById("ticket").style.display = "none";
+        }
     }
-
-    <script type="text/javascript">
-
-        window.onload = hidePrice();
-        function hidePrice() {
-            var checkBox = document.getElementById("entry");
-            if (checkBox.checked == true) {
-                document.getElementById("ticket").style.display = "block";
-            } else {
-                document.getElementById("ticket").style.display = "none";
-            }
+    function checkValue() {
+        var objName = document.getElementById("nameCode");
+        var unique = 0;
+        if (objName.defaultValue != objName.value) {
+            unique = 1;
         }
-
-        function checkValue() {
-            var objName = document.getElementById("nameCode");
-            var unique = 0;
-            if (objName.defaultValue != objName.value) {
-                unique = 1;
-            }
-            $('#unique').val(unique);
-        }
-
-        function isEmptyOrSpaces(str) {
-            return str === null || str.match(/^ *$/) !== null;
-        }
-
-    </script>
-    <style>
-        #myDiv{
-            display: grid;
-             align-self: center;
-        }
-    </style>
+        $('#unique').val(unique);
+    }
+    function isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
+</script>
+<style>
+    #myDiv {
+        display: grid;
+        align-self: center;
+    }
+</style>
