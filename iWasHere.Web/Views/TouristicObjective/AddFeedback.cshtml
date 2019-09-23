@@ -50,8 +50,8 @@
 {
 <p>
     <input type="text" hidden asp-for="touristicObjectiveId" />
-    <br><label>Nume utilizator: </label><input id="feedbackName" asp-for="feedbackName" type="text" value="Anonim" />
-    <br><label>Utilizator logat: </label><input type="checkbox" id="checkBox"></input>
+    <br><label>Nume utilizator: </label><input id="feedbackName" asp-for="userName" type="text" value="Anonim" />
+    <br><label>Utilizator logat: </label><input type="checkbox" id="checkBox" onclick="myCheckBox()"/>
     <br><label>Rating</label>
         <div class="rating">
             <span><input type="radio" name="rating" id="str10" value="10"><label for="str10"></label></span>
@@ -81,7 +81,16 @@
           function handleErrorUpdate(e) {
              if (isEmptyOrSpaces($('#commentDesc').val()))
                   alert("Trebuie sa introduceti obligatoriu o descriere!")
-              else if (isEmptyOrSpaces($('#feedbackName').val()))
-                 alert("Trebuie sa introduceti obligatoriu un nume!")
+           
+        }
+
+        function myCheckBox()
+        {
+            if (document.getElementById('checkBox').checked) {
+                $("#feedbackName").val("");
+            }
+            else {
+                $("#feedbackName").val();
+            }
         }
     </script>

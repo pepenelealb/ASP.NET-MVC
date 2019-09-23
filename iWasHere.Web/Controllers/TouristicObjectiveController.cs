@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
@@ -152,22 +153,23 @@ namespace iWasHere.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddFeedback(FeedbackDTO model, string btn, string id)
         {
-
-            string errorMessage = _dictionaryObjective.InsertFeedback(model);
-            if (!String.IsNullOrEmpty(errorMessage))
+            if (model != null)
             {
-                ModelState.AddModelError("e", errorMessage);
-                return View();
-            }
-            else
-            {
-                if (model != null)
+                string errorMessage = _dictionaryObjective.InsertFeedback(model);
+                if (!String.IsNullOrEmpty(errorMessage))
                 {
-                    _dictionaryObjective.InsertFeedback(model);
+                    ModelState.AddModelError("e", errorMessage);
+                    return View();
                 }
             }
             return View();
         }
-   
+
+        public void accessUserId()
+        {
+            _ = this.HttpContext.User.Claims;
+            /*var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);*/ // Specify the type of your UserId;
+        }
+
     }
 }
