@@ -299,7 +299,6 @@ namespace iWasHere.Domain.Service
                 CommentTitle = model.commentTitle,
                 Comment = model.comment,
                 Rating = model.rating,
-                FeedbackName = model.feedbackName,
                 TouristicObjectiveId = model.touristicObjectiveId,
                 UserId = model.userId,
                 UserName = model.userName
