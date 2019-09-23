@@ -7,13 +7,13 @@
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
 {
 
-    <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
+    <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly /> 
     <label>         ,      </label>
-    <input type="text" asp-for="cityName" id="txtObjectiveCity" />
+    <input type="text" asp-for="cityName" id="txtObjectiveCity"/> 
     <br />
     <br />
     <label>Cod: </label>
-    <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode"  readonly/>
+    <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode"  readonly/> 
     <label>,</label>
     <input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCity" readonly />
     <br />
@@ -21,8 +21,19 @@
     <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
     <br />
     <br />
-    <input type="text" asp-for="Price" id="txtObjectivePrice" readonly/>
+    <input type="text" asp-for="Price" id="txtObjectivePrice" readonly/> 
     <br />
     <br />
-    <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
+    <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly /> 
 }
+
+<style>
+
+    #txtObjectiveName{
+        font-style:oblique;
+        font-size:xx-large;
+        font-weight :bold;
+        border:transparent;
+           
+    }
+</style>
