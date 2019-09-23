@@ -44,15 +44,16 @@ namespace iWasHere.Web.Controllers
             }
             else
             {
-                return View();
+                DictionaryAttractionCategoryModel model = dictionaryService.GetAttractionCategory(Convert.ToInt32(id));
+                return View(model);
             }
-
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddAttractionCategory(DictionaryAttractionCategoryModel dictionaryAttractionCategoryModel, string submitButton, string id)
+        public IActionResult AddAttractionCategory(DictionaryAttractionCategoryModel dictionaryAttractionCategoryModel, string submitButton)
         {
-            if (Convert.ToInt32(id) == 0)
+            if (Convert.ToInt32(dictionaryAttractionCategoryModel.AttractionCategoryId) == 0)
             {
                 dictionaryService.AddAttractionCategory(dictionaryAttractionCategoryModel.AttractionCategoryName);
                 if(submitButton == "save")
@@ -64,8 +65,23 @@ namespace iWasHere.Web.Controllers
                     return View();
                 }
             }
+            else
+            {
+                dictionaryService.UpdateAttractionCategory(dictionaryAttractionCategoryModel);
+                return View("Index");
+            }
 
-            return View();
+        }
+
+        public IActionResult DeleteAttractionCategory([DataSourceRequest] DataSourceRequest request, DictionaryAttractionCategoryModel attractionCategoryModel)
+        {
+            if (attractionCategoryModel != null)
+            {
+                dictionaryService.DeleteAttractionCategory(attractionCategoryModel.AttractionCategoryId);
+
+            }
+
+            return Json(ModelState.ToDataSourceResult());
         }
     }
 }

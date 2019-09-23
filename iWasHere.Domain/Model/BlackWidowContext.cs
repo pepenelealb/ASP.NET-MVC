@@ -176,10 +176,6 @@ namespace iWasHere.Domain.Model
 
                 entity.Property(e => e.CommentTitle).HasMaxLength(256);
 
-                entity.Property(e => e.FeedbackName)
-                    .IsRequired()
-                    .HasMaxLength(256);
-
                 entity.Property(e => e.UserId).HasMaxLength(450);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);

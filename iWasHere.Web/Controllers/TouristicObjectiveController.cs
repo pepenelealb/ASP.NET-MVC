@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using DocumentFormat.OpenXml.Wordprocessing;
@@ -136,6 +137,42 @@ namespace iWasHere.Web.Controllers
             var JsonVariable = _dictionaryObjective.GetCurrency();
             return Json(JsonVariable);
         }
+
+        public IActionResult AddFeedback(string id)
+        {
+            if (Convert.ToInt32(id) == 0)
+            {
+                return View();
+            }
+            else
+            {
+                FeedbackDTO feedbackModel = new FeedbackDTO() { touristicObjectiveId = Convert.ToInt32(id) };
+                return View(feedbackModel);
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddFeedback(FeedbackDTO model, string btn, string id)
+        {
+            if (model != null)
+            {
+                string errorMessage = _dictionaryObjective.InsertFeedback(model);
+                if (!String.IsNullOrEmpty(errorMessage))
+                {
+                    ModelState.AddModelError("e", errorMessage);
+                    return View();
+                }
+            }
+            return View();
+        }
+
+        public void accessUserId()
+        {
+            _ = this.HttpContext.User.Claims;
+            /*var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);*/ // Specify the type of your UserId;
+        }
+
 
         public IActionResult Download(string id)
         {
