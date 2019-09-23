@@ -392,8 +392,5 @@ namespace iWasHere.Domain.Service
                 return "Campul de tara trebuie completat obligatoriu!";
             }
         }
-
-
-
     }
 }
