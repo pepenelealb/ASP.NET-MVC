@@ -8,6 +8,7 @@ using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,14 @@ namespace iWasHere.Web.Controllers
     public class TouristicObjectiveController : Controller
     {
         private readonly DictionaryTouristicObjectiveService _dictionaryObjective;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-
-        public TouristicObjectiveController(DictionaryTouristicObjectiveService dictionaryObjective)
+        public TouristicObjectiveController(DictionaryTouristicObjectiveService dictionaryObjective, IHostingEnvironment hostingEnvironment)
         {
             _dictionaryObjective = dictionaryObjective;
+            _hostingEnvironment = hostingEnvironment;
+
+            var path = Path.Combine(_hostingEnvironment.WebRootPath, "img", "9ff8345f-55fe-4dd9-a022-f9192a807668.png");
         }
         public IActionResult Index()
         {
@@ -34,7 +38,7 @@ namespace iWasHere.Web.Controllers
             return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
         }
         //img
-    
+
         //end img
 
         public IActionResult AddOrEdit(string id)
