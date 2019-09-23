@@ -8,7 +8,10 @@ using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace iWasHere.Web.Controllers
 {
@@ -30,6 +33,11 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
         }
+        //img
+        [HttpPost]
+       
+       
+        //end img
 
         public IActionResult AddOrEdit(string id)
         {

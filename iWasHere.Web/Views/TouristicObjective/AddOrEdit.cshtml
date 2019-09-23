@@ -17,8 +17,19 @@
         border-width: 1px;
         border-color: darkcyan;
     }
-</style>
 
+    .myHeader {
+        background-color: lightblue;
+        color: black;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+    }
+
+
+</style>
+<h1 class="myHeader"> Obiectiv Turistic-Add</h1>
 @Html.ValidationSummary(true)
 
 <br />
@@ -145,8 +156,8 @@
     //Upload img
     @*@foreach (var img in Model.Picture.)*@
     <div class="demo-section k-content ">
-            <div> <input name="AsyncDocumentsFiles" aps-for="Picture" id="AsyncDocumentsId" type="file" accept="doc,pdf" /> </div>
-        </div>
+        <div> <input name="AsyncDocumentsFiles" aps-for="Picture" id="AsyncDocumentsId" type="file" accept="doc,pdf" /> </div>
+    </div>
     @*<input type="file" name="postedFile" />*@
 
     <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
@@ -169,7 +180,7 @@
     }
 
     function checkValue() {
-        var objName = document.getElementById("nameCode");        
+        var objName = document.getElementById("nameCode");
         var unique = 0;
         if (objName.defaultValue != objName.value) {
             unique = 1;

@@ -3,7 +3,19 @@
 @{
     ViewData["Title"] = "TouristicObjectiveDetail";
 }
+<style>
 
+.myHeader {
+        background-color: lightblue;
+        color: black;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+    }
+    </style>
+<h1 class="myHeader"> Detalii Obiectiv Turistic</h1>
+<br/>
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
 {
 
