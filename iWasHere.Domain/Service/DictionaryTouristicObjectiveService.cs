@@ -276,7 +276,7 @@ namespace iWasHere.Domain.Service
                     Code = a.TouristicObjectiveCode,
                     Description = a.TouristicObjectiveDescription,
                     HasEntry = a.HasEntry,
-                    //MainImgPath = a.Picture.FirstOrDefault().PictureName,
+                    MainImgPath = a.Picture.FirstOrDefault().PictureName,
                     Name = a.TouristicObjectiveName,
                     OpenSeason = a.OpenSeason.OpenSeasonType,
                     Price = (a.Ticket.Any() ? a.Ticket.Average(b => b.Price) : (decimal?)null),
