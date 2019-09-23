@@ -13,8 +13,8 @@
     <br />
     <label>Selecteaza un Judet:</label>
     @(Html.Kendo().ComboBoxFor(model=> model.countyId)                
-               .DataValueField("Id")
-               .DataTextField("Name")
+               .DataValueField("countyId")
+               .DataTextField("county")
                .HtmlAttributes(new { style = "width:60%", id="county" })
            .Filter("StartsWith")
            .DataSource(source =>

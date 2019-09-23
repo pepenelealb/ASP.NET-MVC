@@ -1,4 +1,5 @@
-﻿using System;
+﻿using iWasHere.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -26,6 +27,9 @@ namespace iWasHere.Domain.DTOs
         public string cityName { get; set; }
         public int Unique { get; set; }
 
+        public int countyId { get; set; }
 
+        public int countryId { get; set; }
+        public string countryName { get; set; }
     }
 }

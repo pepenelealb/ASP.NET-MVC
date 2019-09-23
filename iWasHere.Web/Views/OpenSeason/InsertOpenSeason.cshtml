@@ -7,9 +7,29 @@
 {
     <div>
         <label>Tip sezon:</label><br />
-        <input id="openSeasonType" asp-for="Type" type="text"/>
-        <button type="submit" class="btn btn-success" name="submitButton" value="Save">Salveaza</button>
-        <button type="submit" class="btn btn-info" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+        <input id="openSeasonType" asp-for="Type" type="text" />
+        <button type="submit" onclick="success()" class="btn btn-success" name="submitButton" value="Save">Salveaza</button>
+        <button type="submit" onclick="success()" class="btn btn-info" name="submitButton" id="SaveAndNew" value="SaveAndNew">Salveaza si Nou</button>
+        <br />
         <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
     </div>
 }
+
+<script>
+    window.onload = set();
+    function set() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            document.getElementById("SaveAndNew").style.visibility = "hidden";
+        }
+    }
+    function success() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            alert("Sezonul a fost modificat cu succes!");
+        }
+        if (verify == "insert") {
+            alert("Sezonul a fost adaugat cu succes!");
+        }
+    }
+</script>
