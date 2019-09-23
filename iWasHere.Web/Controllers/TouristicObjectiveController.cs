@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
-using Microsoft.AspNetCore.Http;
+using Kendo.Mvc.Extensions;
+using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace iWasHere.Web.Controllers
@@ -23,6 +24,11 @@ namespace iWasHere.Web.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult GetTuristicObjectives([DataSourceRequest] DataSourceRequest request)
+        {
+            return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
         }
 
         public IActionResult AddOrEdit(string id)
@@ -85,7 +91,7 @@ namespace iWasHere.Web.Controllers
                 {
                     ModelState.AddModelError(string.Empty, errorMessage);
                     return View();
-                }             
+                }
             }
         }
 
