@@ -28,8 +28,8 @@
 
 
   <ItemGroup>
+    <Folder Include="wwwroot\Img\60\" />
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\Img\" />
   </ItemGroup>
 
 </Project>
