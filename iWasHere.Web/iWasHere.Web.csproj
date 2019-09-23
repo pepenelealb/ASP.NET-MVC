@@ -6,6 +6,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\lib\kendo-ui\**" />
+    <Content Remove="wwwroot\lib\kendo-ui\**" />
+    <EmbeddedResource Remove="wwwroot\lib\kendo-ui\**" />
+    <None Remove="wwwroot\lib\kendo-ui\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -21,7 +28,8 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\kendo-ui\" />
+    <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\Img\" />
   </ItemGroup>
 
 </Project>

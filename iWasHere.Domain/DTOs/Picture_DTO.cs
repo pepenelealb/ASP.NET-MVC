@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace iWasHere.Domain.Model
+namespace iWasHere.Domain.DTOs
 {
-    public partial class Picture
+    public class Picture_DTO
     {
         public int ImageId { get; set; }
         //public byte[] PictureImage { get; set; }
         public string PictureName { get; set; }
         public int TouristicObjectiveId { get; set; }
-       // public string PictureName { get; set; }
 
-        public virtual TouristicObjective TouristicObjective { get; set; }
     }
 }

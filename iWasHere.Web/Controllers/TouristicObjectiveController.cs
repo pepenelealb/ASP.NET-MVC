@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using iWasHere.Domain.DTOs;
+using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace iWasHere.Web.Controllers
 {
@@ -28,6 +33,9 @@ namespace iWasHere.Web.Controllers
         {
             return Json(_dictionaryObjective.GetTuristicObjectiveListModels().ToDataSourceResult(request));
         }
+        //img
+       
+        //end img
 
         public IActionResult AddOrEdit(string id)
         {
