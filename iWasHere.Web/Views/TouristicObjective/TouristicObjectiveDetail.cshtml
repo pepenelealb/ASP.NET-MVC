@@ -24,6 +24,11 @@
     <br />
     <br />
     <br />
+    @foreach (var item in Model.PictureName)
+    {
+        <img style='max-height:300px' src="/img/@item"  />
+    }
+
     <br />
     <br />
     <br />
@@ -54,10 +59,17 @@
         Sezon:
     </label>
     <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
-
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <input type="text" asp-for="Latitude" hidden id="Latitude" />
     <input type="text" asp-for="Longitude" hidden id="Longitude" />
-    </div>
+</div>
     <div id="map"></div>
 
 }
@@ -67,7 +79,7 @@
     float:left;
     }
     #map {
-        top: 180px;
+        top: 150px;
         height: 250px;
         width: 400px;
         display: flex;
@@ -116,6 +128,7 @@
         border: transparent;
         font-size: medium;
         text-align: left;
+       top: 150px;
     }
 
     #txtObjectivePrice {

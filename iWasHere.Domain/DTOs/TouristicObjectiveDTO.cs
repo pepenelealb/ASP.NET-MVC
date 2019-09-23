@@ -31,5 +31,8 @@ namespace iWasHere.Domain.DTOs
 
         public int countryId { get; set; }
         public string countryName { get; set; }
+
+        public List<string> PictureName { get; set; }
+      
     }
 }

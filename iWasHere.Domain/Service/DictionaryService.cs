@@ -12,12 +12,24 @@ namespace iWasHere.Domain.Service
     {
 
         private readonly BlackWidowContext _bwContext;
-      
+        private readonly DatabaseContext _databaseContext;
+
         public DictionaryService(BlackWidowContext databaseContext)
         {
             _bwContext = databaseContext;
         }
 
+        public List<DictionaryLandmarkTypeModel> GetDictionaryLandmarkTypeModels()
+        {
+
+            List<DictionaryLandmarkTypeModel> dictionaryTicketModels = _databaseContext.DictionaryLandmarkType.Select(a => new DictionaryLandmarkTypeModel()
+            {
+                Id = a.DictionaryItemId,
+                Name = a.DictionaryItemName
+            }).ToList();
+
+            return dictionaryTicketModels;
+        }
 
         public List<DictionaryTicketModel> GetDictionaryTicketModels()
         {
@@ -399,5 +411,44 @@ namespace iWasHere.Domain.Service
                 return "Campul de tara trebuie completat obligatoriu!";
             }
         }
+
+        public DictionaryAttractionCategoryModel GetAttractionCategory(int id)
+        {
+
+            DictionaryAttractionCategoryModel attractionCategory = _bwContext.DictionaryAttractionCategory
+                .Where(model => model.AttractionCategoryId == id)
+                .Select(model => new DictionaryAttractionCategoryModel()
+                {
+                    AttractionCategoryId = model.AttractionCategoryId,
+                    AttractionCategoryName = model.AttractionCategoryName
+
+                }).First();
+
+            return attractionCategory;
+        }
+
+        public void UpdateAttractionCategory(DictionaryAttractionCategoryModel model)
+        {
+            DictionaryAttractionCategory attractionCategory = _bwContext.DictionaryAttractionCategory.Find(model.AttractionCategoryId);
+            attractionCategory.AttractionCategoryName = model.AttractionCategoryName;
+            _bwContext.DictionaryAttractionCategory.Update(attractionCategory);
+            _bwContext.SaveChanges();
+        }
+
+        public string DeleteAttractionCategory(int id)
+        {
+            try
+            {
+                _bwContext.Remove(_bwContext.DictionaryAttractionCategory.Single(a => a.AttractionCategoryId == id));
+                _bwContext.SaveChanges();
+                return "";
+
+            }
+            catch (Exception ex)
+            {
+                return "Nu poate fi sters!";
+            }
+        }
+
     }
 }
