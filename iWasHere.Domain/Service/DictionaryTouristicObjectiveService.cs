@@ -304,7 +304,7 @@ namespace iWasHere.Domain.Service
                 UserId = model.userId,
                 UserName = model.userName
             });
-                _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
                 return null;
             //}
             //catch (Exception e)
