@@ -203,7 +203,7 @@ namespace iWasHere.Domain.Model
 
              //   entity.Property(e => e.ImageId).ValueGeneratedNever();
 
-                entity.Property(e => e.Picture1).HasColumnName("Picture");
+              //  entity.Property(e => e.PictureImage).HasColumnName("Picture");
 
                 entity.HasOne(d => d.TouristicObjective)
                     .WithMany(p => p.Picture)

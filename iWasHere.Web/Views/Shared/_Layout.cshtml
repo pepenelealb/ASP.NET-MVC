@@ -80,7 +80,9 @@
             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </li>*@
                         <!--adaugare dictionare-->
-
+                        <li class="nav-link text-dark">
+                            <a asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Obiectiv Turistic</a>
+                        </li>
                         <li class="nav-link text-dark">
                             <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
                         </li>
@@ -100,8 +102,12 @@
                             <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
                         </li>
                         <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="TouristicObjective" asp-action="Index">Obiective Turistice</a>
+                            <a asp-area="" asp-controller="TouristicObjective" asp-action="Index">Obiective Index</a>
                         </li>
+                        <li class="nav-link text-dark">
+                            <a asp-area="" asp-controller="TouristicObjective" asp-action="TouristicObjectiveDetail">Obiective Detalii</a>
+                        </li>
+
                     </ul>
                     
                 </div>
