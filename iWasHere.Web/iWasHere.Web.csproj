@@ -29,6 +29,7 @@
 
 
   <ItemGroup>
+    <Folder Include="Views\TouristicObjective\Img\" />
     <Folder Include="wwwroot\Img\60\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>

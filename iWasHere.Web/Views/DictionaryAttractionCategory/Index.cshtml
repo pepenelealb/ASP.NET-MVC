@@ -1,8 +1,8 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 <style>
+
     .myHeader {
         background-color: lightblue;
         color: white;
@@ -11,18 +11,18 @@
         font-family: Georgia;
         text-shadow: 2px 2px 4px #000000;
         font-size: 320%;
-        
     }
 
     .filter {
-       
-         border: 2px light blue;
-         border-radius: 3px;
-       background-color: hsla(120, 100%, 25%, 0.3);
-}
+        border: 2px light blue;
+        border-radius: 3px;
+        background-color: hsla(120, 100%, 25%, 0.3);
+    }
 </style>
 
 <h1 class="myHeader"> Dictionar categorii de actractii</h1>
+
+
 
 <br />
 
@@ -31,12 +31,16 @@
         var input = {};
         input["attractionCategory"] = $("#attractionCategory").val();
 
-            return input;
+
+
+        return input;
     }
 
+
+
     function refresh() {
-            $("#grid").data("kendoGrid").dataSource.read();
-            $("#grid").data("kendoGrid").dataSource.page(1);
+        $("#grid").data("kendoGrid").dataSource.read();
+        $("#grid").data("kendoGrid").dataSource.page(1);
     }
 
     function deleteFiltersAndRefresh() {
