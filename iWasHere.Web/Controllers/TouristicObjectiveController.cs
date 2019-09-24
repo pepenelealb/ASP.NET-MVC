@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Claims;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
@@ -152,22 +155,31 @@ namespace iWasHere.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult AddFeedback(FeedbackDTO model, string btn, string id)
         {
-
-            string errorMessage = _dictionaryObjective.InsertFeedback(model);
-            if (!String.IsNullOrEmpty(errorMessage))
+            if (model != null)
             {
-                ModelState.AddModelError("e", errorMessage);
-                return View();
-            }
-            else
-            {
-                if (model != null)
+                string errorMessage = _dictionaryObjective.InsertFeedback(model);
+                if (!String.IsNullOrEmpty(errorMessage))
                 {
-                    _dictionaryObjective.InsertFeedback(model);
+                    ModelState.AddModelError("e", errorMessage);
+                    return View();
                 }
             }
             return View();
         }
-   
+
+        public void accessUserId()
+        {
+            _ = this.HttpContext.User.Claims;
+            /*var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);*/ // Specify the type of your UserId;
+        }
+
+
+        public IActionResult Download(string id)
+        {
+            TouristicObjectiveDTO model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
+            _dictionaryObjective.ExportToWord(model);
+
+            return View();
+        }
     }
 }
