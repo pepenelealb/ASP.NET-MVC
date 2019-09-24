@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "AddAttractionCategory";
 }
->
 
 <h1>AddOrEditAttractionCategory</h1>
 @using (Html.BeginForm("AddAttractionCategory", "DictionaryAttractionCategory", FormMethod.Post))
@@ -13,7 +12,7 @@
     <input id="attractionCategoryName" asp-for="AttractionCategoryName" type="text"/>
     <button id="save" type="submit" class="btn btn-success" name="submitButton" value="save">Salveaza</button>
     <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
-    <button id="saveAndNew" type="submit" class="btn btn-info" name="submitButton" value="saveAndNew">Salveaza si Nou</button>
+    <button id="saveAndNew" onclick="" type="submit" class="btn btn-info" name="submitButton" value="saveAndNew">Salveaza si Nou</button>
 </div>
 }
 
