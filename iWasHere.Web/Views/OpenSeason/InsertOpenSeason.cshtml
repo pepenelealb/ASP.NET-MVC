@@ -30,21 +30,44 @@
     
 }
 
-<script>
+<script type="text/javascript">
     window.onload = set();
     function set() {
         var verify = localStorage.getItem("storageName");
         if (verify == "edit") {
-            document.getElementById("SaveAndNew").style.visibility = "hidden";
+            document.getElementById("saveAndNew").style.visibility = "hidden";
         }
     }
+    function deleteOS() {
+        $('#openSeasonType').val("");
+        //document.getElementById("openSeasonType").value = " ";
+        //refresh();
+    }
+    function isEmptyOrSpaces(str){
+        return str === null || str.match(/^ *$/) !== null;
+        } 
     function success() {
         var verify = localStorage.getItem("storageName");
         if (verify == "edit") {
-            alert("Sezonul a fost modificat cu succes!");
+            if (isEmptyOrSpaces($('#openSeasonType').val())) {
+                alert("Trebuie sa introduceti obligatoriu un tip de sezon!");
+            }
+            else
+                alert("Sezonul a fost modificat cu succes!");
         }
         if (verify == "insert") {
-            alert("Sezonul a fost adaugat cu succes!");
+            if (isEmptyOrSpaces($('#openSeasonType').val())) {
+                alert("Trebuie sa introduceti obligatoriu un tip de sezon!");
+            }
+            else {
+                alert("Sezonul a fost adaugat cu succes!");
+                
+            }
         }
     }
+    var verify1 = localStorage.getItem("storageName");
+    if (verify1 == "insert") {
+        deleteOS();
+    }
+    
 </script>

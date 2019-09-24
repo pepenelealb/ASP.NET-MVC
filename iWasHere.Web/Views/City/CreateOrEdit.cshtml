@@ -9,6 +9,23 @@
     }
     </style>
 
+<style>
+    .help-block ul {
+    list-style-type: none;
+    }
+    .validation-summary-errors ul { 
+    list-style: none;
+    padding-left: 0;
+    }
+    .myvalidation{
+        color:red;
+    }
+</style>
+
+<span class="help-block">
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
+</span>
+
 @using (Html.BeginForm("Create", "City", FormMethod.Post, new { id = "form" }))
 { <div align="center">
     <label>Adauga un Oras:</label>
@@ -17,10 +34,10 @@
     <br />
     <br/>
     <label>Selecteaza un Judet:</label>
-    @(Html.Kendo().ComboBoxFor(model=> model.countyId)                
+    @(Html.Kendo().ComboBoxFor(model => model.countyId)
                .DataValueField("countyId")
                .DataTextField("county")
-               .HtmlAttributes(new { style = "width:60%", id="county" })
+               .HtmlAttributes(new { style = "width:60%", id = "county" })
            .Filter("StartsWith")
            .DataSource(source =>
            {
@@ -43,8 +60,8 @@
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
         </div>
 }
-<script type="text/javascript"> 
-            
+<script type="text/javascript">
+
     window.onload = set();
     function set() {
         var verify = localStorage.getItem("storageName");
@@ -53,19 +70,9 @@
         }
     }
 
-    function isEmptyOrSpaces(str){
-    return str === null || str.match(/^ *$/) !== null;
-    }  
-    
-    function validateData() {        
-        
-        if ( isEmptyOrSpaces($('#textBox').val()) ) {
-            alert("Numele orasului este obligatoriu");            
-        }
-        else if (isEmptyOrSpaces($('#countries').val())) {
-            alert("Numele judetului este obligatoriu");            
-        }        
-    }   
+    function isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
 
 </script>
 

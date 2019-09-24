@@ -36,18 +36,23 @@
         
         /*border: 1px solid #4CAF50*/
     }
-    label {
-       font-family: Sans-serif;
-        font-size: 25px;
-        text-align: justify;
+
+    .help-block ul {
+        list-style-type: none;
     }
-    input {
-    width: 100%;
-}
-    
+
+    .validation-summary-errors ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .myvalidation {
+        color: red;
 </style>
-<h1 class="myHeader"> Adauga Obiectiv Turistic</h1> <br/>
-@Html.ValidationSummary(true)
+<h1 class="myHeader"> Obiectiv Turistic-Add</h1>
+<span class="help-block">
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
+</span>
 
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
@@ -192,8 +197,8 @@
     <label>Longitudine :</label>
     <input type="text" asp-for="Longitude" />
 
-    <br />
-    <br />
+        <br />
+        <br />
 
     <label>Latitudine :</label>
     <input type="text" asp-for="Latitude" />

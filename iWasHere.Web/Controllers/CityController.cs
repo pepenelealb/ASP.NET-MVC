@@ -89,7 +89,7 @@ namespace iWasHere.Web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("a", errorMessage);
+                        ModelState.AddModelError(String.Empty, errorMessage);
                         return View();
                     }
                 }
@@ -103,7 +103,7 @@ namespace iWasHere.Web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("a", errorMessage);
+                        ModelState.AddModelError(String.Empty, errorMessage);
                         return View();
                     }
                 }

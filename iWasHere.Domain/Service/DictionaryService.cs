@@ -144,16 +144,30 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCity;
         }
-        public void Insert(County_DTO model)
+        public string Insert(County_DTO model)
         {
-            _bwContext.DictionaryCounty.Add(new DictionaryCounty
+            if (String.IsNullOrWhiteSpace(model.CountyName))
             {
-               
-                CountyName = model.CountyName,
-                CountryId = model.CountryId
-               
-            });
-            _bwContext.SaveChanges();
+                return "Numele judetului este obligatoriu";
+            }else if(model.CountryId == 0)
+            {
+                return "Nu ai selectat o tara";
+            }
+            try
+            {
+                _bwContext.DictionaryCounty.Add(new DictionaryCounty
+                {
+
+                    CountyName = model.CountyName,
+                    CountryId = model.CountryId
+
+                });
+                _bwContext.SaveChanges();
+                return null;
+            }catch (Exception e)
+            {
+                return e.Message;
+            }
         }
         public string Delete_County(int id)
         {
@@ -178,6 +192,9 @@ namespace iWasHere.Domain.Service
                 if (String.IsNullOrWhiteSpace(model.CountyName))
                 {
                     return "Numele judetului este obligatoriu";
+                }else if (model.CountryId == 0)
+                {
+                    return "Nu ai selectat un judet";
                 }
 
                 else
@@ -192,12 +209,17 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception e)
             {
-                return "Campurile sunt obligatorii";
+                return e.Message;
             }
         }
         //pana aici
         public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
+            IQueryable<DictionaryOpenSeason> query = _bwContext.DictionaryOpenSeason;
+            if (!String.IsNullOrWhiteSpace(openSeasonType))
+            {
+                query = query.Where(a => a.OpenSeasonType.ToLower().Contains(openSeasonType));
+            }
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
@@ -219,13 +241,20 @@ namespace iWasHere.Domain.Service
 
         public string InsertOpenSeason(DictionaryOpenSeasonModel model)
         {
-            _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+            try
             {
-                OpenSeasonId = model.Id,
-                OpenSeasonType = model.Type
-            });
-            _bwContext.SaveChanges();
-            return null;
+                _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+                {
+                    OpenSeasonId = model.Id,
+                    OpenSeasonType = model.Type
+                });
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch(Exception e)
+            {
+                return "Campuri necompletate.";
+            } 
         }
 
         public DictionaryOpenSeasonModel GetOpenSeason(int id)
@@ -241,7 +270,13 @@ namespace iWasHere.Domain.Service
         public string UpdateOpenSeason(DictionaryOpenSeasonModel model)
         {
             try
-            {                
+            {
+                if (String.IsNullOrWhiteSpace(model.Type))
+                {
+                    return "Numele orasului este obligatoriu";
+                }
+                else
+                {
                     DictionaryOpenSeason openSeason = _bwContext.DictionaryOpenSeason.Find(model.Id);
                     openSeason.OpenSeasonId = model.Id;
                     openSeason.OpenSeasonType = model.Type;
@@ -249,6 +284,7 @@ namespace iWasHere.Domain.Service
                     _bwContext.DictionaryOpenSeason.Update(openSeason);
                     _bwContext.SaveChanges();
                     return null;
+                }
                 
             }
             catch (Exception e)
