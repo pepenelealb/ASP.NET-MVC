@@ -29,7 +29,9 @@
     #myDiv{
             display: grid;
              align-self: center;
+           
         }
+    
 </style>
 <h1 class="myHeader"> Obiectiv Turistic-Add</h1>
 @Html.ValidationSummary(true)
@@ -64,7 +66,7 @@
     <br />
 
     <label>Descriere:</label>
-    <input type="text" asp-for="TouristicObjectiveDescription" />
+    <textarea type="text" asp-for="TouristicObjectiveDescription"  id="txtDescription"> </textarea>
 
     <br />
     <br />
@@ -226,5 +228,8 @@
     #myDiv {
         display: grid;
         align-self: center;
+    }
+    #txtDescription{
+        height:170px;
     }
 </style>

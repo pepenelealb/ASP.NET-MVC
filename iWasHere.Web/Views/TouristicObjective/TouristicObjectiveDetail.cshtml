@@ -5,7 +5,7 @@
 }
 <style>
 
-.myHeader {
+    .myHeader {
         background-color: lightblue;
         color: black;
         padding: 40px;
@@ -13,79 +13,111 @@
         font-family: Georgia;
         color: white;
     }
-    </style>
+</style>
 <h1 class="myHeader"> Detalii Obiectiv Turistic</h1>
-<br/>
+<br />
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
 {
-    <input type="text"  asp-for="TouristicObjectiveId" id="touristicObjectiveId">
+    <input type="text" asp-for="TouristicObjectiveId" id="touristicObjectiveId">
     <div id="div1">
-    <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
-    <br />
-    <br />
-    <br />
-    @foreach (var item in Model.PictureName)
-    {
-        <img style='max-height:300px' src="/img/@item"  />
-    }
+        <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
+        <br />
+        <br />
+        <br />
+        @foreach (var item in Model.PictureName)
+        {
+            <img style='max-height:200px'  src="/img/@item" />
+        }
 
-    <br />
-    <br />
-    <br />
-    <input type="text" asp-for="countryName" id="txtObjectiveCountry" />
 
-    <label>         ,      </label>
-    <input type="text" asp-for="cityName" id="txtObjectiveCity" />
-
-    <br />
-    <br />
-    <label>Cod: </label>
-    <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode" readonly />
-
-    <label>,</label>
-    <input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
-    <br />
-    <br />
-    <label> Descriere: </label>
-    <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
-    <br />
-    <br />
-    <label> Pret:</label>
-    <input type="text" asp-for="Price" id="txtObjectivePrice" readonly />
-
-    <br />
-    <br />
-    <label>
-        Sezon:
-    </label>
-    <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <input type="text" asp-for="Latitude" hidden id="Latitude" />
-    <input type="text" asp-for="Longitude" hidden id="Longitude" />
-</div>
+        <br />
+        <br />
+        <br />
+      
+        <input type="text" asp-for="Latitude" hidden id="Latitude" />
+        <input type="text" asp-for="Longitude" hidden id="Longitude" />
+    </div>
     <div id="map"></div>
 
-}
+    <div class='col-md-4' style='text-align: center'>
+       
+    </div>
+    <div class='col-md-8'>
+        <div class='row'>
+
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                <h3 style='text-align:right'> <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode" readonly /></h3>
+            </div>
+        </div>
+        <div class='row'>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                Pret: <input type="text" asp-for="Price" id="txtObjectivePrice" readonly />RON
+            </div>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+
+                <input type="text" asp-for="Rating" id="txtObjectiveRank" readonly /><i class='fa fa-star'></i>
+            </div>
+        </div>
+     
+       
+        <div class='row'>
+            <div class='col-md-4'>
+               Categorie:<input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
+            </div>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                Sezon:<input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
+            </div>
+            <br />
+            <br /> <br />
+           
+        </div>
+
+        <div class="row">
+            <div class='col-md-4'>
+                Oras: <b><input type="text" asp-for="cityName" id="txtObjectiveCity" /></b>
+            </div>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                Tara: <b><input type="text" asp-for="countryName" id="txtObjectiveCountry" /></b>
+            </div>
+        </div>
+        <br />
+       
+        <div class='row'>
+            <div class='col-md-12'>
+
+                Descriere:  <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
+            </div>
+        </div>
+    </div>
+    
+
 
 <style>
-    #div1{
-    float:left;
+    #div1 {
+        float: left;
     }
+
     #map {
-        top: 150px;
+        top: 70px;
         height: 250px;
         width: 400px;
         display: flex;
         left: 300px;
     }
-
+    #txtObjectiveRank{
+         border: transparent;
+          text-align: right;
+    }
     #txtObjectiveName {
         font-style: oblique;
         font-size: xx-large;
@@ -122,13 +154,15 @@
         border: transparent;
         font-size: medium;
         text-align: left;
+        width : 700px;
+        height:200px;
     }
 
     #txtObjectiveOpenSeason {
         border: transparent;
         font-size: medium;
         text-align: left;
-       top: 150px;
+        top: 150px;
     }
 
     #txtObjectivePrice {
@@ -156,8 +190,10 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbRIxmMBjKw5IovRx6CF03hU8SDpqxtos&callback=initMap"
         async defer></script>
 }
+ <br/>
+<br/>
 
-<input type="button" value="Adauga comentariu" onclick="location.href='@Url.Action("AddFeedback", "TouristicObjective")?id='+@Model.TouristicObjectiveId"/>
+<input type="button" value="Adauga comentariu" onclick="location.href='@Url.Action("AddFeedback", "TouristicObjective")?id='+@Model.TouristicObjectiveId" />
 
 <script>
     var id = $('#touristicObjectiveId').val();
