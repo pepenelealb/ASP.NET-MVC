@@ -26,119 +26,192 @@
         <br />
         @foreach (var item in Model.PictureName)
         {
-            <img style='max-height:300px' src="/img/@item" />
+            <img style='max-height:200px' src="/img/@item" />
         }
 
-        <br />
-        <br />
-        <br />
-        <input type="text" asp-for="countryName" id="txtObjectiveCountry" />
-
-        <label>         ,      </label>
-        <input type="text" asp-for="cityName" id="txtObjectiveCity" />
 
         <br />
         <br />
-        <label>Cod: </label>
-        <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode" readonly />
+        <br />
 
-        <label>,</label>
-        <input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
-        <br />
-        <br />
-        <label> Descriere: </label>
-        <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
-        <br />
-        <br />
-        <label> Pret:</label>
-        <input type="text" asp-for="Price" id="txtObjectivePrice" readonly />
-
-        <br />
-        <br />
-        <label>
-            Sezon:
-        </label>
-        <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
         <input type="text" asp-for="Latitude" hidden id="Latitude" />
         <input type="text" asp-for="Longitude" hidden id="Longitude" />
     </div>
     <div id="map"></div>
 
-}
+    <div class='col-md-4' style='text-align: center'>
 
-<style>
-    #div1 {
-        float: left;
+    </div>
+    <div class='col-md-8'>
+        <div class='row'>
+
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                <h3 style='text-align:right'> <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode" readonly /></h3>
+            </div>
+        </div>
+        <div class='row'>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                Pret: <input type="text" asp-for="Price" id="txtObjectivePrice" readonly />RON
+            </div>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+
+                <input type="text" asp-for="Rating" id="txtObjectiveRank" readonly /><i class='fa fa-star'></i>
+            </div>
+        </div>
+
+
+        <div class='row'>
+            <div class='col-md-4'>
+                Categorie:<input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
+            </div>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                Sezon:<input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
+            </div>
+            <br />
+            <br /> <br />
+
+        </div>
+
+        <div class="row">
+            <div class='col-md-4'>
+                Oras: <b><input type="text" asp-for="cityName" id="txtObjectiveCity" /></b>
+            </div>
+            <br />
+            <br /> <br />
+            <div class='col-md-4'>
+                Tara: <b><input type="text" asp-for="countryName" id="txtObjectiveCountry" /></b>
+            </div>
+        </div>
+        <br />
+
+        <div class='row'>
+            <div class='col-md-12'>
+
+                Descriere:  <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
+            </div>
+        </div>
+
+        @foreach (var feedback in Model.feedbacks)
+        {
+
+            <span class="rounded-sm">
+                <b>Nume utilizator: </b> @feedback.userName<br />
+                <b>Titlu Comentariu: </b>@feedback.commentTitle<br />
+                <b>Comentariu: </b>@feedback.comment<br />
+                <b>Rating: </b>@feedback.rating/10<br />
+            </span>
+            <br />
+
+         }
+
+    </div>
+
+        <style>
+            .rounded-sm {
+                border-style: ridge
+              
+            }
+
+
+            #div1 {
+                float: left;
+            }
+
+            #map {
+                top: 70px;
+                height: 250px;
+                width: 400px;
+                display: flex;
+                left: 300px;
+            }
+
+            #txtObjectiveRank {
+                border: transparent;
+                text-align: right;
+            }
+
+            #txtObjectiveName {
+                font-style: oblique;
+                font-size: xx-large;
+                font-weight: bold;
+                border: transparent;
+                text-align: right;
+            }
+
+            #txtObjectiveCountry {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+            }
+
+            #txtObjectiveCity {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+            }
+
+            #txtObjectiveCategory {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+            }
+
+            #txtObjectiveCode {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+            }
+
+            #txtObjectiveDescription {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+                width: 700px;
+                height: 200px;
+            }
+
+            #txtObjectiveOpenSeason {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+                top: 150px;
+            }
+
+            #txtObjectivePrice {
+                border: transparent;
+                font-size: medium;
+                text-align: left;
+            }
+        </style>
+
+        <script>
+            var map;
+            function initMap() {
+                debugger;
+                var Latitude = parseFloat($("#Latitude").val());
+                var Longitude = parseFloat($("#Longitude").val());
+                // The location of Uluru
+                var uluru = { lat: Latitude, lng: Longitude };
+                // The map, centered at Uluru
+                var map = new google.maps.Map(
+                    document.getElementById('map'), { zoom: 15, center: uluru });
+                // The marker, positioned at Uluru
+                var marker = new google.maps.Marker({ position: uluru, map: map });
+            }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbRIxmMBjKw5IovRx6CF03hU8SDpqxtos&callback=initMap"
+                async defer></script>
     }
-
-    #map {
-        top: 150px;
-        height: 250px;
-        width: 400px;
-        display: flex;
-        left: 300px;
-    }
-
-    #txtObjectiveName {
-        font-style: oblique;
-        font-size: xx-large;
-        font-weight: bold;
-        border: transparent;
-        text-align: right;
-    }
-
-    #txtObjectiveCountry {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-    }
-
-    #txtObjectiveCity {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-    }
-
-    #txtObjectiveCategory {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-    }
-
-    #txtObjectiveCode {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-    }
-
-    #txtObjectiveDescription {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-    }
-
-    #txtObjectiveOpenSeason {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-        top: 150px;
-    }
-
-    #txtObjectivePrice {
-        border: transparent;
-        font-size: medium;
-        text-align: left;
-    }
-</style>
-
+        <br />
+        <br />
 <script>
     var map;
     function initMap() {

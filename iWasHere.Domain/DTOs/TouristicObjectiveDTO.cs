@@ -12,10 +12,10 @@ namespace iWasHere.Domain.DTOs
         public string TouristicObjectiveName { get; set; }
         public string TouristicObjectiveDescription { get; set; }
         public bool HasEntry { get; set; }
-        public decimal Price { get; set; }        
-        public int AttractionCategoryId { get; set; }        
-        public int OpenSeasonId { get; set; }                
-        public int CityId { get; set; }       
+        public decimal Price { get; set; }
+        public int AttractionCategoryId { get; set; }
+        public int OpenSeasonId { get; set; }
+        public int CityId { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
         public int DictionaryTicketId { get; set; }
@@ -33,6 +33,11 @@ namespace iWasHere.Domain.DTOs
         public string countryName { get; set; }
 
         public List<string> PictureName { get; set; }
+
+        public int Rating { get; set; }
+        public int FeedbackId { get; set; }
+
+        public List<FeedbackDTO> feedbacks { get; set; }
 
         public FeedbackDTO FeedbackDTO { get; set; }
       

@@ -42,10 +42,20 @@
                 background: #F90;
                 color: #FFF;
             }
+
+    .myHeader {
+        background-color: lightblue;
+        color: white;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        text-shadow: 2px 2px 4px #000000;
+        font-size: 320%;
+    }
 </style>
+<h1 class="myHeader"> Adauga comentariu</h1>
 
-<h1>Sectiune de comentarii</h1>
-
+<br />
 @using (Html.BeginForm("AddFeedback", "TouristicObjective", FormMethod.Post))
 {
 <div>
@@ -77,7 +87,7 @@
 </div>
 }
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
          function isEmptyOrSpaces(str) {
             return str === null || str.match(/^ *$/) !== null;

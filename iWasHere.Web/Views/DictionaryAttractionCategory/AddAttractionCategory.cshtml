@@ -2,18 +2,36 @@
 @{
     ViewData["Title"] = "AddAttractionCategory";
 }
->
-
-<h1>AddOrEditAttractionCategory</h1>
+<style>
+    
+    input {
+    width: 60%;
+}
+    .myHeader {
+         
+        color: black;
+        padding: 38px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+        background-image:radial-gradient(red, black);
+    }
+</style>
+<h2 class="myHeader">Adauga o categorie </h2>
 @using (Html.BeginForm("AddAttractionCategory", "DictionaryAttractionCategory", FormMethod.Post))
 {
-<div>
+<div align="center">
+    <br/>
     <input hidden type ="text" asp-for="AttractionCategoryId"/>
     <label>Nume categorie atractie:</label><br />
-    <input id="attractionCategoryName" asp-for="AttractionCategoryName" type="text"/>
+    <input id="attractionCategoryName" asp-for="AttractionCategoryName" type="text"/><br/>
+</div>
+    <br/><br/>
+<div align="center">
     <button id="save" type="submit" class="btn btn-success" name="submitButton" value="save">Salveaza</button>
     <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
-    <button id="saveAndNew" type="submit" class="btn btn-info" name="submitButton" value="saveAndNew">Salveaza si Nou</button>
+    <button id="saveAndNew" onclick="" type="submit" class="btn btn-info" name="submitButton" value="saveAndNew">Salveaza si Nou</button>
+    
 </div>
 }
 

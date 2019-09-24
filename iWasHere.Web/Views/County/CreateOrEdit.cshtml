@@ -19,43 +19,57 @@
         border: 2px solid black;
         border-radius: 4px;
     }
+    .help-block ul {
+    list-style-type: none;
+    }
+    .validation-summary-errors ul { 
+    list-style: none;
+    padding-left: 0;
+    }
+    .myvalidation{
+        color:red;
+    }
 </style>
 
 
 <h1 class="myHeader"> Adauga sau Modifica Judete</h1>
 
-<div align="center">
-    @using (Html.BeginForm("Create", "County", FormMethod.Post))
+<div align="center"> 
+         <span class="help-block">
+        @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
+        </span>
 
-    {
-        <h4>Judet:</h4>
-        <input type="text" asp-for="CountyName" class="f1" />
-        <br />
-        <br />
-        <h4>Tara:</h4>
-        @(Html.Kendo().ComboBoxFor(model => model.CountryId)
-                   .DataValueField("Id")
-                   .DataTextField("Name")
-                   .HtmlAttributes(new { style = "width:60%", id = "county" })
-               .Filter("StartsWith")
-               .DataSource(source =>
-               {
-                   source.Read(read =>
+        @using (Html.BeginForm("Create", "County", FormMethod.Post))
+
+        {
+            <h4>Judet:</h4>
+            <input type="text" asp-for="CountyName" class="f1" />
+            <br />
+            <br />
+            <h4>Tara:</h4>
+            @(Html.Kendo().ComboBoxFor(model => model.CountryId)
+                       .DataValueField("Id")
+                       .DataTextField("Name")
+                       .HtmlAttributes(new { style = "width:60%", id = "county" })
+                   .Filter("StartsWith")
+                   .DataSource(source =>
                    {
-                       read.Action("Read_Country", "County").Data("countryNameF");
+                       source.Read(read =>
+                       {
+                           read.Action("Read_Country", "County").Data("countryNameF");
+                       })
+                       .ServerFiltering(true);
                    })
-                   .ServerFiltering(true);
-               })
-        )
-        <br />
-        <br />
-        <button type="submit" id="new" class="btn k-primary" name="submitbutton" value="SaveAndNew">Salveaza si nou</button>
-        <button type="submit" id="btn_save_or_saveEdit" class="btn k-primary" name="submitbutton" value="Save">Salveaza</button>
+            )
+            <br />
+            <br />
+            <button type="submit" id="new" class="btn k-primary" name="submitbutton" value="SaveAndNew">Salveaza si nou</button>
+            <button type="submit" id="btn_save_or_saveEdit" class="btn k-primary" name="submitbutton" value="Save">Salveaza</button>
 
-        <a id="exit" class="btn k-primary" asp-action="Index">Renunta</a>
+            <a id="exit" class="btn k-primary" asp-action="Index">Renunta</a>
 
-        <br />
-    }
+            <br />
+        }
 
 </div>
 <script type="text/javascript">
@@ -72,5 +86,7 @@
             document.getElementById("new").style.visibility = "hidden";
         }
     }
+    function valid() {
+    document.activeElement}
 
 </script>
