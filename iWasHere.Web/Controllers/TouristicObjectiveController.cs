@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using DocumentFormat.OpenXml.Wordprocessing;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
 using iWasHere.Domain.Service;
@@ -171,5 +173,13 @@ namespace iWasHere.Web.Controllers
             /*var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);*/ // Specify the type of your UserId;
         }
 
+
+        public IActionResult Download(string id)
+        {
+            TouristicObjectiveDTO model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
+            _dictionaryObjective.ExportToWord(model);
+
+            return View();
+        }
     }
 }

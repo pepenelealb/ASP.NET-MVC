@@ -1,4 +1,7 @@
-﻿using iWasHere.Domain.DTOs;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -151,10 +154,7 @@ namespace iWasHere.Domain.Service
                     return "Codul tau nu este unic";
                 }
             }
-
-
         }
-
 
         public string Insert(TouristicObjectiveDTO model)
         {
@@ -290,6 +290,57 @@ namespace iWasHere.Domain.Service
             return x;
         }
 
+        public void ExportToWord(TouristicObjectiveDTO model)
+        {
+            using (WordprocessingDocument package = WordprocessingDocument.Create("ExportToWord.docx", WordprocessingDocumentType.Document))
+            {
+
+                model.cityName = _dbContext.DictionaryCity.Where(x => x.CityId == model.CityId).Select(x => x.CityName).FirstOrDefault();
+                model.Type = _dbContext.DictionaryOpenSeason.Where(x => x.OpenSeasonId == model.OpenSeasonId).Select(x => x.OpenSeasonType).FirstOrDefault();
+                model.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(x => x.AttractionCategoryId == model.AttractionCategoryId).Select(x => x.AttractionCategoryName).FirstOrDefault();
+                model.Currency = _dbContext.DictionaryCurrency.Where(x => x.DictionaryCurrencyId == model.CurrencyId).Select(x => x.CurrencyCode).FirstOrDefault();
+                model.TicketCategory = _dbContext.DictionaryTicket.Where(x => x.DictionaryTicketId == model.DictionaryTicketId).Select(x => x.TicketCategory).FirstOrDefault();
+                // Add a new main document part. 
+                package.AddMainDocumentPart();
+
+                // Create the Document DOM. 
+                package.MainDocumentPart.Document =
+                  new Document(
+                    new Body(
+                      new Paragraph(
+                        new Run(
+                          new Text("Codul obiectivului este: " + model.TouristicObjectiveCode))),
+                         new Paragraph(
+                        new Run(
+                           new Text("\n Numele atractiei turistice este: " + model.AttractionCategoryName))),
+                           new Paragraph(
+                        new Run(
+                          new Text("\n :Descrierea atractiei este: " + model.TouristicObjectiveDescription))),
+                             new Paragraph(
+                        new Run(
+                              new Text("\n Tipul de atractie este: " + model.AttractionCategoryName))),
+                               new Paragraph(
+                        new Run(
+                            new Text("\n Sezonul de atractie este: " + model.Type))),
+                                 new Paragraph(
+                        new Run(
+                           new Text("\n Orasul in care se afla atractia este : " + model.cityName))),
+
+                    new Paragraph(
+                       new Run(
+                          new Text("\n Pretul biletului este : " + model.Price))),
+                     new Paragraph(
+                       new Run(
+                          new Text("\n Tipul de bilet este : " + model.TicketCategory))),
+                      new Paragraph(
+                       new Run(
+                          new Text("\n Moneda de plata este : " + model.Currency)))
+                          ));
+
+                // Save changes to the main document part. 
+                package.MainDocumentPart.Document.Save();
+            }
+        }
 
         public string InsertFeedback(FeedbackDTO model)
         {
@@ -314,4 +365,5 @@ namespace iWasHere.Domain.Service
         }
     }
 
-}
+    }
+
