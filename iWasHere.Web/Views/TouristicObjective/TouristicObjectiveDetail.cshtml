@@ -18,7 +18,8 @@
 <h1 class="myHeader"> Detalii Obiectiv Turistic</h1>
 <br />
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
-{<div class="divu_mare" >
+{
+    <div class="divu_mare" >
     <input type="text" hidden asp-for="TouristicObjectiveId" id="touristicObjectiveId">
     <div class="nume_picture">
         <div class="numeObiectiv" align="center">
