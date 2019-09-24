@@ -116,22 +116,21 @@ namespace iWasHere.Web.Controllers
 
         public ActionResult Delete([DataSourceRequest] DataSourceRequest request, CityDTO cityDTO)
         {
-            if (cityDTO != null)
+            string errorMessage = _dictionaryCityService.DeleteCity(cityDTO.cityId);
+            if (!String.IsNullOrEmpty(errorMessage))
             {
-                string errorMessage = _dictionaryCityService.DeleteCounty(cityDTO.cityId);
-                if (string.IsNullOrWhiteSpace(errorMessage))
-                {
-                    return Json(ModelState.ToDataSourceResult());
-                }
-                else
-                {
-                    ModelState.AddModelError("e", errorMessage);
-                    return Json(ModelState.ToDataSourceResult());
-                }
+                ModelState.AddModelError("e", errorMessage);
+                return Json(ModelState.ToDataSourceResult());
             }
+            else
+            {
+                if (cityDTO != null)
+                {
+                    _dictionaryCityService.DeleteCity(cityDTO.cityId);
+                }
+                return Json(ModelState.ToDataSourceResult());
 
-            return Json(ModelState.ToDataSourceResult());
-
+            }
         }
 
 

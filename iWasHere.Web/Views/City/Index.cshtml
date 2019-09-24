@@ -23,32 +23,33 @@
 <h1 class="myHeader"> Dictionar Orase</h1>
 
 <div class="filter">
-    <br/>
+    <br />
     @using (Html.BeginForm())
     {
         <h1 style="font-family:courier;">Filtre Oras: &nbsp;</h1>
         <label style="font-family:courier;"> Oras: &nbsp;</label> <input type="text" id="textBox" /><br />
-        <label style="font-family:courier;"> Judet: </label> @(Html.Kendo().AutoComplete()
-.Name("Orase")
-.DataTextField("Name")
-.HtmlAttributes(new { style = "width:40%" })
-.Filter("StartsWith")
-.DataSource(source =>
-{
-source.Read(read =>
-{
-read.Action("Read_County", "City").Data("onAdditionalData");
-})
-.ServerFiltering(true);
-})
+        <label style="font-family:courier;"> Judet: </label>
+        @(Html.Kendo().ComboBoxFor(model => model.county)
+                  .DataValueField("county")
+                  .DataTextField("county")
+                  .HtmlAttributes(new { style = "width:60%", id = "county" })
+              .Filter("StartsWith")
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("Read_County", "City");
+                  })
+                  .ServerFiltering(true);
+              })
         )
 
-    } 
-    <div align="right" >
-    <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
-    <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
-</div>
-
+    }
+        <div align="right">
+            <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
+            <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+        </div>
+    
 </div>
 
 
@@ -81,15 +82,15 @@ read.Action("Read_County", "City").Data("onAdditionalData");
             .DataSource(dataSource => dataSource
                 .Ajax()
                 .Read(read => read.Action("Read", "City").Data("myFilter"))                
-                .Model(model => model.Id(p => p.countyId))
-                .Destroy(update => update.Action("Delete", "City"))
+                .Model(model => model.Id(p => p.cityId))
+                .Destroy(d => d.Action("Delete", "City"))
                 .Events(e => e.Error("handleError"))
                 .PageSize(10)
                 )
     )
     <br/>
     <div class="col-6" align="left">
-        <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add "onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
+        <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add "onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; Adauga oras nou</a>
     </div>
 
 
@@ -111,16 +112,11 @@ read.Action("Read_County", "City").Data("onAdditionalData");
         $('#Orase').val("");
         refresh();
 
-    }
-    function onAdditionalData() {
-        return {
-            text: $("#Orase").val()
-        };
-    }
+    }   
 
     function myFilter() {
         var cityName = $("#textBox").val()
-        var countyName = $("#Orase").val()
+        var countyName = $("#county").val()
 
         var filter = {}
         filter["cityName"] = cityName
@@ -136,7 +132,8 @@ read.Action("Read_County", "City").Data("onAdditionalData");
 
     }
     function handleError(e) {
-        alert("Eroare de stergere! Aceasta tara reprezinta referinta catre alte tabele!")        
+        alert("Eroare de stergere! Acest oras reprezinta referinta catre alte obiective turistice!")
+        refresh();
     }
     $(document).ready(function () {
         $("#btn_add").kendoButton();
