@@ -115,7 +115,7 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public string DeleteCounty(int id)
+        public string DeleteCity(int id)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Acest judet nu poate fi sters pentru ca are asociat un oras!!!";
+                return "Acest oras nu poate fi sters pentru ca are asociat unui obiectiv!!!";
             }
         }
 
