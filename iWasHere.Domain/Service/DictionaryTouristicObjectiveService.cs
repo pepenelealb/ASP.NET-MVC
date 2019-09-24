@@ -1,4 +1,7 @@
-﻿using iWasHere.Domain.DTOs;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -39,7 +42,27 @@ namespace iWasHere.Domain.Service
 
             return dictionaryOpenSeasons;
         }
-
+        /// <summary>
+        /// img
+        /// </summary>
+        /// <returns></returns>
+        public List<String> Get_IMG(int id)
+        {
+            List<Picture_DTO> paths = _dbContext.Picture.Where(a => a.TouristicObjectiveId == id).Select(a => new Picture_DTO()
+            {
+                PictureName = a.PictureName,
+            }).ToList();
+            List<String> filepaths = new List<String>();
+            foreach (Picture_DTO ph in paths)
+            {
+                filepaths.Add(ph.PictureName);
+            }
+            return filepaths;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<CityDTO> GetCity()
         {
             List<CityDTO> city = _dbContext.DictionaryCity.Select(a => new CityDTO()
@@ -151,10 +174,7 @@ namespace iWasHere.Domain.Service
                     return "Codul tau nu este unic";
                 }
             }
-
-
         }
-
 
         public string Insert(TouristicObjectiveDTO model)
         {
@@ -292,6 +312,62 @@ namespace iWasHere.Domain.Service
             return x;
         }
 
+        public Stream ExportToWord(TouristicObjectiveDTO model)
+        {           
+                model.cityName = _dbContext.DictionaryCity.Where(x => x.CityId == model.CityId).Select(x => x.CityName).FirstOrDefault();
+                model.Type = _dbContext.DictionaryOpenSeason.Where(x => x.OpenSeasonId == model.OpenSeasonId).Select(x => x.OpenSeasonType).FirstOrDefault();
+                model.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(x => x.AttractionCategoryId == model.AttractionCategoryId).Select(x => x.AttractionCategoryName).FirstOrDefault();
+                model.Currency = _dbContext.DictionaryCurrency.Where(x => x.DictionaryCurrencyId == model.CurrencyId).Select(x => x.CurrencyCode).FirstOrDefault();
+                model.TicketCategory = _dbContext.DictionaryTicket.Where(x => x.DictionaryTicketId == model.DictionaryTicketId).Select(x => x.TicketCategory).FirstOrDefault();
+
+            var stream = new MemoryStream();
+            using (WordprocessingDocument doc = WordprocessingDocument.Create(stream, DocumentFormat.OpenXml.WordprocessingDocumentType.Document, true))
+            {
+
+                MainDocumentPart mainPart = doc.AddMainDocumentPart();
+
+                new Document(new Body()).Save(mainPart);
+
+                Body body = mainPart.Document.Body;
+                body.Append(
+                      new Body(
+                      new Paragraph(
+                        new Run(
+                          new Text("Codul obiectivului este: " + model.TouristicObjectiveCode))),
+                         new Paragraph(
+                        new Run(
+                           new Text("\n Numele atractiei turistice este: " + model.AttractionCategoryName))),
+                           new Paragraph(
+                        new Run(
+                          new Text("\n :Descrierea atractiei este: " + model.TouristicObjectiveDescription))),
+                             new Paragraph(
+                        new Run(
+                              new Text("\n Tipul de atractie este: " + model.AttractionCategoryName))),
+                               new Paragraph(
+                        new Run(
+                            new Text("\n Sezonul de atractie este: " + model.Type))),
+                                 new Paragraph(
+                        new Run(
+                           new Text("\n Orasul in care se afla atractia este : " + model.cityName))),
+
+                    new Paragraph(
+                       new Run(
+                          new Text("\n Pretul biletului este : " + model.Price))),
+                     new Paragraph(
+                       new Run(
+                          new Text("\n Tipul de bilet este : " + model.TicketCategory))),
+                      new Paragraph(
+                       new Run(
+                          new Text("\n Moneda de plata este : " + model.Currency)))
+                          ));
+
+                mainPart.Document.Save();
+            }
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
+        }
 
         public string InsertFeedback(FeedbackDTO model)
         {
@@ -302,12 +378,11 @@ namespace iWasHere.Domain.Service
                 CommentTitle = model.commentTitle,
                 Comment = model.comment,
                 Rating = model.rating,
-                FeedbackName = model.feedbackName,
                 TouristicObjectiveId = model.touristicObjectiveId,
                 UserId = model.userId,
                 UserName = model.userName
             });
-                _dbContext.SaveChanges();
+            _dbContext.SaveChanges();
                 return null;
             //}
             //catch (Exception e)
@@ -317,4 +392,5 @@ namespace iWasHere.Domain.Service
         }
     }
 
-}
+    }
+
