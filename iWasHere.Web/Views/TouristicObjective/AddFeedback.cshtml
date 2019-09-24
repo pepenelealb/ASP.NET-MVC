@@ -42,17 +42,27 @@
                 background: #F90;
                 color: #FFF;
             }
+
+    .myHeader {
+        background-color: lightblue;
+        color: white;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        text-shadow: 2px 2px 4px #000000;
+        font-size: 320%;
+    }
 </style>
+<h1 class="myHeader"> Adauga comentariu</h1>
 
-<h1>Sectiune de comentarii</h1>
-
+<br />
 @using (Html.BeginForm("AddFeedback", "TouristicObjective", FormMethod.Post))
 {
-<p>
-    <input type="text" hidden asp-for="touristicObjectiveId" />
-    <br><label>Nume utilizator: </label><input id="feedbackName" asp-for="feedbackName" type="text" value="Anonim" />
-    <br><label>Utilizator logat: </label><input type="checkbox" id="checkBox"></input>
-    <br><label>Rating</label>
+    <p>
+        <input type="text" hidden asp-for="touristicObjectiveId" />
+        <br><label>Nume utilizator: </label><input id="feedbackName" asp-for="feedbackName" type="text" value="Anonim" />
+        <br><label>Utilizator logat: </label><input type="checkbox" id="checkBox"></input>
+        <br><label>Rating</label>
         <div class="rating">
             <span><input type="radio" name="rating" id="str10" value="10"><label for="str10"></label></span>
             <span><input type="radio" name="rating" id="str9" value="9"><label for="str9"></label></span>
@@ -65,23 +75,23 @@
             <span><input type="radio" name="rating" id="str2" value="2"><label for="str2"></label></span>
             <span><input type="radio" name="rating" id="str1" value="1"><label for="str1"></label></span>
         </div>
-    <br>
-    <br><br><label>Titlul comentariului: </label><input asp-for="commentTitle" id="commentTitle" type="text">
-    <br><label>Descrierea comentariului: </label><input id="commentDesc" type="text" asp-for="comment">
-    <br> <button type="submit" onclick="handleErrorUpdate()" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
-    <br><a asp-action="TouristicObjectiveDetail" class="btn btn-primary">Anuleaza</a>
-</p>
+        <br>
+        <br><br><label>Titlul comentariului: </label><input asp-for="commentTitle" id="commentTitle" type="text">
+        <br><label>Descrierea comentariului: </label><input id="commentDesc" type="text" asp-for="comment">
+        <br> <button type="submit" onclick="handleErrorUpdate()" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
+        <br><a asp-action="TouristicObjectiveDetail" class="btn btn-primary">Anuleaza</a>
+    </p>
 }
 
-    <script type="text/javascript">
+<script type="text/javascript">
 
-         function isEmptyOrSpaces(str) {
+    function isEmptyOrSpaces(str) {
         return str === null || str.match(/^ *$/) !== null;
     }
-          function handleErrorUpdate(e) {
-             if (isEmptyOrSpaces($('#commentDesc').val()))
-                  alert("Trebuie sa introduceti obligatoriu o descriere!")
-              else if (isEmptyOrSpaces($('#feedbackName').val()))
-                 alert("Trebuie sa introduceti obligatoriu un nume!")
-        }
-    </script>
+    function handleErrorUpdate(e) {
+        if (isEmptyOrSpaces($('#commentDesc').val()))
+            alert("Trebuie sa introduceti obligatoriu o descriere!")
+        else if (isEmptyOrSpaces($('#feedbackName').val()))
+            alert("Trebuie sa introduceti obligatoriu un nume!")
+    }
+</script>

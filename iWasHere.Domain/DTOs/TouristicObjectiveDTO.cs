@@ -31,5 +31,6 @@ namespace iWasHere.Domain.DTOs
 
         public int countryId { get; set; }
         public string countryName { get; set; }
+
     }
 }
