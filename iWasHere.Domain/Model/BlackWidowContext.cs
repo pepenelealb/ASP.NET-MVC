@@ -176,10 +176,6 @@ namespace iWasHere.Domain.Model
 
                 entity.Property(e => e.CommentTitle).HasMaxLength(256);
 
-                entity.Property(e => e.FeedbackName)
-                    .IsRequired()
-                    .HasMaxLength(256);
-
                 entity.Property(e => e.UserId).HasMaxLength(450);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
@@ -203,7 +199,7 @@ namespace iWasHere.Domain.Model
 
              //   entity.Property(e => e.ImageId).ValueGeneratedNever();
 
-                entity.Property(e => e.Picture1).HasColumnName("Picture");
+              //  entity.Property(e => e.PictureImage).HasColumnName("Picture");
 
                 entity.HasOne(d => d.TouristicObjective)
                     .WithMany(p => p.Picture)

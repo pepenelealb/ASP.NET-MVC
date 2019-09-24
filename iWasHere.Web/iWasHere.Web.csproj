@@ -6,8 +6,16 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="wwwroot\lib\kendo-ui\**" />
+    <Content Remove="wwwroot\lib\kendo-ui\**" />
+    <EmbeddedResource Remove="wwwroot\lib\kendo-ui\**" />
+    <None Remove="wwwroot\lib\kendo-ui\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
+    <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
@@ -21,7 +29,9 @@
 
 
   <ItemGroup>
-    <Folder Include="wwwroot\lib\kendo-ui\" />
+    <Folder Include="Views\TouristicObjective\Img\" />
+    <Folder Include="wwwroot\Img\60\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 
 </Project>

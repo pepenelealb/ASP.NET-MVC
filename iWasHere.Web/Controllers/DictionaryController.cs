@@ -18,11 +18,11 @@ namespace iWasHere.Web.Controllers
             _dictionaryService = dictionaryService;
         }
 
-        public IActionResult Index()
-        {
-            List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dictionaryService.GetDictionaryLandmarkTypeModels();
+        //public IActionResult Index()
+        //{
+        //    List<DictionaryLandmarkTypeModel> dictionaryLandmarkTypeModels = _dictionaryService.GetDictionaryLandmarkTypeModels();
 
-            return View(dictionaryLandmarkTypeModels);
-        }
+        //    return View(dictionaryLandmarkTypeModels);
+        //}
     }
 }

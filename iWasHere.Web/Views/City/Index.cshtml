@@ -23,92 +23,35 @@
 <h1 class="myHeader"> Dictionar Orase</h1>
 
 <div class="filter">
-    <br/>
+    <br />
     @using (Html.BeginForm())
     {
         <h1 style="font-family:courier;">Filtre Oras: &nbsp;</h1>
         <label style="font-family:courier;"> Oras: &nbsp;</label> <input type="text" id="textBox" /><br />
-        <label style="font-family:courier;"> Judet: </label> @(Html.Kendo().AutoComplete()
-.Name("Orase")
-.DataTextField("Name")
-.HtmlAttributes(new { style = "width:40%" })
-.Filter("StartsWith")
-.DataSource(source =>
-{
-source.Read(read =>
-{
-read.Action("Read_County", "City").Data("onAdditionalData");
-})
-.ServerFiltering(true);
-})
+        <label style="font-family:courier;"> Judet: </label>
+        @(Html.Kendo().ComboBoxFor(model => model.county)
+                  .DataValueField("county")
+                  .DataTextField("county")
+                  .HtmlAttributes(new { style = "width:60%", id = "county" })
+              .Filter("StartsWith")
+              .DataSource(source =>
+              {
+                  source.Read(read =>
+                  {
+                      read.Action("Read_County", "City");
+                  })
+                  .ServerFiltering(true);
+              })
         )
 
-    } 
-    <div align="right" >
-    <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
-    <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+    }
+        <div align="right">
+            <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
+            <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+        </div>
+    
 </div>
 
-</div>
-<script type="text/javascript">
-    var getInput;
-    function setCreate() {        
-        getInput = "create"
-        localStorage.setItem("storageName",getInput);
-    }
-
-    function setEdit() {        
-        getInput = "edit"
-        localStorage.setItem("storageName",getInput);
-    }
-
-    function deleteFilters() {
-        $('#textBox').val(""); 
-        $('#Orase').val("");
-        refresh();
-
-    }
-    function onAdditionalData() {
-            return {
-                text: $("#Orase").val()
-            };
-    }
-
-    function myFilter() {        
-        var cityName = $("#textBox").val()
-        var countyName = $("#Orase").val()
-
-        var filter = {}
-        filter["cityName"] = cityName
-        filter["countyName"] = countyName
-        console.log(filter.cityName, filter.countyName)
-
-        return filter
-    }
-
-    function refresh() {     
-            $("#grid").data("kendoGrid").dataSource.read();
-            $("#grid").data("kendoGrid").dataSource.page(1);
-        
-    }
-    function error_handler(e) {    
-        alert("Acest Oras nu poate fi sters")
-    } 
-    $(document).ready(function () {
-        $("#btn_add").kendoButton();
-
-        $("#btn_filter").kendoButton({
-            icon: "filter"
-        });
-
-        $("#btn_r_filter").kendoButton({
-            icon: "filter-clear"
-
-        });
-
-    });
-
-</script>
 
 <br />
 
@@ -138,20 +81,74 @@ read.Action("Read_County", "City").Data("onAdditionalData");
                 .Filterable()
             .DataSource(dataSource => dataSource
                 .Ajax()
-                .Read(read => read.Action("Read", "City").Data("myFilter"))
-                .Events(events => events.Error("error_handler"))
-                .Model(model => model.Id(p => p.countyId))
-                .Destroy(update => update.Action("Delete", "City"))
+                .Read(read => read.Action("Read", "City").Data("myFilter"))                
+                .Model(model => model.Id(p => p.cityId))
+                .Destroy(d => d.Action("Delete", "City"))
+                .Events(e => e.Error("handleError"))
                 .PageSize(10)
                 )
     )
     <br/>
     <div class="col-6" align="left">
-        <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add "onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
+        <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add "onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; Adauga oras nou</a>
     </div>
 
 
 </div>
+<script type="text/javascript">
+    var getInput;
+    function setCreate() {
+        getInput = "create"
+        localStorage.setItem("storageName", getInput);
+    }
 
+    function setEdit() {
+        getInput = "edit"
+        localStorage.setItem("storageName", getInput);
+    }
+
+    function deleteFilters() {
+        $('#textBox').val("");
+        $('#Orase').val("");
+        refresh();
+
+    }   
+
+    function myFilter() {
+        var cityName = $("#textBox").val()
+        var countyName = $("#county").val()
+
+        var filter = {}
+        filter["cityName"] = cityName
+        filter["countyName"] = countyName
+        console.log(filter.cityName, filter.countyName)
+
+        return filter
+    }
+
+    function refresh() {
+        $("#grid").data("kendoGrid").dataSource.read();
+        $("#grid").data("kendoGrid").dataSource.page(1);
+
+    }
+    function handleError(e) {
+        alert("Eroare de stergere! Acest oras reprezinta referinta catre alte obiective turistice!")
+        refresh();
+    }
+    $(document).ready(function () {
+        $("#btn_add").kendoButton();
+
+        $("#btn_filter").kendoButton({
+            icon: "filter"
+        });
+
+        $("#btn_r_filter").kendoButton({
+            icon: "filter-clear"
+
+        });
+
+    });
+
+</script>
 
 

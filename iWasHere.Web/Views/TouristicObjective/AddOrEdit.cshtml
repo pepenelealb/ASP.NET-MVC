@@ -1,4 +1,11 @@
-﻿@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
+﻿<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.common.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.silver.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css" />
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
+
+@model iWasHere.Domain.DTOs.TouristicObjectiveDTO
+
 @{
     ViewData["Title"] = "AddOrEdit";
 }
@@ -10,152 +17,166 @@
         border-width: 1px;
         border-color: darkcyan;
     }
-</style>
 
+    .myHeader {
+        background-color: lightblue;
+        color: black;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+    }
+
+    #myDiv {
+        display: grid;
+        align-self: center;
+    }
+</style>
+<h1 class="myHeader"> Obiectiv Turistic-Add</h1>
 @Html.ValidationSummary(true)
 
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {<div id="myDiv">
-   
-        <label>Nume Atractie: </label>
 
-        <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
-    
+    <label>Nume Atractie: </label>
+
+    <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
+
     <br />
     <br />
-   
-        <label>Cod Atractie:</label>
-        <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
-        <br />
-        <br />
- 
-        <label>Descriere:</label>
-        <input type="text" asp-for="TouristicObjectiveDescription" />
-    
+
+    <label>Cod Atractie:</label>
+    <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
     <br />
     <br />
-    
-        <label>Nu are bilet:</label>
-        <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
-    
+
+    <label>Descriere:</label>
+    <textarea type="text" asp-for="TouristicObjectiveDescription"  id="txtDescription"> </textarea>
+
+    <br />
+    <br />
+
+    <label>Are bilet:</label>
+    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
+
     <br />
     <br />
 
     <div id="ticket" class="ticket">
         <br />
-      
-            <label id="pricelbl">Pret:</label>
-            <input type="text" asp-for="Price" id="price" />
-       
+
+        <label id="pricelbl">Pret:</label>
+        <input type="text" asp-for="Price" id="price" />
+
         <br />
         <br />
-      
-            <label>Selecteaza tipul biletului</label>
-            @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
-                   .DataValueField("DictionaryTicketId")
-                   .DataTextField("TicketCategory")
-                   .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
-               .Filter("StartsWith")
-               .DataSource(source =>
+
+        <label>Selecteaza tipul biletului</label>
+        @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
+               .DataValueField("DictionaryTicketId")
+               .DataTextField("TicketCategory")
+               .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
                {
-                   source.Read(read =>
-                   {
-                       read.Action("Read_Ticket_Category", "TouristicObjective");
-                   })
-                   .ServerFiltering(true);
+                   read.Action("Read_Ticket_Category", "TouristicObjective");
                })
-            )
-       
+               .ServerFiltering(true);
+           })
+        )
+
         <br />
         <br />
-       
-            <label>Selecteaza o moneda:</label>
-            @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
-                  .DataValueField("Id")
-                  .DataTextField("Currency")
-                  .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
-              .Filter("StartsWith")
-              .DataSource(source =>
+
+        <label>Selecteaza o moneda:</label>
+        @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
+              .DataValueField("Id")
+              .DataTextField("Currency")
+              .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
+          .Filter("StartsWith")
+          .DataSource(source =>
+          {
+              source.Read(read =>
               {
-                  source.Read(read =>
-                  {
-                      read.Action("Read_Currency", "TouristicObjective");
-                  })
-                  .ServerFiltering(true);
+                  read.Action("Read_Currency", "TouristicObjective");
               })
-            )
-      
+              .ServerFiltering(true);
+          })
+        )
+
         <br />
         <br />
     </div>
-  
-        <label>Selecteaza Tipul Atractiei</label>
-        @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
-                   .DataValueField("AttractionCategoryId")
-                   .DataTextField("AttractionCategoryName")
-                   .HtmlAttributes(new { style = "width:60%", id = "attraction" })
-               .Filter("StartsWith")
-               .DataSource(source =>
+
+    <label>Selecteaza Tipul Atractiei</label>
+    @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
+               .DataValueField("AttractionCategoryId")
+               .DataTextField("AttractionCategoryName")
+               .HtmlAttributes(new { style = "width:60%", id = "attraction" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
                {
-                   source.Read(read =>
-                   {
-                       read.Action("Read_Attraction", "TouristicObjective");
-                   })
-                   .ServerFiltering(true);
+                   read.Action("Read_Attraction", "TouristicObjective");
                })
-        )
-    
+               .ServerFiltering(true);
+           })
+    )
+
     <br />
     <br />
-   
-        <label>Selecteaza sezonul</label>
-        @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
-                   .DataValueField("Id")
-                   .DataTextField("Type")
-                   .HtmlAttributes(new { style = "width:60%", id = "season" })
-               .Filter("StartsWith")
-               .DataSource(source =>
+
+    <label>Selecteaza sezonul</label>
+    @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
+               .DataValueField("Id")
+               .DataTextField("Type")
+               .HtmlAttributes(new { style = "width:60%", id = "season" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
                {
-                   source.Read(read =>
-                   {
-                       read.Action("Read_Season", "TouristicObjective");
-                   })
-                   .ServerFiltering(true);
+                   read.Action("Read_Season", "TouristicObjective");
                })
-        )
-    
+               .ServerFiltering(true);
+           })
+    )
+
     <br />
     <br />
-   
-        <label>Selecteaza orasul</label>
-        @(Html.Kendo().ComboBoxFor(model => model.CityId)
-                   .DataValueField("cityId")
-                   .DataTextField("cityName")
-                   .HtmlAttributes(new { style = "width:60%", id = "city" })
-               .Filter("StartsWith")
-               .DataSource(source =>
+
+    <label>Selecteaza orasul</label>
+    @(Html.Kendo().ComboBoxFor(model => model.CityId)
+               .DataValueField("cityId")
+               .DataTextField("cityName")
+               .HtmlAttributes(new { style = "width:60%", id = "city" })
+           .Filter("StartsWith")
+           .DataSource(source =>
+           {
+               source.Read(read =>
                {
-                   source.Read(read =>
-                   {
-                       read.Action("Read_City", "TouristicObjective");
-                   })
-                   .ServerFiltering(true);
+                   read.Action("Read_City", "TouristicObjective");
                })
-        )
-    
+               .ServerFiltering(true);
+           })
+    )
+
     <br />
     <br />
-   
-        <label>Longitudine :</label>
-        <input type="text" asp-for="Longitude" />
-   
+
+    <label>Longitudine :</label>
+    <input type="text" asp-for="Longitude" />
+
     <br />
     <br />
-   
-        <label>Latitudine :</label>
-        <input type="text" asp-for="Latitude" />
-   
+
+    <label>Latitudine :</label>
+    <input type="text" asp-for="Latitude" />
+    <input type="file" name="files" id="imgs" />
     <br />
     <br />
     <p align="center">
@@ -165,37 +186,50 @@
     </p>
 </div>
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
+}
+
+
+<script>
+    $("#imgs").kendoUpload({
+        async: {
+            saveUrl: "/Img",
+            autoUpload: false
+        }
+    });
+    function uploadSelected() {
+        $(".k-upload-selected").click();
     }
+</script>
 
-    <script type="text/javascript">
 
-        window.onload = hidePrice();
-        function hidePrice() {
-            var checkBox = document.getElementById("entry");
-            if (checkBox.checked == true) {
-                document.getElementById("ticket").style.display = "block";
-            } else {
-                document.getElementById("ticket").style.display = "none";
-            }
+<script type="text/javascript">
+    window.onload = hidePrice();
+    function hidePrice() {
+        var checkBox = document.getElementById("entry");
+        if (checkBox.checked == true) {
+            document.getElementById("ticket").style.display = "block";
+        } else {
+            document.getElementById("ticket").style.display = "none";
         }
-
-        function checkValue() {
-            var objName = document.getElementById("nameCode");
-            var unique = 0;
-            if (objName.defaultValue != objName.value) {
-                unique = 1;
-            }
-            $('#unique').val(unique);
+    }
+    function checkValue() {
+        var objName = document.getElementById("nameCode");
+        var unique = 0;
+        if (objName.defaultValue != objName.value) {
+            unique = 1;
         }
-
-        function isEmptyOrSpaces(str) {
-            return str === null || str.match(/^ *$/) !== null;
-        }
-
-    </script>
-    <style>
-        #myDiv{
-            display: grid;
-             align-self: center;
-        }
-    </style>
+        $('#unique').val(unique);
+    }
+    function isEmptyOrSpaces(str) {
+        return str === null || str.match(/^ *$/) !== null;
+    }
+</script>
+<style>
+    #myDiv {
+        display: grid;
+        align-self: center;
+    }
+    #txtDescription{
+        height:170px;
+    }
+</style>

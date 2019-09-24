@@ -2,33 +2,51 @@
 @{
     ViewData["Title"] = "Index";
 }
-<h1>Dictionar Tari</h1>
+<style>
+    .myHeader {
+        background-color: lightblue;
+        color: white;
+        padding: 40px;
+        text-align: center;
+        font-family: Georgia;
+        text-shadow: 2px 2px 4px #000000;
+        font-size: 320%;
+    }
 
+    .filter {
+        border: 2px light blue;
+        border-radius: 3px;
+        background-color: hsla(120, 100%, 25%, 0.3);
+    }
+</style>
+<h1 class="myHeader"> Dictionar Tari</h1>
+<form class="filter">
+    <div class="div2" align="center">
+        <br />
 
-<p>
-    <input id="searchCountryName" type="text" />
-    <button type="button" id="btnSearch" onclick="refreshFunction()" asp-controller="DictionaryCountry" asp-action="GetCountries">Filtreaza</button>
-    <button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="DictionaryCountry" asp-action="GetCountries">Sterge Filtre</button>
-    <a href=@Url.Action("AddCountry", "DictionaryCountry", 0) onclick="setAdd()" type="button" class="btn btn-primary">Adauga</a>
-</p>
+        <h4 style="font-family:courier;">Cauta Tara:</h4> <input id="searchCountryName" type="text" />
+        <button type="button" id="btnSearch" onclick="refreshFunction()" asp-controller="DictionaryCountry" asp-action="GetCountries">Filtreaza</button>
+        <button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="DictionaryCountry" asp-action="GetCountries">Sterge Filtre</button>
+    </br>
+    </div>
+</form>
 
 <br />
 
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryCountryModel>()
     .Name("grid")
     .Columns(columns =>
-    {
-        columns.Bound(c => c.Id).Width(200).Visible(false);
-        columns.Bound(c => c.Name).Width(200);
-         columns.Template("<a href='" + @Url.Action("AddCountry", "DictionaryCountry") + "?id=#=Id#' onclick='setEdit()' class='btn btn-success'> <i class='fas fa-edit'></i>&nbsp; Modifica</a> ");
-        columns.Command(c =>
-        {
-            c.Destroy();
-        });
+            {
+                columns.Bound(c => c.Id).Width(200).Visible(false);
+                columns.Bound(c => c.Name);
+                columns.Template("<a href='" + @Url.Action("AddCountry", "DictionaryCountry") + "?id=#=Id#' onclick='setEdit()' class='btn btn-success'> <i class='fas fa-edit'></i>&nbsp; Modifica</a> ").Width(200);
+                columns.Command(c =>
+                {
+                    c.Destroy();
+        }).Width(150);
     })
     .HtmlAttributes(new { style = "height: 380px;" })
     .Scrollable()
-    .Groupable()
     .Sortable(sortable => sortable.AllowUnsort(false))
     .Pageable(pageable => pageable
     .Refresh(true)
@@ -42,17 +60,18 @@
     .Events(a => a.Error("handleError"))
     )
 )
-
+<br />
+<a href=@Url.Action("AddCountry", "DictionaryCountry", 0) id="btn_add" onclick="setAdd()" type="button" class="btn btn-primary">Adauga</a>
 
 <script type="text/javascript">
 
     var getValue;
-    function setAdd() {        
+    function setAdd() {
         getValue = "create"
-        localStorage.setItem("storageName",getValue);
+        localStorage.setItem("storageName", getValue);
     }
 
-    function setEdit() {        
+    function setEdit() {
         getValue = "edit"
         localStorage.setItem("storageName", getValue);
     }
@@ -79,6 +98,20 @@
     function handleError(e) {
         alert("Eroare de stergere! Aceasta tara reprezinta referinta catre alte tabele!")
     }
+
+    $(document).ready(function () {
+        $("#btn_add").kendoButton();
+
+        $("#btnSearch").kendoButton({
+            icon: "filter"
+        });
+
+        $("#btnDeleteFilters").kendoButton({
+            icon: "filter-clear"
+
+        });
+
+    });
 </script>
 
 

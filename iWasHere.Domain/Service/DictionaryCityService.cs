@@ -35,8 +35,7 @@ namespace iWasHere.Domain.Service
             {
                 cityId = a.CityId,
                 cityName = a.CityName,
-                county = a.County.CountyName,
-                //countyId = a.CountyId
+                county = a.County.CountyName         
                 
 
             }).Skip((skip-1) * take).Take(take).ToList();
@@ -44,13 +43,13 @@ namespace iWasHere.Domain.Service
             return dictionaryCity;
         }
 
-        public List<DictionaryCountryModel> GetCounty()
+        public List<CityDTO> GetCounty()
         {          
 
-            List<DictionaryCountryModel> dictionaryCounty = _dbContext.DictionaryCounty.Select(a => new DictionaryCountryModel()
+            List<CityDTO> dictionaryCounty = _dbContext.DictionaryCity.Select(a => new CityDTO()
             {
-                Id = a.CountyId,
-                Name = a.CountyName
+                countyId = a.CountyId,
+                county = a.County.CountyName
             }).ToList();
 
             return dictionaryCounty;
@@ -83,7 +82,8 @@ namespace iWasHere.Domain.Service
                 {
                     cityId = a.CityId,
                     cityName = a.CityName,
-                    county = a.County.CountyName,                 
+                    countyId = a.CountyId,
+                    county = a.County.CountyName               
 
 
                 }).First();
@@ -115,7 +115,7 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public string DeleteCounty(int id)
+        public string DeleteCity(int id)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception ex)
             {
-                return "Acest judet nu poate fi sters pentru ca are asociat un oras!!!";
+                return "Acest oras nu poate fi sters pentru ca are asociat unui obiectiv!!!";
             }
         }
 
