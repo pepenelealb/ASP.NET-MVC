@@ -257,9 +257,11 @@ namespace iWasHere.Domain.Service
                     CityId = a.CityId,
                     Longitude = a.Longitude,
                     Latitude = a.Latitude,
-                    PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
+                    Rating =Convert.ToInt32( _dbContext.Feedback.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault()),
+            PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
-
+           
+        //   obj.Rating = _dbContext.Feedback.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault();
             obj.cityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
             obj.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
                 (a => a.AttractionCategoryName).FirstOrDefault();
