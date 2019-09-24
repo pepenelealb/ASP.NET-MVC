@@ -31,160 +31,174 @@
         display: grid;
         align-self: center;
     }
+
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .validation-summary-errors ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .myvalidation {
+        color: red;
 </style>
 <h1 class="myHeader"> Obiectiv Turistic-Add</h1>
-@Html.ValidationSummary(true)
+<span class="help-block">
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
+</span>
 
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {<div id="myDiv">
 
-    <label>Nume Atractie: </label>
+        <label>Nume Atractie: </label>
 
-    <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
-
-    <br />
-    <br />
-
-    <label>Cod Atractie:</label>
-    <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
-    <br />
-    <br />
-
-    <label>Descriere:</label>
-    <textarea type="text" asp-for="TouristicObjectiveDescription"  id="txtDescription"> </textarea>
-
-    <br />
-    <br />
-
-    <label>Are bilet:</label>
-    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
-
-    <br />
-    <br />
-
-    <div id="ticket" class="ticket">
-        <br />
-
-        <label id="pricelbl">Pret:</label>
-        <input type="text" asp-for="Price" id="price" />
+        <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
 
         <br />
         <br />
 
-        <label>Selecteaza tipul biletului</label>
-        @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
-               .DataValueField("DictionaryTicketId")
-               .DataTextField("TicketCategory")
-               .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-           {
-               source.Read(read =>
+        <label>Cod Atractie:</label>
+        <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
+        <br />
+        <br />
+
+        <label>Descriere:</label>
+        <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtDescription"> </textarea>
+
+        <br />
+        <br />
+
+        <label>Are bilet:</label>
+        <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
+
+        <br />
+        <br />
+
+        <div id="ticket" class="ticket">
+            <br />
+
+            <label id="pricelbl">Pret:</label>
+            <input type="text" asp-for="Price" id="price" />
+
+            <br />
+            <br />
+
+            <label>Selecteaza tipul biletului</label>
+            @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
+                   .DataValueField("DictionaryTicketId")
+                   .DataTextField("TicketCategory")
+                   .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
+               .Filter("StartsWith")
+               .DataSource(source =>
                {
-                   read.Action("Read_Ticket_Category", "TouristicObjective");
+                   source.Read(read =>
+                   {
+                       read.Action("Read_Ticket_Category", "TouristicObjective");
+                   })
+                   .ServerFiltering(true);
                })
-               .ServerFiltering(true);
-           })
-        )
+            )
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        <label>Selecteaza o moneda:</label>
-        @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
-              .DataValueField("Id")
-              .DataTextField("Currency")
-              .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
-          .Filter("StartsWith")
-          .DataSource(source =>
-          {
-              source.Read(read =>
+            <label>Selecteaza o moneda:</label>
+            @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
+                  .DataValueField("Id")
+                  .DataTextField("Currency")
+                  .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
+              .Filter("StartsWith")
+              .DataSource(source =>
               {
-                  read.Action("Read_Currency", "TouristicObjective");
+                  source.Read(read =>
+                  {
+                      read.Action("Read_Currency", "TouristicObjective");
+                  })
+                  .ServerFiltering(true);
               })
-              .ServerFiltering(true);
-          })
+            )
+
+            <br />
+            <br />
+        </div>
+
+        <label>Selecteaza Tipul Atractiei</label>
+        @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
+                   .DataValueField("AttractionCategoryId")
+                   .DataTextField("AttractionCategoryName")
+                   .HtmlAttributes(new { style = "width:60%", id = "attraction" })
+               .Filter("StartsWith")
+               .DataSource(source =>
+               {
+                   source.Read(read =>
+                   {
+                       read.Action("Read_Attraction", "TouristicObjective");
+                   })
+                   .ServerFiltering(true);
+               })
         )
 
         <br />
         <br />
+
+        <label>Selecteaza sezonul</label>
+        @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
+                   .DataValueField("Id")
+                   .DataTextField("Type")
+                   .HtmlAttributes(new { style = "width:60%", id = "season" })
+               .Filter("StartsWith")
+               .DataSource(source =>
+               {
+                   source.Read(read =>
+                   {
+                       read.Action("Read_Season", "TouristicObjective");
+                   })
+                   .ServerFiltering(true);
+               })
+        )
+
+        <br />
+        <br />
+
+        <label>Selecteaza orasul</label>
+        @(Html.Kendo().ComboBoxFor(model => model.CityId)
+                   .DataValueField("cityId")
+                   .DataTextField("cityName")
+                   .HtmlAttributes(new { style = "width:60%", id = "city" })
+               .Filter("StartsWith")
+               .DataSource(source =>
+               {
+                   source.Read(read =>
+                   {
+                       read.Action("Read_City", "TouristicObjective");
+                   })
+                   .ServerFiltering(true);
+               })
+        )
+
+        <br />
+        <br />
+
+        <label>Longitudine :</label>
+        <input type="text" asp-for="Longitude" />
+
+        <br />
+        <br />
+
+        <label>Latitudine :</label>
+        <input type="text" asp-for="Latitude" />
+        <input type="file" name="files" id="imgs" />
+        <br />
+        <br />
+        <p align="center">
+            <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+            <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
+            <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
+        </p>
     </div>
-
-    <label>Selecteaza Tipul Atractiei</label>
-    @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
-               .DataValueField("AttractionCategoryId")
-               .DataTextField("AttractionCategoryName")
-               .HtmlAttributes(new { style = "width:60%", id = "attraction" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-           {
-               source.Read(read =>
-               {
-                   read.Action("Read_Attraction", "TouristicObjective");
-               })
-               .ServerFiltering(true);
-           })
-    )
-
-    <br />
-    <br />
-
-    <label>Selecteaza sezonul</label>
-    @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
-               .DataValueField("Id")
-               .DataTextField("Type")
-               .HtmlAttributes(new { style = "width:60%", id = "season" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-           {
-               source.Read(read =>
-               {
-                   read.Action("Read_Season", "TouristicObjective");
-               })
-               .ServerFiltering(true);
-           })
-    )
-
-    <br />
-    <br />
-
-    <label>Selecteaza orasul</label>
-    @(Html.Kendo().ComboBoxFor(model => model.CityId)
-               .DataValueField("cityId")
-               .DataTextField("cityName")
-               .HtmlAttributes(new { style = "width:60%", id = "city" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-           {
-               source.Read(read =>
-               {
-                   read.Action("Read_City", "TouristicObjective");
-               })
-               .ServerFiltering(true);
-           })
-    )
-
-    <br />
-    <br />
-
-    <label>Longitudine :</label>
-    <input type="text" asp-for="Longitude" />
-
-    <br />
-    <br />
-
-    <label>Latitudine :</label>
-    <input type="text" asp-for="Latitude" />
-    <input type="file" name="files" id="imgs" />
-    <br />
-    <br />
-    <p align="center">
-        <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
-        <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
-        <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
-    </p>
-</div>
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 }
 
@@ -229,7 +243,8 @@
         display: grid;
         align-self: center;
     }
-    #txtDescription{
-        height:170px;
+
+    #txtDescription {
+        height: 170px;
     }
 </style>

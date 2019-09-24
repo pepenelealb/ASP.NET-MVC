@@ -144,16 +144,30 @@ namespace iWasHere.Domain.Service
 
             return dictionaryCity;
         }
-        public void Insert(County_DTO model)
+        public string Insert(County_DTO model)
         {
-            _bwContext.DictionaryCounty.Add(new DictionaryCounty
+            if (String.IsNullOrWhiteSpace(model.CountyName))
             {
-               
-                CountyName = model.CountyName,
-                CountryId = model.CountryId
-               
-            });
-            _bwContext.SaveChanges();
+                return "Numele judetului este obligatoriu";
+            }else if(model.CountryId == 0)
+            {
+                return "Nu ai selectat o tara";
+            }
+            try
+            {
+                _bwContext.DictionaryCounty.Add(new DictionaryCounty
+                {
+
+                    CountyName = model.CountyName,
+                    CountryId = model.CountryId
+
+                });
+                _bwContext.SaveChanges();
+                return null;
+            }catch (Exception e)
+            {
+                return e.Message;
+            }
         }
         public string Delete_County(int id)
         {
@@ -175,6 +189,9 @@ namespace iWasHere.Domain.Service
                 if (String.IsNullOrWhiteSpace(model.CountyName))
                 {
                     return "Numele judetului este obligatoriu";
+                }else if (model.CountryId == 0)
+                {
+                    return "Nu ai selectat un judet";
                 }
 
                 else
@@ -189,7 +206,7 @@ namespace iWasHere.Domain.Service
             }
             catch (Exception e)
             {
-                return "Campurile sunt obligatorii";
+                return e.Message;
             }
         }
         //pana aici

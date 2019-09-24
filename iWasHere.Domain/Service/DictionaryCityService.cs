@@ -58,7 +58,15 @@ namespace iWasHere.Domain.Service
         public string Insert(CityDTO model)
         {
             try
-            {               
+            {
+                if (String.IsNullOrWhiteSpace(model.cityName))
+                {
+                    return "Numele orasului este obligatoriu";
+                }
+                else if (model.countyId == 0)
+                {
+                    return "Selecteaza un judet";
+                }
                 _dbContext.DictionaryCity.Add(new DictionaryCity
                 {
                     CityName = model.cityName,
@@ -68,7 +76,7 @@ namespace iWasHere.Domain.Service
                 return null;
             }catch(Exception e)
             {
-                return "Campuri obligatorii";
+                return e.Message;
             }
         }
 
@@ -98,6 +106,9 @@ namespace iWasHere.Domain.Service
                 if (String.IsNullOrWhiteSpace(model.cityName))
                 {
                     return "Numele orasului este obligatoriu";
+                }else if (model.countyId == 0)
+                {
+                    return "Selecteaza un judet";
                 }
                
                 else
@@ -111,7 +122,7 @@ namespace iWasHere.Domain.Service
                 }
             }catch(Exception e)
             {
-                return "Campurile sunt obligatorii";
+                return e.Message;
             }
         }
 
