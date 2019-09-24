@@ -42,7 +42,27 @@ namespace iWasHere.Domain.Service
 
             return dictionaryOpenSeasons;
         }
-
+        /// <summary>
+        /// img
+        /// </summary>
+        /// <returns></returns>
+        public List<String> Get_IMG(int id)
+        {
+            List<Picture_DTO> paths = _dbContext.Picture.Where(a => a.TouristicObjectiveId == id).Select(a => new Picture_DTO()
+            {
+                PictureName = a.PictureName,
+            }).ToList();
+            List<String> filepaths = new List<String>();
+            foreach (Picture_DTO ph in paths)
+            {
+                filepaths.Add(ph.PictureName);
+            }
+            return filepaths;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public List<CityDTO> GetCity()
         {
             List<CityDTO> city = _dbContext.DictionaryCity.Select(a => new CityDTO()

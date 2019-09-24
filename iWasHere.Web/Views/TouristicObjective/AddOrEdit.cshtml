@@ -26,10 +26,11 @@
         font-family: Georgia;
         color: white;
     }
-    #myDiv{
-            display: grid;
-             align-self: center;
-        }
+
+    #myDiv {
+        display: grid;
+        align-self: center;
+    }
 </style>
 <h1 class="myHeader"> Obiectiv Turistic-Add</h1>
 @Html.ValidationSummary(true)
@@ -37,19 +38,6 @@
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {<div id="myDiv">
-
-    <div class="form-group">
-        <div class="col-md-10">
-            <p>Upload one or more files using this form:</p>
-            <input type="file" name="files" multiple>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="submit" value="Upload">
-        </div>
-    </div>
-
 
     <label>Nume Atractie: </label>
 
@@ -188,7 +176,7 @@
 
     <label>Latitudine :</label>
     <input type="text" asp-for="Latitude" />
-
+    <input type="file" name="files" id="imgs" />
     <br />
     <br />
     <p align="center">
@@ -199,6 +187,20 @@
 </div>
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 }
+
+
+<script>
+    $("#imgs").kendoUpload({
+        async: {
+            saveUrl: "/Img",
+            autoUpload: false
+        }
+    });
+    function uploadSelected() {
+        $(".k-upload-selected").click();
+    }
+</script>
+
 
 <script type="text/javascript">
     window.onload = hidePrice();

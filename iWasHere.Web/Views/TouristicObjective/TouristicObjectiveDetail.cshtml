@@ -5,7 +5,7 @@
 }
 <style>
 
-.myHeader {
+    .myHeader {
         background-color: lightblue;
         color: black;
         padding: 40px;
@@ -13,71 +13,72 @@
         font-family: Georgia;
         color: white;
     }
-    </style>
+</style>
 <h1 class="myHeader"> Detalii Obiectiv Turistic</h1>
-<br/>
+<br />
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
 {
-    <input type="text"  asp-for="TouristicObjectiveId" id="touristicObjectiveId">
+    <input type="text" hidden asp-for="TouristicObjectiveId" id="touristicObjectiveId">
     <div id="div1">
-    <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
-    <br />
-    <br />
-    <br />
-    @foreach (var item in Model.PictureName)
-    {
-        <img style='max-height:300px' src="/img/@item"  />
-    }
+        <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
+        <br />
+        <br />
+        <br />
+        @foreach (var item in Model.PictureName)
+        {
+            <img style='max-height:300px' src="/img/@item" />
+        }
 
-    <br />
-    <br />
-    <br />
-    <input type="text" asp-for="countryName" id="txtObjectiveCountry" />
+        <br />
+        <br />
+        <br />
+        <input type="text" asp-for="countryName" id="txtObjectiveCountry" />
 
-    <label>         ,      </label>
-    <input type="text" asp-for="cityName" id="txtObjectiveCity" />
+        <label>         ,      </label>
+        <input type="text" asp-for="cityName" id="txtObjectiveCity" />
 
-    <br />
-    <br />
-    <label>Cod: </label>
-    <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode" readonly />
+        <br />
+        <br />
+        <label>Cod: </label>
+        <input type="text" asp-for="TouristicObjectiveCode" id="txtObjectiveCode" readonly />
 
-    <label>,</label>
-    <input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
-    <br />
-    <br />
-    <label> Descriere: </label>
-    <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
-    <br />
-    <br />
-    <label> Pret:</label>
-    <input type="text" asp-for="Price" id="txtObjectivePrice" readonly />
+        <label>,</label>
+        <input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
+        <br />
+        <br />
+        <label> Descriere: </label>
+        <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
+        <br />
+        <br />
+        <label> Pret:</label>
+        <input type="text" asp-for="Price" id="txtObjectivePrice" readonly />
 
-    <br />
-    <br />
-    <label>
-        Sezon:
-    </label>
-    <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <input type="text" asp-for="Latitude" hidden id="Latitude" />
-    <input type="text" asp-for="Longitude" hidden id="Longitude" />
-</div>
+        <br />
+        <br />
+        <label>
+            Sezon:
+        </label>
+        <input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <input type="text" asp-for="Latitude" hidden id="Latitude" />
+        <input type="text" asp-for="Longitude" hidden id="Longitude" />
+    </div>
     <div id="map"></div>
 
 }
 
 <style>
-    #div1{
-    float:left;
+    #div1 {
+        float: left;
     }
+
     #map {
         top: 150px;
         height: 250px;
@@ -128,7 +129,7 @@
         border: transparent;
         font-size: medium;
         text-align: left;
-       top: 150px;
+        top: 150px;
     }
 
     #txtObjectivePrice {
@@ -158,7 +159,3 @@
 }
 
 <input type="button" value="Adauga comentariu" onclick="location.href='@Url.Action("AddFeedback", "TouristicObjective")?id='+@Model.TouristicObjectiveId"/>
-
-<script>
-    var id = $('#touristicObjectiveId').val();
-</script>
