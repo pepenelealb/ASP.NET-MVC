@@ -33,6 +33,8 @@ namespace iWasHere.Domain.DTOs
         public string countryName { get; set; }
 
         public List<string> PictureName { get; set; }
+
+        public FeedbackDTO FeedbackDTO { get; set; }
       
     }
 }

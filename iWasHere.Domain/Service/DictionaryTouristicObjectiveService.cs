@@ -15,6 +15,7 @@ namespace iWasHere.Domain.Service
     public class DictionaryTouristicObjectiveService
     {
         private readonly BlackWidowContext _dbContext;
+  
         public DictionaryTouristicObjectiveService(BlackWidowContext databaseContext)
         {
             _dbContext = databaseContext;
@@ -342,21 +343,38 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public string InsertFeedback(FeedbackDTO model)
+        public string InsertFeedback(FeedbackDTO model, string userId, string feedbackName, int Rating)
         {
             //try
             //{
-            _dbContext.Feedback.Add(new Feedback
+            if (feedbackName != "Anonim")
             {
-                CommentTitle = model.commentTitle,
-                Comment = model.comment,
-                Rating = model.rating,
-                TouristicObjectiveId = model.touristicObjectiveId,
-                UserId = model.userId,
-                UserName = model.userName
-            });
-            _dbContext.SaveChanges();
+                _dbContext.Feedback.Add(new Feedback
+                {
+                    CommentTitle = model.CommentTitle,
+                    Comment = model.Comment,
+                    Rating = Rating,
+                    TouristicObjectiveId = model.TouristicObjectiveId,
+                    UserId = userId,
+                    UserName = feedbackName
+                });
+                _dbContext.SaveChanges();
                 return null;
+            }
+            else
+            {
+                _dbContext.Feedback.Add(new Feedback
+                {
+                    CommentTitle = model.CommentTitle,
+                    Comment = model.Comment,
+                    Rating = Rating,
+                    TouristicObjectiveId = model.TouristicObjectiveId,
+                    UserId = null,
+                    UserName = feedbackName
+                });
+                _dbContext.SaveChanges();
+                return null;
+            }
             //}
             //catch (Exception e)
             //{

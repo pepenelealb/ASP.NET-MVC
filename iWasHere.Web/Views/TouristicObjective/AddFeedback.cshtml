@@ -49,9 +49,9 @@
 @using (Html.BeginForm("AddFeedback", "TouristicObjective", FormMethod.Post))
 {
 <div>
-    <input type="text" hidden asp-for="touristicObjectiveId" />
-    <label>Nume utilizator: </label><input id="feedbackName" asp-for="userName" type="text" value="Anonim" /><br />
-    <label>Utilizator logat: </label><input type="checkbox" id="checkBox"></input><br />
+    <input type="text" hidden asp-for="TouristicObjectiveId" />
+    <label>Nume utilizator: </label><input id="feedbackName"  asp-for="UserName" type="text" name="feedbackName" value="Anonim" /><br />
+    <label>Utilizator logat: </label><input type="checkbox" id="checkBox" asp-action="AddFeedback" asp-controller="TouristicObjective" onclick="myCheckBoxChecked()"/><br />
     <label>Rating: </label><br />
 
     <div class="rating">
@@ -68,8 +68,8 @@
     </div>
     <br /><br />
    <div>
-        <label>Titlul comentariului: </label><input asp-for="commentTitle" id="commentTitle" type="text"><br />
-        <label>Descrierea comentariului: </label><input id="commentDesc" type="text" asp-for="comment"><br />
+        <label>Titlul comentariului: </label><input asp-for="CommentTitle" id="commentTitle" type="text"><br />
+        <label>Descrierea comentariului: </label><input id="commentDesc" type="text" asp-for="Comment"><br />
         <button type="submit" onclick="handleErrorUpdate()" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
         <a asp-action="TouristicObjectiveDetail" class="btn btn-primary">Anuleaza</a>
     </div>
@@ -90,6 +90,15 @@
             if (isEmptyOrSpaces($('#commentDesc').val()))
                   alert("Trebuie sa introduceti obligatoriu o descriere!")
            
+        }
+
+        function myCheckBoxChecked() {
+            if (document.getElementById('checkBox').checked) {
+                $("#feedbackName").val("");
+            }
+            else {
+                $("#feedbackName").val("Anonim");
+            }
         }
 
         function myCheckBox()
