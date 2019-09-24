@@ -53,23 +53,40 @@ namespace iWasHere.Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateOrEdit(County_DTO model, string submitbutton, int id)
         {
+            string errorMessage;
             if (id == 0)
             {
-                _dictionaryCountyService.Insert(model);
-                if (submitbutton == "SaveAndNew")
+               errorMessage =   _dictionaryCountyService.Insert(model);
+                if (String.IsNullOrWhiteSpace(errorMessage))
                 {
-                    return View();
+                    if (submitbutton == "SaveAndNew")
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        return View("Index");
+                    }
                 }
                 else
                 {
-                    return View("Index");
+                    ModelState.AddModelError(String.Empty, errorMessage);
+                    return View();
                 }
             }
             else
             {
                 model.CountyId = id;
-                _dictionaryCountyService.Update(model);
-                return View("Index");
+                errorMessage = _dictionaryCountyService.Update(model);
+                if (String.IsNullOrWhiteSpace(errorMessage))
+                {
+                    return View("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(String.Empty, errorMessage);
+                    return View();
+                }
             }
         }
 

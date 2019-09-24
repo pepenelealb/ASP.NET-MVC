@@ -15,6 +15,7 @@ namespace iWasHere.Domain.Service
     public class DictionaryTouristicObjectiveService
     {
         private readonly BlackWidowContext _dbContext;
+
         public DictionaryTouristicObjectiveService(BlackWidowContext databaseContext)
         {
             _dbContext = databaseContext;
@@ -102,7 +103,7 @@ namespace iWasHere.Domain.Service
         public string UpdateDB(TouristicObjectiveDTO model)
         {
             string message;
-            if(!ValidateData(model, out message))
+            if (!ValidateData(model, out message))
             {
                 return message;
             }
@@ -160,7 +161,7 @@ namespace iWasHere.Domain.Service
                     }
                 }
                 return null;
-            }catch(Exception e)
+            } catch (Exception e)
             {
                 return e.Message;
             }
@@ -168,7 +169,7 @@ namespace iWasHere.Domain.Service
         }
 
         public string Update(TouristicObjectiveDTO model)
-        {            
+        {
             if (model.Unique == 0)
             {
                 return UpdateDB(model);
@@ -194,9 +195,10 @@ namespace iWasHere.Domain.Service
             {
                 return message;
             }
+
             try
             {
-            int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+                int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
             if (id != 0)
             {
                 return "Codul atractiei trebuie sa fie unic";
@@ -268,7 +270,7 @@ namespace iWasHere.Domain.Service
             obj.countyId = _dbContext.DictionaryCity.Where(x => x.CityId == obj.CityId).Select(x => x.CountyId).FirstOrDefault();
             obj.countryId = _dbContext.DictionaryCounty.Where(x => x.CountyId == obj.countyId).Select(x => x.CountryId).FirstOrDefault();
             obj.countryName = _dbContext.DictionaryCountry.Where(x => x.CountryId == obj.countryId).Select(x => x.CountryName).FirstOrDefault();
-          //  obj.PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.PictureName).FirstOrDefault();
+           // obj.PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.PictureName).FirstOrDefault();
             obj.Type = _dbContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == obj.OpenSeasonId).Select(a => a.OpenSeasonType).FirstOrDefault();
             if (obj.HasEntry == true)
             {
@@ -280,8 +282,21 @@ namespace iWasHere.Domain.Service
                 
             }
 
+
+            obj.feedbacks = _dbContext.Feedback.Where(a => a.TouristicObjective.TouristicObjectiveId == id).Select(x => new FeedbackDTO()
+            {
+                UserName = x.UserName,
+                Rating = (int)x.Rating,
+                CommentTitle = x.CommentTitle,
+                Comment = x.Comment
+
+            }).ToList();
+
             return obj;
         }
+
+
+
         public IQueryable<TouristicObjectiveListModel> GetTuristicObjectiveListModels()
         {
             var x =
@@ -362,21 +377,38 @@ namespace iWasHere.Domain.Service
             return stream;
         }
 
-        public string InsertFeedback(FeedbackDTO model)
+        public string InsertFeedback(FeedbackDTO model, string userId, string feedbackName, int Rating)
         {
             //try
             //{
-            _dbContext.Feedback.Add(new Feedback
+            if (feedbackName != "Anonim")
             {
-                CommentTitle = model.commentTitle,
-                Comment = model.comment,
-                Rating = model.rating,
-                TouristicObjectiveId = model.touristicObjectiveId,
-                UserId = model.userId,
-                UserName = model.userName
-            });
-            _dbContext.SaveChanges();
+                _dbContext.Feedback.Add(new Feedback
+                {
+                    CommentTitle = model.CommentTitle,
+                    Comment = model.Comment,
+                    Rating = Rating,
+                    TouristicObjectiveId = model.TouristicObjectiveId,
+                    UserId = userId,
+                    UserName = feedbackName
+                });
+                _dbContext.SaveChanges();
                 return null;
+            }
+            else
+            {
+                _dbContext.Feedback.Add(new Feedback
+                {
+                    CommentTitle = model.CommentTitle,
+                    Comment = model.Comment,
+                    Rating = Rating,
+                    TouristicObjectiveId = model.TouristicObjectiveId,
+                    UserId = null,
+                    UserName = feedbackName
+                });
+                _dbContext.SaveChanges();
+                return null;
+            }
             //}
             //catch (Exception e)
             //{

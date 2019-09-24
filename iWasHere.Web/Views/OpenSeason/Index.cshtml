@@ -2,14 +2,30 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Sezonabilitate</h1>
-
-<input type="text" id="textBox" />
+<style>
+    .myHeader {
+         
+        color: black;
+        padding: 45px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+        background-image:radial-gradient(red, black);
+    }
+    input {
+    width: 60%;
+}
+</style>
+<h1 class="myHeader">Sezonabilitate</h1><br/><br />
+<form ><div align="center">
+    <h4 style="font-family:courier;">Cauta:</h4>
+<input type="text" id="textBox" /><br/><br/>
 <button onclick="refresh()" type="button" id="btnSearch" asp-controller="OpenSeason" asp-action="GetOpenSeason">Filtreaza</button>
 <button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="OpenSeason" asp-action="GetOpenSeason">Sterge Filtre</button>
+</div>
+<br/>
+    </form>
 <br />
-<a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) onclick="setInsert()" type="button" class="btn">Adauga</a>
 
 <br />
 
@@ -22,14 +38,13 @@
     {
         columns.Bound(c => c.Id).Visible(false);
         columns.Bound(c => c.Type);
-        columns.Template("<a class = 'btn btn-success' onclick = 'setEdit()' href='" + @Url.Action("InsertOpenSeason", "OpenSeason") + "?id=#=Id#'>Modifica</a>");
-        columns.Command(command => { command.Destroy(); });
+        columns.Template("<a class = 'btn btn-success' onclick = 'setEdit()' href='" + @Url.Action("InsertOpenSeason", "OpenSeason") + "?id=#=Id#'>Modifica</a>").Width(200);
+        columns.Command(command => { command.Destroy(); }).Width(200);
     })
     .Editable(editable => editable.Mode(GridEditMode.InLine).ConfirmDelete("Da").DisplayDeleteConfirmation("Confirmati stergerea?").CancelDelete("Nu"))
     //.ToolBar(toolbar => toolbar.Create())
     .HtmlAttributes(new { style = "height: 550px;" })
     .Scrollable()
-    .Groupable()
     .Sortable()
     .Pageable(pageable => pageable
     .Refresh(true)
@@ -47,8 +62,11 @@
         )
     </tr>
 </table>
-
-<script type="text/javascript">
+<br/>
+<div align="center">
+    <a href=@Url.Action("InsertOpenSeason", "OpenSeason", 0) onclick="setInsert()" type="button" class="btn" id="a">Adauga </a>
+</div>
+<script>
     var input;
     function setEdit(){
         input = "edit";
@@ -78,28 +96,17 @@
         refresh();
 
     }
+    $(document).ready(function () {
+        $("#a").kendoButton();
+
+        $("#btnSearch").kendoButton({
+            icon: "filter"
+        });
+
+        $("#btnDeleteFilters").kendoButton({
+            icon: "filter-clear"
+
+        });
+
+    });
 </script>
-
-
-
-<style>
-    .customer-photo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-        margin-left: 5px;
-    }
-
-    .customer-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-</style>

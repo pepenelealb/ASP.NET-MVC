@@ -9,12 +9,12 @@ namespace iWasHere.Domain.DTOs
     public class FeedbackDTO 
 
     {
-        public int feedbackId { get; set; }
-        public string commentTitle { get; set; }
-        public string comment { get; set; }
-        public int rating { get; set; }
-        public int touristicObjectiveId { get; set; }
-        public string userId { get; set; }
-        public string userName { get; set; }
+        public int FeedbackId { get; set; }
+        public string CommentTitle { get; set; }
+        public string Comment { get; set; }
+        public int Rating { get; set; }
+        public int TouristicObjectiveId { get; set; }
+        public string UserId { get; set; }
+        public string UserName { get; set; }
     }
 }
