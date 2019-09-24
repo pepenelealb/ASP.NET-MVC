@@ -101,63 +101,74 @@ namespace iWasHere.Domain.Service
 
         public string UpdateDB(TouristicObjectiveDTO model)
         {
-            int id;
-
-            TouristicObjective obj = _dbContext.TouristicObjective.Find(model.TouristicObjectiveId);
-            obj.TouristicObjectiveName = model.TouristicObjectiveName;
-            obj.TouristicObjectiveCode = model.TouristicObjectiveCode;
-            obj.TouristicObjectiveDescription = model.TouristicObjectiveDescription;
-            obj.HasEntry = model.HasEntry;
-            obj.OpenSeasonId = model.OpenSeasonId;
-            obj.AttractionCategoryId = model.AttractionCategoryId;
-            obj.CityId = model.CityId;
-            obj.Latitude = model.Latitude;
-            obj.Longitude = model.Longitude;
-            _dbContext.TouristicObjective.Update(obj);
-            _dbContext.SaveChanges();
-            if (model.HasEntry)
+            string message;
+            if(!ValidateData(model, out message))
             {
-                id = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.TicketId).FirstOrDefault();
-                if (id != 0)
+                return message;
+            }
+            try
+            {
+                int id;
+
+                TouristicObjective obj = _dbContext.TouristicObjective.Find(model.TouristicObjectiveId);
+                obj.TouristicObjectiveName = model.TouristicObjectiveName;
+                obj.TouristicObjectiveCode = model.TouristicObjectiveCode;
+                obj.TouristicObjectiveDescription = model.TouristicObjectiveDescription;
+                obj.HasEntry = model.HasEntry;
+                obj.OpenSeasonId = model.OpenSeasonId;
+                obj.AttractionCategoryId = model.AttractionCategoryId;
+                obj.CityId = model.CityId;
+                obj.Latitude = model.Latitude;
+                obj.Longitude = model.Longitude;
+                _dbContext.TouristicObjective.Update(obj);
+                _dbContext.SaveChanges();
+                if (model.HasEntry)
                 {
-                    Ticket ticket = _dbContext.Ticket.Find(id);
-                    ticket.Price = model.Price;
-                    ticket.DictionaryCurrencyId = model.CurrencyId;
-                    ticket.DictionaryTicketId = model.DictionaryTicketId;
-                    _dbContext.Ticket.Update(ticket);
-                    _dbContext.SaveChanges();
+                    id = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.TicketId).FirstOrDefault();
+                    if (id != 0)
+                    {
+                        Ticket ticket = _dbContext.Ticket.Find(id);
+                        ticket.Price = model.Price;
+                        ticket.DictionaryCurrencyId = model.CurrencyId;
+                        ticket.DictionaryTicketId = model.DictionaryTicketId;
+                        _dbContext.Ticket.Update(ticket);
+                        _dbContext.SaveChanges();
+                    }
+                    else
+                    {
+                        Ticket ticket = new Ticket
+                        {
+                            Price = model.Price,
+                            DictionaryCurrencyId = model.CurrencyId,
+                            DictionaryTicketId = model.DictionaryTicketId,
+                            TouristicObjectiveId = model.TouristicObjectiveId,
+                            DictionaryExchangeRateId = 1
+
+                        };
+
+                        _dbContext.Ticket.Add(ticket);
+                        _dbContext.SaveChanges();
+                    }
                 }
                 else
                 {
-                    Ticket ticket = new Ticket
+                    id = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.TicketId).FirstOrDefault();
+                    if (id != 0)
                     {
-                        Price = model.Price,
-                        DictionaryCurrencyId = model.CurrencyId,
-                        DictionaryTicketId = model.DictionaryTicketId,
-                        TouristicObjectiveId = model.TouristicObjectiveId,
-                        DictionaryExchangeRateId = 1
-
-                    };
-
-                    _dbContext.Ticket.Add(ticket);
-                    _dbContext.SaveChanges();
+                        _dbContext.Remove(_dbContext.Ticket.Single(a => a.TicketId == id));
+                        _dbContext.SaveChanges();
+                    }
                 }
-            }
-            else
+                return null;
+            }catch(Exception e)
             {
-                id = _dbContext.Ticket.Where(a => a.TouristicObjectiveId == obj.TouristicObjectiveId).Select(a => a.TicketId).FirstOrDefault();
-                if (id != 0)
-                {
-                    _dbContext.Remove(_dbContext.Ticket.Single(a => a.TicketId == id));
-                    _dbContext.SaveChanges();
-                }
+                return e.Message;
             }
-            return null;
 
         }
 
         public string Update(TouristicObjectiveDTO model)
-        {
+        {            
             if (model.Unique == 0)
             {
                 return UpdateDB(model);
@@ -178,28 +189,13 @@ namespace iWasHere.Domain.Service
 
         public string Insert(TouristicObjectiveDTO model)
         {
-            if (String.IsNullOrWhiteSpace(model.TouristicObjectiveName))
+            string message;
+            if (!ValidateData(model, out message))
             {
-                return "Numele atractiei este obligatoriu";
+                return message;
             }
-            else if (String.IsNullOrWhiteSpace(model.TouristicObjectiveCode))
+            try
             {
-                return "Cod obligatoriu";
-            }
-            else if (model.OpenSeasonId == 0)
-            {
-                return "Sezonului nu este completat";
-            }
-            else if (model.CityId == 0)
-            {
-                return "Orasul este obligatoriu";
-            }
-            else if (model.AttractionCategoryId == 0)
-            {
-                return "Tipul atractiei este obligatoriu";
-            }
-            //try
-            //{
             int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
             if (id != 0)
             {
@@ -238,11 +234,11 @@ namespace iWasHere.Domain.Service
                 return null;
 
             }
-            //}catch(Exception e)
-            //{
-            //    return "Ceva a mers prost";
-            //}
-        }
+        }catch(Exception e)
+            {
+                return e.Message;
+            }
+}
 
         public TouristicObjectiveDTO GetTouristicObjectiveById(int id)
         {
@@ -284,9 +280,6 @@ namespace iWasHere.Domain.Service
 
             return obj;
         }
-
-
-
         public IQueryable<TouristicObjectiveListModel> GetTuristicObjectiveListModels()
         {
             var x =
@@ -388,7 +381,55 @@ namespace iWasHere.Domain.Service
             //    return "Comentariul trebuie sa contina descriere si nume feedback!";
             //}
         }
+
+        public bool ValidateData(TouristicObjectiveDTO model, out string message)
+        {
+            if (String.IsNullOrWhiteSpace(model.TouristicObjectiveName))
+            {
+                message = "Numele atractiei este obligatoriu";
+                return false;                
+            }else if (String.IsNullOrWhiteSpace(model.TouristicObjectiveCode))
+            {
+                message = "Codul atractiei este obligatoriu";
+                return false;
+            }else if (String.IsNullOrWhiteSpace(model.TouristicObjectiveDescription))
+            {
+                message = "Descrierea atractiei este obligatorie";
+                return false;
+            }else if(model.AttractionCategoryId == 0)
+            {
+                message = "Nu ai selectat tipul de atractie";
+                return false;
+            }else if (model.OpenSeasonId == 0)
+            {
+                message = "Nu ai selectat sezonul";
+                return false;
+            }else if (model.CityId == 0)
+            {
+                message = "Nu ai selectat orasul";
+                return false;
+            }
+
+            if (model.HasEntry)
+            {
+                if(model.Price == 0)
+                {
+                    message = "Introdu un pret pentru intrare";
+                    return false;
+                }else if (model.CurrencyId == 0)
+                {
+                    message = "Selecteaza moneda de plata";
+                    return false;
+                }else if(model.DictionaryTicketId == 0)
+                {
+                    message = "Selecteaza tipul de bilet";
+                    return false;
+                }
+            }
+            message = null;
+            return true;
+        }
     }
 
-    }
+}
 
