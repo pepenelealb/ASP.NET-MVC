@@ -35,15 +35,8 @@
 
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
 }
-<script type="text/javascript">
-   
-
-    var ok = 1;
-    function onAdditionalData() {
-        return {
-            text: $("#Orase").val()
-        };
-    }
+<script type="text/javascript"> 
+            
     window.onload = set();
     function set() {
         var verify = localStorage.getItem("storageName");
