@@ -181,5 +181,11 @@ namespace iWasHere.Web.Controllers
 
             return View();
         }
+
+        public IActionResult GetTuristicObjectives(int id)
+        {
+            return Json(_dictionaryObjective.GetFeedback(id));
+        }
+
     }
 }

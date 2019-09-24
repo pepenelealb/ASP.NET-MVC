@@ -383,7 +383,21 @@ namespace iWasHere.Domain.Service
             //    return "Comentariul trebuie sa contina descriere si nume feedback!";
             //}
         }
-    }
 
+        public List<FeedbackDTO> GetFeedback(int id)
+        {
+            List<FeedbackDTO> feedbacks = _dbContext.Feedback.Where(a => a.TouristicObjective.TouristicObjectiveId == id).Select(x => new FeedbackDTO()
+            {
+                userName = x.UserName,
+                rating = (int)x.Rating, 
+                commentTitle = x.CommentTitle,
+                comment = x.Comment
+
+            }).ToList();
+
+            return feedbacks;
+        }
     }
+   
+}
 
