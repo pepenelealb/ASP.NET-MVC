@@ -270,7 +270,7 @@ namespace iWasHere.Domain.Service
             obj.countyId = _dbContext.DictionaryCity.Where(x => x.CityId == obj.CityId).Select(x => x.CountyId).FirstOrDefault();
             obj.countryId = _dbContext.DictionaryCounty.Where(x => x.CountyId == obj.countyId).Select(x => x.CountryId).FirstOrDefault();
             obj.countryName = _dbContext.DictionaryCountry.Where(x => x.CountryId == obj.countryId).Select(x => x.CountryName).FirstOrDefault();
-          //  obj.PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.PictureName).FirstOrDefault();
+           // obj.PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.PictureName).FirstOrDefault();
             obj.Type = _dbContext.DictionaryOpenSeason.Where(a => a.OpenSeasonId == obj.OpenSeasonId).Select(a => a.OpenSeasonType).FirstOrDefault();
             if (obj.HasEntry == true)
             {

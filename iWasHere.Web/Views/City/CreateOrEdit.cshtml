@@ -3,14 +3,19 @@
 @{
     ViewData["Title"] = "CreateOrEdit";
 }
-
+<style>
+    input {
+        width: 60%;
+    }
+    </style>
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post, new { id = "form" }))
-{
+{ <div align="center">
     <label>Adauga un Oras:</label>
     <input type="text" asp-for="cityName" id="textBox" />
 
     <br />
+    <br/>
     <label>Selecteaza un Judet:</label>
     @(Html.Kendo().ComboBoxFor(model=> model.countyId)                
                .DataValueField("countyId")
@@ -26,14 +31,17 @@
                .ServerFiltering(true);
            })
     )
-    <br />
+    </div>
+    <br/>
+    <br/>
+    <div align="center">
+    
     <button type="submit" onclick="validateData()"  id="save" class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
-    <br />
-
+    
     <button type="submit" onclick="validateData()"  id="new" class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
-    <br />
-
+  
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
+        </div>
 }
 <script type="text/javascript"> 
             

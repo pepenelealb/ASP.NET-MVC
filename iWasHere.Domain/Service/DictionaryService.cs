@@ -157,6 +157,9 @@ namespace iWasHere.Domain.Service
         }
         public string Delete_County(int id)
         {
+            
+            string err = "";
+
             try
             {
                 _bwContext.Remove(_bwContext.DictionaryCounty.Single(a => a.CountyId == id));
