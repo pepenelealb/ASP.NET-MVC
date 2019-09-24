@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewData["Title"] = "Index";
 }
 <style>
@@ -22,67 +23,82 @@
 
 <h1 class="myHeader"> Dictionar categorii de actractii</h1>
 
-
-
-<br />
-
-<script type="text/javascript">
-    getRequestedAttractionCategory = function (e) {
-        var input = {};
-        input["attractionCategory"] = $("#attractionCategory").val();
+<div class="filter">
 
 
 
-        return input;
-    }
+    <form>
+        <br />
+        <h3 style="font-family:courier;">Filtreaza dupa:</h3>
+        <div class="div2" align="center">
+            <label>Tip atractie: </label>
+            <input id="attractionCategory" type="text" name="attractionCategory" value="" />
+            <button onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Filtreaza</button>
 
 
 
-    function refresh() {
-        $("#grid").data("kendoGrid").dataSource.read();
-        $("#grid").data("kendoGrid").dataSource.page(1);
-    }
+        </div>
+    </form>
+    </br>
+    <br />
+
+    <script type="text/javascript">
+        getRequestedAttractionCategory = function (e) {
+            var input = {};
+            input["attractionCategory"] = $("#attractionCategory").val();
 
 
 
-    function setEdit() {
-        localStorage.setItem("storageName", "edit");
-    }
+            return input;
+        }
 
 
 
-    function setAdd() {
-        localStorage.setItem("storageName", "add");
-    }
+        function refresh() {
+            $("#grid").data("kendoGrid").dataSource.read();
+            $("#grid").data("kendoGrid").dataSource.page(1);
+        }
 
 
 
-</script>
+        function setEdit() {
+            localStorage.setItem("storageName", "edit");
+        }
 
 
-@(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryAttractionCategoryModel>()
-        .Name("grid")
-        .Columns(columns =>
-        {
-            columns.Bound(c => c.AttractionCategoryId).Visible(false);
-            columns.Bound(c => c.AttractionCategoryName);
-            columns.Template("<a onclick='setEdit()' class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>");
-            columns.Command(command => { command.Destroy(); }).Width(200);
-        })
-        .HtmlAttributes(new { style = "height: 550px;" })
-        .Scrollable()
-        .Sortable()
-        .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-        .DataSource(dataSource => dataSource
-            .Ajax()
-            .PageSize(2)
-            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))   
-            .Model(model => model.Id(t => t.AttractionCategoryId))
-            .Destroy(delete =>delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
-     )
-)
 
-<a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+        function setAdd() {
+            localStorage.setItem("storageName", "add");
+        }
+
+
+
+    </script>
+
+
+    @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryAttractionCategoryModel>()
+            .Name("grid")
+            .Columns(columns =>
+            {
+                columns.Bound(c => c.AttractionCategoryId).Visible(false);
+                columns.Bound(c => c.AttractionCategoryName);
+                columns.Template("<a onclick='setEdit()' class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>");
+                columns.Command(command => { command.Destroy(); }).Width(200);
+            })
+            .HtmlAttributes(new { style = "height: 550px;" })
+            .Scrollable()
+            .Sortable()
+            .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5))
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(2)
+                .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))
+                .Model(model => model.Id(t => t.AttractionCategoryId))
+                .Destroy(delete => delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
+         )
+    )
+
+    <a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
