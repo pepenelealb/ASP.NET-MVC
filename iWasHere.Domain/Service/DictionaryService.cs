@@ -202,6 +202,11 @@ namespace iWasHere.Domain.Service
         //pana aici
         public List<DictionaryOpenSeasonModel> GetDictionaryOpenSeasonModels(int PageSize, int Page, out int totalRows, string openSeasonType)
         {
+            IQueryable<DictionaryOpenSeason> query = _bwContext.DictionaryOpenSeason;
+            if (!String.IsNullOrWhiteSpace(openSeasonType))
+            {
+                query = query.Where(a => a.OpenSeasonType.ToLower().Contains(openSeasonType));
+            }
             totalRows = _bwContext.DictionaryOpenSeason.Count();
             int skip = (Page - 1) * PageSize;
             List<DictionaryOpenSeasonModel> dictionaryOpenSeasonModels = _bwContext.DictionaryOpenSeason
@@ -223,13 +228,20 @@ namespace iWasHere.Domain.Service
 
         public string InsertOpenSeason(DictionaryOpenSeasonModel model)
         {
-            _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+            try
             {
-                OpenSeasonId = model.Id,
-                OpenSeasonType = model.Type
-            });
-            _bwContext.SaveChanges();
-            return null;
+                _bwContext.DictionaryOpenSeason.Add(new DictionaryOpenSeason
+                {
+                    OpenSeasonId = model.Id,
+                    OpenSeasonType = model.Type
+                });
+                _bwContext.SaveChanges();
+                return null;
+            }
+            catch(Exception e)
+            {
+                return "Campuri necompletate.";
+            } 
         }
 
         public DictionaryOpenSeasonModel GetOpenSeason(int id)
@@ -245,7 +257,13 @@ namespace iWasHere.Domain.Service
         public string UpdateOpenSeason(DictionaryOpenSeasonModel model)
         {
             try
-            {                
+            {
+                if (String.IsNullOrWhiteSpace(model.Type))
+                {
+                    return "Numele orasului este obligatoriu";
+                }
+                else
+                {
                     DictionaryOpenSeason openSeason = _bwContext.DictionaryOpenSeason.Find(model.Id);
                     openSeason.OpenSeasonId = model.Id;
                     openSeason.OpenSeasonType = model.Type;
@@ -253,6 +271,7 @@ namespace iWasHere.Domain.Service
                     _bwContext.DictionaryOpenSeason.Update(openSeason);
                     _bwContext.SaveChanges();
                     return null;
+                }
                 
             }
             catch (Exception e)

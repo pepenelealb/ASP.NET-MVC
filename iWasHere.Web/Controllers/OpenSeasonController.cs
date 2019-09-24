@@ -86,6 +86,7 @@ namespace iWasHere.Web.Controllers
                         //dictionaryService.InsertOpenSeason(model);
                         if (submitButton == "SaveAndNew")
                         {
+                            ModelState.Clear();
                             return View();
                         }
                         else
