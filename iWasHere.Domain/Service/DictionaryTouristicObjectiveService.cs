@@ -15,7 +15,7 @@ namespace iWasHere.Domain.Service
     public class DictionaryTouristicObjectiveService
     {
         private readonly BlackWidowContext _dbContext;
-  
+
         public DictionaryTouristicObjectiveService(BlackWidowContext databaseContext)
         {
             _dbContext = databaseContext;
@@ -103,7 +103,7 @@ namespace iWasHere.Domain.Service
         public string UpdateDB(TouristicObjectiveDTO model)
         {
             string message;
-            if(!ValidateData(model, out message))
+            if (!ValidateData(model, out message))
             {
                 return message;
             }
@@ -161,7 +161,7 @@ namespace iWasHere.Domain.Service
                     }
                 }
                 return null;
-            }catch(Exception e)
+            } catch (Exception e)
             {
                 return e.Message;
             }
@@ -169,7 +169,7 @@ namespace iWasHere.Domain.Service
         }
 
         public string Update(TouristicObjectiveDTO model)
-        {            
+        {
             if (model.Unique == 0)
             {
                 return UpdateDB(model);
@@ -195,25 +195,10 @@ namespace iWasHere.Domain.Service
             {
                 return message;
             }
+
             try
             {
-                return "Cod obligatoriu";
-            }
-            else if (model.OpenSeasonId == 0)
-            {
-                return "Sezonului nu este completat";
-            }
-            else if (model.CityId == 0)
-            {
-                return "Orasul este obligatoriu";
-            }
-            else if (model.AttractionCategoryId == 0)
-            {
-                return "Tipul atractiei este obligatoriu";
-            }
-            //try
-            //{
-            int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+                int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
             if (id != 0)
             {
                 return "Codul atractiei trebuie sa fie unic";
@@ -300,10 +285,10 @@ namespace iWasHere.Domain.Service
 
             obj.feedbacks = _dbContext.Feedback.Where(a => a.TouristicObjective.TouristicObjectiveId == id).Select(x => new FeedbackDTO()
             {
-                userName = x.UserName,
-                rating = (int)x.Rating,
-                commentTitle = x.CommentTitle,
-                comment = x.Comment
+                UserName = x.UserName,
+                Rating = (int)x.Rating,
+                CommentTitle = x.CommentTitle,
+                Comment = x.Comment
 
             }).ToList();
 
