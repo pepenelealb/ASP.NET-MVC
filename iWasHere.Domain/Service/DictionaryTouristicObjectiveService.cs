@@ -377,7 +377,7 @@ namespace iWasHere.Domain.Service
             return stream;
         }
 
-        public string InsertFeedback(FeedbackDTO model, string userId, string feedbackName, int Rating)
+        public string InsertFeedback(FeedbackDTO model, string userId, string feedbackName, int RatingName)
         {
             //try
             //{
@@ -387,7 +387,7 @@ namespace iWasHere.Domain.Service
                 {
                     CommentTitle = model.CommentTitle,
                     Comment = model.Comment,
-                    Rating = Rating,
+                    Rating = RatingName,
                     TouristicObjectiveId = model.TouristicObjectiveId,
                     UserId = userId,
                     UserName = feedbackName
@@ -401,7 +401,7 @@ namespace iWasHere.Domain.Service
                 {
                     CommentTitle = model.CommentTitle,
                     Comment = model.Comment,
-                    Rating = Rating,
+                    Rating = RatingName,
                     TouristicObjectiveId = model.TouristicObjectiveId,
                     UserId = null,
                     UserName = feedbackName

@@ -143,7 +143,7 @@ namespace iWasHere.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult TouristicObjectiveDetail(TouristicObjectiveDTO model, string feedbackName , int Rating)
+        public IActionResult TouristicObjectiveDetail(TouristicObjectiveDTO model, string feedbackName , int RatingName)
         {
             FeedbackDTO modelFeedback=null;
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);// Specify the type of your UserId;
@@ -158,7 +158,7 @@ namespace iWasHere.Web.Controllers
                     UserName = model.FeedbackDTO.UserName,
                     UserId = model.FeedbackDTO.UserId
                 };
-                string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, feedbackName, Rating);
+                string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, feedbackName, RatingName);
                 if (!String.IsNullOrEmpty(errorMessage))
                 {
                     ModelState.AddModelError("e", errorMessage);

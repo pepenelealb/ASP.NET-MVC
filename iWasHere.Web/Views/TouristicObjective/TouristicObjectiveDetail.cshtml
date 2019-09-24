@@ -99,6 +99,36 @@
             </div>
         </div>
 
+        <div>
+            <h1>Sectiune de comentarii</h1>
+            <input type="text" hidden asp-for="TouristicObjectiveId" />
+            <label>Nume utilizator: </label><input id="feedbackName" asp-for="FeedbackDTO.UserName" type="text" name="feedbackName" value="Anonim" /><br />
+            <label>Utilizator logat: </label><input type="checkbox" id="checkBox" asp-action="TouristicObjectiveDetail" asp-controller="TouristicObjective" onclick="myCheckBoxChecked()" /><br />
+            <label>Rating: </label><br />
+
+            <div class="rating">
+                <span><input type="radio" name="RatingName" id="str10" value="10"><label for="str10"></label></span>
+                <span><input type="radio" name="RatingName" id="str9" value="9"><label for="str9"></label></span>
+                <span><input type="radio" name="RatingName" id="str8" value="8"><label for="str8"></label></span>
+                <span><input type="radio" name="RatingName" id="str7" value="7"><label for="str7"></label></span>
+                <span><input type="radio" name="RatingName" id="str6" value="6"><label for="str6"></label></span>
+                <span><input type="radio" name="RatingName" id="str5" value="5"><label for="str5"></label></span>
+                <span><input type="radio" name="RatingName" id="str4" value="4"><label for="str4"></label></span>
+                <span><input type="radio" name="RatingName" id="str3" value="3"><label for="str3"></label></span>
+                <span><input type="radio" name="RatingName" id="str2" value="2"><label for="str2"></label></span>
+                <span><input type="radio" name="RatingName" id="str1" value="1"><label for="str1"></label></span>
+            </div>
+            <br /><br />
+            <div>
+                <label>Titlul comentariului: </label><input asp-for="FeedbackDTO.CommentTitle" id="commentTitle" type="text"><br />
+                <label>Descrierea comentariului: </label><input id="commentDesc" type="text" asp-for="FeedbackDTO.Comment"><br />
+                <button type="submit" onclick="handleErrorUpdate()" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
+            </div>
+
+        </div>
+
+
+
         @foreach (var feedback in Model.feedbacks)
         {
 
@@ -110,7 +140,7 @@
             </span>
             <br />
 
-         }
+        }
 
     </div>
 
@@ -190,6 +220,45 @@
                 font-size: medium;
                 text-align: left;
             }
+
+             .rating {
+            float: left;
+            width: 350px;
+        }
+
+            .rating span {
+                float: right;
+                position: relative;
+            }
+
+                .rating span input {
+                    position: absolute;
+                    top: 0px;
+                    left: 0px;
+                    opacity: 0;
+                }
+
+                .rating span label {
+                    display: inline-block;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    color: #FFF;
+                    background: #ccc;
+                    font-size: 30px;
+                    margin-right: 2px;
+                    line-height: 30px;
+                    border-radius: 50%;
+                    -webkit-border-radius: 50%;
+                }
+
+                .rating span:hover ~ span label,
+                .rating span:hover label,
+                .rating span.checked label,
+                .rating span.checked ~ span label {
+                    background: #F90;
+                    color: #FFF;
+                }
         </style>
 
         <script>
@@ -229,86 +298,8 @@
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbRIxmMBjKw5IovRx6CF03hU8SDpqxtos&callback=initMap"
         async defer></script>
-}
-
 <!--<input type="button" value="Adauga comentariu" onclick="location.href='@Url.Action("AddFeedback", "TouristicObjective")?id='+@Model.TouristicObjectiveId" />-->
    
- <h1>Sectiune de comentarii</h1>
-
-
-<style>
-        .rating {
-            float: left;
-            width: 350px;
-        }
-
-            .rating span {
-                float: right;
-                position: relative;
-            }
-
-                .rating span input {
-                    position: absolute;
-                    top: 0px;
-                    left: 0px;
-                    opacity: 0;
-                }
-
-                .rating span label {
-                    display: inline-block;
-                    width: 30px;
-                    height: 30px;
-                    text-align: center;
-                    color: #FFF;
-                    background: #ccc;
-                    font-size: 30px;
-                    margin-right: 2px;
-                    line-height: 30px;
-                    border-radius: 50%;
-                    -webkit-border-radius: 50%;
-                }
-
-                .rating span:hover ~ span label,
-                .rating span:hover label,
-                .rating span.checked label,
-                .rating span.checked ~ span label {
-                    background: #F90;
-                    color: #FFF;
-                }
-    </style>
-
-
-    @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post))
-    {
-        <div>
-            <input type="text" hidden asp-for="TouristicObjectiveId" />
-            <label>Nume utilizator: </label><input id="feedbackName" asp-for="FeedbackDTO.UserName" type="text" name="feedbackName" value="Anonim" /><br />
-            <label>Utilizator logat: </label><input type="checkbox" id="checkBox" asp-action="TouristicObjectiveDetail" asp-controller="TouristicObjective" onclick="myCheckBoxChecked()" /><br />
-            <label>Rating: </label><br />
-
-            <div class="rating">
-                <span><input type="radio" name="Rating"  id="str10" value="10"><label for="str10"></label></span>
-                <span><input type="radio" name="Rating"  id="str9" value="9"><label for="str9"></label></span>
-                <span><input type="radio" name="Rating"  id="str8" value="8"><label for="str8"></label></span>
-                <span><input type="radio" name="Rating"  id="str7" value="7"><label for="str7"></label></span>
-                <span><input type="radio" name="Rating"  id="str6" value="6"><label for="str6"></label></span>
-                <span><input type="radio" name="Rating"  id="str5" value="5"><label for="str5"></label></span>
-                <span><input type="radio" name="Rating"  id="str4" value="4"><label for="str4"></label></span>
-                <span><input type="radio" name="Rating"  id="str3" value="3"><label for="str3"></label></span>
-                <span><input type="radio" name="Rating"  id="str2" value="2"><label for="str2"></label></span>
-                <span><input type="radio" name="Rating"  id="str1" value="1"><label for="str1"></label></span>
-            </div>
-            <br /><br />
-            <div>
-                <label>Titlul comentariului: </label><input asp-for="FeedbackDTO.CommentTitle" id="commentTitle" type="text"><br />
-                <label>Descrierea comentariului: </label><input id="commentDesc" type="text" asp-for="FeedbackDTO.Comment"><br />
-                <button type="submit" onclick="handleErrorUpdate()" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
-            </div>
-
-        </div>
-    }
-
-</p>
 <script type="text/javascript">
 
     function isEmptyOrSpaces(str) {
