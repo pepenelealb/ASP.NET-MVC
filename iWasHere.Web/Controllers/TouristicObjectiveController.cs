@@ -181,10 +181,5 @@ namespace iWasHere.Web.Controllers
             return File(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "ObiectivTuristicDetaliere.docx");            
         }
 
-        public IActionResult GetTuristicObjectives(int id)
-        {
-            return Json(_dictionaryObjective.GetFeedback(id));
-        }
-
     }
 }
