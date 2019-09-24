@@ -3,16 +3,30 @@
     ViewData["Title"] = "AddCountry";
 }
 
-<h1>Dictionar Tari</h1>
-
+<h1 class="myHeader">Dictionar Tari</h1>
+<br/><br/>
+<style>
+     .myHeader {
+       color: black;
+        padding: 38px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+        background-image:radial-gradient(red, black);
+    }
+     input {
+    width: 60%;
+}
+</style>
 @using (Html.BeginForm("Create", "DictionaryCountry", FormMethod.Post))
 {
-    <div>
-        <label>Tara: </label>
-        <input id="addCountry" asp-for="Name" type="text"/>
+    <div align ="center">
+        <label>Tara: </label> <br/>
+        <input id="addCountry" asp-for="Name" type="text"/> <br/>
+        <br/>
         <button type="submit" onclick="handleErrorUpdate()" id="save" class="btn btn-info" name="btn" value="Save">Salveaza</button>
         <button type="submit" onclick="handleErrorUpdate()" id="saveAndNew" class="btn btn-info" name="btn" value="SaveAndNew">Salveaza si Nou</button>
-        <br><a asp-action="Index" class="btn btn-info">Anuleaza</a>
+        <a asp-action="Index" class="btn btn-info">Anuleaza</a>
     </div>
 }
 

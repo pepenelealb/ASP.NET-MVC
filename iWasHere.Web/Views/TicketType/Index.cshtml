@@ -3,53 +3,85 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Tip Bilete</h1>
-
-
-
-@using (Html.BeginForm("Filter", "Ticket", FormMethod.Post))
-{
-<p>
-
-    <label> Tip bilet:  </label>
-    <input type="text" id="txtSearchedValue" />
-    <!-- <input type="submit" value="Filtreaza" /> -->
-    <button type="button" onclick="refresh()" asp-controller="TicketType" asp-action="TicketsRead">Filtreaza</button>
-    <!-- <button onclick="tickets.getFilter()">Filtreaza</button> -->
-    <button type="button" onclick="stergeFiltru()" asp-controller="TicketType" asp-action="TicketsRead"> Sterge filtre </button>
-
-    <br />
-
-
-    <div >
-        <a href="@Url.Action("CreateTicketType", "TicketType", 0)" id ="addTicket "onclick="setCreate()" class="btn btn-info">&nbsp;  Adauga tip bilet</a>
-    </div>
-    <br />
-</p>
-}
-
 <style>
-     .btn {
-        background-color: #ff9999; 
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
+
+    .btn {
+        background-color: #ff9999;
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    .myHeader {
+        color: black;
+        padding: 38px;
+        text-align: center;
+        font-family: Georgia;
+        color: white;
+        background-image: radial-gradient(pink, black);
+    }
+    .filter {
+        border-style: ridge;
+         border-radius: 3px;
+       
+}
+    input {
+    width: 60%;
+}
+    .btn {
+        background-color: #ff9999;
+        border: none;
+        color: white;
+        padding: 9px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+    .btn2 {
+        background-color: #ff9999;
+        border: none;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
     }
 </style>
 
+
+<h1 class="myHeader">Tip Bilete</h1>
+
+
+<br/>
+@using (Html.BeginForm("Filter", "Ticket", FormMethod.Post))
+{
+    <div style="text-align:center">
+
+        <label> Tip bilet:  </label>
+        <input type="text" id="txtSearchedValue" /><br/> <br/>
+        <!-- <input type="submit" value="Filtreaza" /> -->
+        <button class="btn2" type="button" onclick="refresh()" asp-controller="TicketType" asp-action="TicketsRead">Filtreaza</button>
+        <!-- <button onclick="tickets.getFilter()">Filtreaza</button> -->
+        <button class="btn2" type="button" onclick="stergeFiltru()" asp-controller="TicketType" asp-action="TicketsRead"> Sterge filtre </button>
+
+        <br />
+        <br />
+    </div>
+}
 @(Html.Kendo().Grid<iWasHere.Domain.Model.DictionaryTicket>()
        .Name("grid")
        .Columns(columns =>
        {
-           columns.Bound(c => c.DictionaryTicketId).Title("Id");
+           columns.Bound(c => c.DictionaryTicketId).Title("Id").Visible(false);
 
-        
+
            columns.Bound(c => c.TicketCategory).Title("Type");
-             columns.Template("<a href='"+@Url.Action("CreateTicketType", "TicketType")+"?id=#=DictionaryTicketId#' onclick='setEdit()' class='btn btn-info'> Modifica</a> ");
+             columns.Template("<a href='" + @Url.Action("CreateTicketType", "TicketType") + "?id=#=DictionaryTicketId#' onclick='setEdit()' class='btn btn-info'> Modifica</a> ").Width(200);
            columns.Command(command => { command.Destroy(); }).Width(200);
           // columns.Template(" <input type='button' class='k-button info' name='info' value='Modifica' /> ");
           //    columns.Template(" <input type='button' class='k-button info' name='info' value='Sterge' /> ");
@@ -59,7 +91,6 @@
 
        .HtmlAttributes(new { style = "height: 550px;" })
        .Scrollable()
-       .Groupable()
        .Sortable()
        .Filterable()
 
@@ -75,76 +106,46 @@
                 .Destroy(update => update.Action("Delete", "TicketType"))
        )
 )
-<body>
-    <script type="text/javascript">
+<br />
+<div align="center">
+    <a href="@Url.Action("CreateTicketType", "TicketType", 0)" id="addTicket " onclick="setCreate()" class="btn btn-info">&nbsp;  Adauga tip bilet</a>
+</div>
+<script type="text/javascript">
 
-       function getFilter () {
-            var tickets = {};
-            tickets["ticketType"] = $("#txtSearchedValue").val();
-            console.log(tickets.ticketType);
+    function getFilter() {
+        var tickets = {};
+        tickets["ticketType"] = $("#txtSearchedValue").val();
+        console.log(tickets.ticketType);
 
-            return tickets;
-        }
+        return tickets;
+    }
 
-        
 
-       function refresh () {
-            $("#grid").data("kendoGrid").dataSource.read();
-            $("#grid").data("kendoGrid").dataSource.page(1);
 
-        }
+    function refresh() {
+        $("#grid").data("kendoGrid").dataSource.read();
+        $("#grid").data("kendoGrid").dataSource.page(1);
 
-        function stergeFiltru() {
-          // $("#txtSearchedValue").Clear();
-         //   refresh();
-            $("#txtSearchedValue").val("");
-             refresh();
-        }
+    }
 
-         var getInput;
-    function setCreate() {        
+    function stergeFiltru() {
+        // $("#txtSearchedValue").Clear();
+        //   refresh();
+        $("#txtSearchedValue").val("");
+        refresh();
+    }
+
+    var getInput;
+    function setCreate() {
         getInput = "create"
-        localStorage.setItem("storageName",getInput);
+        localStorage.setItem("storageName", getInput);
     }
 
-    function setEdit() {        
+    function setEdit() {
         getInput = "edit"
-        localStorage.setItem("storageName",getInput);
-        }
-
-        
-
-    </script>
-</body>
-
-<style>
-    .customer-photo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-        margin-left: 5px;
+        localStorage.setItem("storageName", getInput);
     }
-    .btn {
-        background-color: #ff9999; 
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-    }
-    .customer-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-</style>
 
+
+
+</script>

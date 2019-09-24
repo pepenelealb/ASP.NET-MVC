@@ -4,27 +4,28 @@
 }
 <style>
     .myHeader {
-        background-color: lightblue;
-        color: white;
-        padding: 40px;
+       color: black;
+        padding: 38px;
         text-align: center;
         font-family: Georgia;
-        text-shadow: 2px 2px 4px #000000;
-        font-size: 320%;
+        color: white;
+        background-image:radial-gradient(red, black);
     }
 
     .filter {
-        border: 2px light blue;
+       
         border-radius: 3px;
-        background-color: hsla(120, 100%, 25%, 0.3);
+       
     }
+     input {
+    width: 60%;
+}
 </style>
 <h1 class="myHeader"> Dictionar Tari</h1>
 <form class="filter">
-    <div class="div2" align="center">
-        <br />
-
-        <h4 style="font-family:courier;">Cauta Tara:</h4> <input id="searchCountryName" type="text" />
+    <div align="center">
+      
+        <h4 style="font-family:courier;">Cauta tara:</h4> <input id="searchCountryName" type="text" /><br/><br/>
         <button type="button" id="btnSearch" onclick="refreshFunction()" asp-controller="DictionaryCountry" asp-action="GetCountries">Filtreaza</button>
         <button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="DictionaryCountry" asp-action="GetCountries">Sterge Filtre</button>
     </br>
@@ -45,7 +46,7 @@
                     c.Destroy();
         }).Width(150);
     })
-    .HtmlAttributes(new { style = "height: 380px;" })
+    .HtmlAttributes(new { style = "height: 500px;" })
     .Scrollable()
     .Sortable(sortable => sortable.AllowUnsort(false))
     .Pageable(pageable => pageable
@@ -61,8 +62,8 @@
     )
 )
 <br />
-<a href=@Url.Action("AddCountry", "DictionaryCountry", 0) id="btn_add" onclick="setAdd()" type="button" class="btn btn-primary">Adauga</a>
-
+<div align="center"><a href=@Url.Action("AddCountry", "DictionaryCountry", 0) id="btn_add" onclick="setAdd()" type="button" class="btn btn-primary">Adauga</a>
+</div>
 <script type="text/javascript">
 
     var getValue;

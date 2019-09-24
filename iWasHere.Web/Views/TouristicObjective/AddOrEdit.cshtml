@@ -16,103 +16,127 @@
         border-style: solid;
         border-width: 1px;
         border-color: darkcyan;
+        padding: 30px;
     }
 
     .myHeader {
-        background-color: lightblue;
+        
         color: black;
-        padding: 40px;
+        padding: 45px;
         text-align: center;
         font-family: Georgia;
         color: white;
-    }
+        background-image:radial-gradient(red, black);
 
+    }
+        input {
+    width: 60%;
+}
     #myDiv {
         display: grid;
         align-self: center;
+        
+        /*border: 1px solid #4CAF50*/
     }
+
+    .help-block ul {
+        list-style-type: none;
+    }
+
+    .validation-summary-errors ul {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .myvalidation {
+        color: red;
 </style>
 <h1 class="myHeader"> Obiectiv Turistic-Add</h1>
-@Html.ValidationSummary(true)
+<span class="help-block">
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
+</span>
 
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post))
 {<div id="myDiv">
+     <div class="ticket">
+         <label>Nume Atractie: </label><br/>
 
-    <label>Nume Atractie: </label>
+         <input style="size:260px" type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
 
-    <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
+         <br />
+         <br />
 
+         <label>Cod Atractie:</label><br/>
+         <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
+         <br />
+         <br />
+
+         <label>Descriere:</label><br/>
+         <textarea id="txtdescription" rows="5" cols="150" type="text" asp-for="TouristicObjectiveDescription"></textarea>    
+     </div>
     <br />
     <br />
-
-    <label>Cod Atractie:</label>
-    <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
-    <br />
-    <br />
-
-    <label>Descriere:</label>
-    <textarea type="text" asp-for="TouristicObjectiveDescription"  id="txtDescription"> </textarea>
-
-    <br />
-    <br />
-
-    <label>Are bilet:</label>
-    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
-
-    <br />
+    <div>
+    <label>Are bilet:</label><br/>
+    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" style="text-align:left" />
+        </div>
+  
     <br />
 
     <div id="ticket" class="ticket">
-        <br />
+        <div style="padding: 30px">
+            <br />
 
-        <label id="pricelbl">Pret:</label>
-        <input type="text" asp-for="Price" id="price" />
+            <label id="pricelbl">Pret:</label>
+            <input type="text" asp-for="Price" id="price" />
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        <label>Selecteaza tipul biletului</label>
-        @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
-               .DataValueField("DictionaryTicketId")
-               .DataTextField("TicketCategory")
-               .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-           {
-               source.Read(read =>
+            <label>Selecteaza tipul biletului:</label><br/>
+            @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
+                   .DataValueField("DictionaryTicketId")
+                   .DataTextField("TicketCategory")
+                   .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
+               .Filter("StartsWith")
+               .DataSource(source =>
                {
-                   read.Action("Read_Ticket_Category", "TouristicObjective");
+                   source.Read(read =>
+                   {
+                       read.Action("Read_Ticket_Category", "TouristicObjective");
+                   })
+                   .ServerFiltering(true);
                })
-               .ServerFiltering(true);
-           })
-        )
+            )
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        <label>Selecteaza o moneda:</label>
-        @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
-              .DataValueField("Id")
-              .DataTextField("Currency")
-              .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
-          .Filter("StartsWith")
-          .DataSource(source =>
-          {
-              source.Read(read =>
+            <label>Selecteaza o moneda:</label><br/>
+            @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
+                  .DataValueField("Id")
+                  .DataTextField("Currency")
+                  .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
+              .Filter("StartsWith")
+              .DataSource(source =>
               {
-                  read.Action("Read_Currency", "TouristicObjective");
+                  source.Read(read =>
+                  {
+                      read.Action("Read_Currency", "TouristicObjective");
+                  })
+                  .ServerFiltering(true);
               })
-              .ServerFiltering(true);
-          })
-        )
+            )
 
-        <br />
-        <br />
+            <br />
+            <br />
+        </div>
     </div>
-
-    <label>Selecteaza Tipul Atractiei</label>
-    @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
+    <br/>
+<div class="ticket">
+    <label>Selecteaza tipul atractiei:</label>
+   <p> @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
                .DataValueField("AttractionCategoryId")
                .DataTextField("AttractionCategoryName")
                .HtmlAttributes(new { style = "width:60%", id = "attraction" })
@@ -126,13 +150,14 @@
                .ServerFiltering(true);
            })
     )
-
+    </p>
     <br />
     <br />
 
-    <label>Selecteaza sezonul</label>
-    @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
+    <label>Selecteaza sezonul:  </label>
+    <p>@(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
                .DataValueField("Id")
+               
                .DataTextField("Type")
                .HtmlAttributes(new { style = "width:60%", id = "season" })
            .Filter("StartsWith")
@@ -145,12 +170,13 @@
                .ServerFiltering(true);
            })
     )
-
+    </p>
     <br />
     <br />
 
     <label>Selecteaza orasul</label>
-    @(Html.Kendo().ComboBoxFor(model => model.CityId)
+
+    <p>@(Html.Kendo().ComboBoxFor(model => model.CityId)
                .DataValueField("cityId")
                .DataTextField("cityName")
                .HtmlAttributes(new { style = "width:60%", id = "city" })
@@ -164,19 +190,23 @@
                .ServerFiltering(true);
            })
     )
+        </p>
 
+    </div>
     <br />
     <br />
-
-    <label>Longitudine :</label>
+    <div class="ticket">
+    <label>Longitudine :</label><br/>
     <input type="text" asp-for="Longitude" />
 
-    <br />
-    <br />
+        <br />
+        <br />
 
-    <label>Latitudine :</label>
+    <label>Latitudine :</label><br/>
     <input type="text" asp-for="Latitude" />
-    <input type="file" name="files" id="imgs" />
+        </div>
+    <br />
+    <input type="file" name="upload_images" id="imgs" />
     <br />
     <br />
     <p align="center">
@@ -187,19 +217,6 @@
 </div>
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 }
-
-
-<script>
-    $("#imgs").kendoUpload({
-        async: {
-            saveUrl: "/Img",
-            autoUpload: false
-        }
-    });
-    function uploadSelected() {
-        $(".k-upload-selected").click();
-    }
-</script>
 
 
 <script type="text/javascript">
@@ -223,13 +240,15 @@
     function isEmptyOrSpaces(str) {
         return str === null || str.match(/^ *$/) !== null;
     }
+     $("#imgs").kendoUpload({
+         async: {
+            //saveUrl: "https://localhost:5001/wwwroot/Img",
+            saveUrl: "/wwwroot/Img",
+            autoUpload: false
+        }
+    });
+    function uploadSelected() {
+        $(".k-upload-selected").click();
+    }
 </script>
-<style>
-    #myDiv {
-        display: grid;
-        align-self: center;
-    }
-    #txtDescription{
-        height:170px;
-    }
-</style>
+
