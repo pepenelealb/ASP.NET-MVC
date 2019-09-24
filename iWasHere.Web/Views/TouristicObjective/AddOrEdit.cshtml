@@ -52,7 +52,7 @@
     <br />
 
     <label>Descriere:</label>
-    <input type="text" asp-for="TouristicObjectiveDescription" />
+    <textarea type="text" asp-for="TouristicObjectiveDescription"  id="txtDescription"> </textarea>
 
     <br />
     <br />
@@ -228,5 +228,8 @@
     #myDiv {
         display: grid;
         align-self: center;
+    }
+    #txtDescription{
+        height:170px;
     }
 </style>

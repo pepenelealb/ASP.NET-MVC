@@ -261,9 +261,11 @@ namespace iWasHere.Domain.Service
                     CityId = a.CityId,
                     Longitude = a.Longitude,
                     Latitude = a.Latitude,
-                    PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
+                    Rating =Convert.ToInt32( _dbContext.Feedback.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault()),
+            PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
-
+           
+        //   obj.Rating = _dbContext.Feedback.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault();
             obj.cityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
             obj.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
                 (a => a.AttractionCategoryName).FirstOrDefault();
@@ -310,23 +312,25 @@ namespace iWasHere.Domain.Service
             return x;
         }
 
-        public void ExportToWord(TouristicObjectiveDTO model)
-        {
-            using (WordprocessingDocument package = WordprocessingDocument.Create("ExportToWord.docx", WordprocessingDocumentType.Document))
-            {
-
+        public Stream ExportToWord(TouristicObjectiveDTO model)
+        {           
                 model.cityName = _dbContext.DictionaryCity.Where(x => x.CityId == model.CityId).Select(x => x.CityName).FirstOrDefault();
                 model.Type = _dbContext.DictionaryOpenSeason.Where(x => x.OpenSeasonId == model.OpenSeasonId).Select(x => x.OpenSeasonType).FirstOrDefault();
                 model.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(x => x.AttractionCategoryId == model.AttractionCategoryId).Select(x => x.AttractionCategoryName).FirstOrDefault();
                 model.Currency = _dbContext.DictionaryCurrency.Where(x => x.DictionaryCurrencyId == model.CurrencyId).Select(x => x.CurrencyCode).FirstOrDefault();
                 model.TicketCategory = _dbContext.DictionaryTicket.Where(x => x.DictionaryTicketId == model.DictionaryTicketId).Select(x => x.TicketCategory).FirstOrDefault();
-                // Add a new main document part. 
-                package.AddMainDocumentPart();
 
-                // Create the Document DOM. 
-                package.MainDocumentPart.Document =
-                  new Document(
-                    new Body(
+            var stream = new MemoryStream();
+            using (WordprocessingDocument doc = WordprocessingDocument.Create(stream, DocumentFormat.OpenXml.WordprocessingDocumentType.Document, true))
+            {
+
+                MainDocumentPart mainPart = doc.AddMainDocumentPart();
+
+                new Document(new Body()).Save(mainPart);
+
+                Body body = mainPart.Document.Body;
+                body.Append(
+                      new Body(
                       new Paragraph(
                         new Run(
                           new Text("Codul obiectivului este: " + model.TouristicObjectiveCode))),
@@ -357,9 +361,12 @@ namespace iWasHere.Domain.Service
                           new Text("\n Moneda de plata este : " + model.Currency)))
                           ));
 
-                // Save changes to the main document part. 
-                package.MainDocumentPart.Document.Save();
+                mainPart.Document.Save();
             }
+
+            stream.Seek(0, SeekOrigin.Begin);
+
+            return stream;
         }
 
         public string InsertFeedback(FeedbackDTO model)

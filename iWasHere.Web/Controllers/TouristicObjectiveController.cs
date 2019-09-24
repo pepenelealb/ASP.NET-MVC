@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
+using DocumentFormat.OpenXml.Packaging;
 
 namespace iWasHere.Web.Controllers
 {
@@ -177,9 +177,8 @@ namespace iWasHere.Web.Controllers
         public IActionResult Download(string id)
         {
             TouristicObjectiveDTO model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(id));
-            _dictionaryObjective.ExportToWord(model);
-
-            return View();
+            Stream stream = _dictionaryObjective.ExportToWord(model);
+            return File(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "ObiectivTuristicDetaliere.docx");            
         }
 
         public IActionResult GetTuristicObjectives(int id)
