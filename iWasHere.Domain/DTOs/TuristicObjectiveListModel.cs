@@ -17,5 +17,7 @@ namespace iWasHere.Domain.DTOs
         public string MainImgPath { get; set; }
         public decimal? Price { get; set; }
         public double? Rank { get; set; }
+
+
     }
 }

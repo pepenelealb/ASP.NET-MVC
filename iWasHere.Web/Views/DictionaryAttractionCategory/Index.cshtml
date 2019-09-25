@@ -4,27 +4,27 @@
 <style>
 
     .myHeader {
-        background-color: lightblue;
-        color: white;
-        padding: 40px;
+         color: black;
+        padding: 45px;
         text-align: center;
         font-family: Georgia;
-        text-shadow: 2px 2px 4px #000000;
+        color: white;
+        background-image:radial-gradient(red, black);
         font-size: 320%;
     }
 
     .filter {
-        border: 2px light blue;
-        border-radius: 3px;
-        background-color: hsla(120, 100%, 25%, 0.3);
-    }
+        border-style: ridge;
+         border-radius: 3px;
+       padding: 25px;
+}
+    input {
+    width: 60%;
+}
 </style>
 
 <h1 class="myHeader"> Dictionar categorii de actractii</h1>
 
-
-
-<br />
 
 <script type="text/javascript">
     getRequestedAttractionCategory = function (e) {
@@ -60,10 +60,9 @@
 
 </script>
 
-<h1>Categorii de atractii</h1><br />
-<h4>Filtreaza dupa: </h4>
+<h5>Filtreaza dupa: </h5>
 
-<form>
+<form class="filter">
     <label>Tip atractie: </label>
     <input id="attractionCategory" type="text" name="attractionCategory" value="" />
     <button onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Filtreaza</button>
@@ -77,7 +76,7 @@
         {
             columns.Bound(c => c.AttractionCategoryId).Visible(false);
             columns.Bound(c => c.AttractionCategoryName);
-            columns.Template("<a onclick='setEdit()' class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>");
+            columns.Template("<a onclick='setEdit()' class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>").Width(170);
             columns.Command(command => { command.Destroy(); }).Width(200);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
@@ -96,4 +95,6 @@
      )
 )
 
-<br /><a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+<br />
+<div align="center"><a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+</div>

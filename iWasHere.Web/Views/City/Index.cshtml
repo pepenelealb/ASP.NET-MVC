@@ -2,22 +2,24 @@
 @{
     ViewData["Title"] = "Orase";
 }
-
-<br />
 <style>
     .myHeader {
-        background-color: lightblue;
-        color: white;
-        padding: 40px;
+         
+        color: black;
+        padding: 45px;
         text-align: center;
         font-family: Georgia;
-        text-shadow: 2px 2px 4px #000000
+        color: white;
+        background-image:radial-gradient(red, black);
     }
     .filter {
         border-style: ridge;
-         border: 2px light blue;
+         /*border: 2px light blue;*/
          border-radius: 3px;
-        background-color: hsla(120, 100%, 25%, 0.3);
+        /*background-color: hsla(120, 100%, 25%, 0.3);*/
+}
+    input {
+    width: 60%;
 }
 </style>
 <h1 class="myHeader"> Dictionar Orase</h1>
@@ -25,10 +27,13 @@
 <div class="filter">
     <br />
     @using (Html.BeginForm())
-    {
-        <h1 style="font-family:courier;">Filtre Oras: &nbsp;</h1>
-        <label style="font-family:courier;"> Oras: &nbsp;</label> <input type="text" id="textBox" /><br />
-        <label style="font-family:courier;"> Judet: </label>
+    { <div style="text-align:center">
+        <h3 style="font-family:Georgia;">Filtre Oras: &nbsp;</h3><br />
+        <label style="font-family:courier;"> Oras: &nbsp;</label><br />
+        <input type="text" id="textBox" /><br />
+        <label style="font-family:courier;"> Judet: </label><br />
+
+
         @(Html.Kendo().ComboBoxFor(model => model.county)
                   .DataValueField("county")
                   .DataTextField("county")
@@ -43,13 +48,14 @@
                   .ServerFiltering(true);
               })
         )
-
+    </div>
     }
-        <div align="right">
-            <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
-            <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
-        </div>
-    
+    <br/>
+    <div align="center">
+        <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
+        <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
+    </div>
+
 </div>
 
 
@@ -65,11 +71,11 @@
                 columns.Bound(c => c.countyId).Title("CountyId").Visible(false);
                 columns.Bound(c => c.cityName).Title("Nume Oras");
                 columns.Bound(c => c.county).Title("Nume Judet");
-                columns.Template("<a href='" + @Url.Action("CreateOrEdit", "City") + "?id=#=cityId#' onclick='setEdit()' class='btn btn-success'> <i class='fas fa-edit'></i>&nbsp; Modifica</a> ");
+                columns.Template("<a href='" + @Url.Action("CreateOrEdit", "City") + "?id=#=cityId#' onclick='setEdit()' class='btn btn-success'> <i class='fas fa-edit'></i>&nbsp; Modifica</a> ").Width(180);
                 columns.Command(command =>
            {
                   command.Destroy().Text("<i class='fas fa-trash-alt'></i> &nbsp; Delete");
-           });
+           }).Width(180);
             })
             .HtmlAttributes(new { style = "height: 550px;" })
             .Scrollable()            
@@ -89,11 +95,11 @@
                 )
     )
     <br/>
-    <div class="col-6" align="left">
-        <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add "onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; Adauga oras nou</a>
-    </div>
-
-
+    <br/>
+    
+</div> <br/>
+<div align="center">
+    <a href="@Url.Action("CreateOrEdit", "City", 0)" id="btn_add " onclick="setCreate()" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; Adauga oras nou</a>
 </div>
 <script type="text/javascript">
     var getInput;
