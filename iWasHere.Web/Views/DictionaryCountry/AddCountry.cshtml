@@ -21,7 +21,7 @@
 {
     <div align ="center">
         <label>Tara: </label> <br/>
-        <input id="addCountry" asp-for="Name" type="text"/> <br/>
+        <input maxlength="99" id="addCountry" asp-for="Name" type="text"/> <br/>
         <br/>
         <button type="submit" onclick="handleErrorUpdate()" id="save" class="btn btn-info" name="btn" value="Save">Salveaza</button>
         <button type="submit" onclick="handleErrorUpdate()" id="saveAndNew" class="btn btn-info" name="btn" value="SaveAndNew">Salveaza si Nou</button>
