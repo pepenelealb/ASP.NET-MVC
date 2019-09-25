@@ -11,7 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text; 
+using System.Text;
+
 
 namespace iWasHere.Domain.Service
 {
@@ -306,7 +307,7 @@ namespace iWasHere.Domain.Service
                     CityId = a.CityId,
                     Longitude = a.Longitude,
                     Latitude = a.Latitude,
-                    Rating  = (a.Feedback.Any() ? (float)a.Feedback.Average(b => b.Rating) : 0),
+                    Rating   = (a.Feedback.Any() ? (float)a.Feedback.Average(b => b.Rating) : 0),
                  
                     PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
@@ -343,10 +344,15 @@ namespace iWasHere.Domain.Service
             return obj;
         }
 
-
+        public double roundf(double no)
+        {
+            no = Math.Round((double)no, 2);
+            return no;
+        }
 
         public IQueryable<TouristicObjectiveListModel> GetTuristicObjectiveListModels()
         {
+
             var x =
 
             _dbContext.TouristicObjective.Include(a => a.AttractionCategory).Include(a => a.City).Include(a => a.Feedback).Include(a => a.OpenSeason).Include(a => a.Picture).Include(a => a.Ticket)
@@ -361,7 +367,7 @@ namespace iWasHere.Domain.Service
                     Name = a.TouristicObjectiveName,
                     OpenSeason = a.OpenSeason.OpenSeasonType,
                     Price = (a.Ticket.Any() ? a.Ticket.Average(b => b.Price) : 0),
-                    Rank = (a.Feedback.Any() ? a.Feedback.Average(b => b.Rating) : 0),
+                    Rank = (a.Feedback.Any() ? roundf(a.Feedback.Average(b => b.Rating)): 0),
                     TouristicObjectiveId = a.TouristicObjectiveId
                 });
 
