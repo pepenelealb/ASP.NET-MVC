@@ -44,6 +44,14 @@
         .nav-item{
             color: red;
             position: center;
+            
+        }
+
+        .navbar-nav .open .dropdown-content{
+            color: black;
+        }
+        .navbar-nav .open .dropdown-menu {
+            background-color: black;
         }
 
         .nav-link {
@@ -117,120 +125,122 @@
     <header >
 
         <nav class="  navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div  class="container" >
+            <li class="container">
                 <a style="color:white " class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/Img/87794.png" alt="Smiley face" height="50" width="50"> Black Widow</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 @*meniu de dropdow*@
-            <partial name="_LoginPartial" />
-            <div class="text-left navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" role="group">
-                
 
-                <li class="nav-item dropdown">
+                <partial name="_LoginPartial" />
 
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Dictionare
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="County" asp-action="Index">Judete</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="City" asp-action="Index">Orase</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="TicketType" asp-action="Index">Tip tichet</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
-                    </div>
-                </li>
+                <div class="text-left navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" role="group">
 
-                <li class="nav-item dropdown">
 
-                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Obiectiv turistic
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Adauga</a>
-                        <a class="dropdown-item" asp-area="" asp-controller="TouristicObjective" asp-action="Index">Lista</a>
-                    </div>
-                </li>
+            <li class="nav-item dropdown">
 
-                @*<div class="dropdown" align="center">
-                    <h6>Dictionare</h6>
-                    <div class="dropdown-content">
-                        <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
-                        </li>
-                        <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="County" asp-action="Index">Judete</a>
-                        </li>
-                        <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="City" asp-action="Index">Orase</a>
-                        </li>
-                        <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
-                        </li>
-                        <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="TicketType" asp-action="Index">Tip tichet</a>
-                        </li>
-                        <li class="nav-link text-dark">
-                            <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
-                        </li>
-                    </div>
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Dictionare
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="County" asp-action="Index">Judete</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="City" asp-action="Index">Orase</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="TicketType" asp-action="Index">Tip tichet</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
                 </div>
-                <h1>'   '</h1>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <div class="dropdown" align="left">
-                        <h6>Obiectiv Turistic     </h6>
-                        <div class="dropdown-content">
+            </li>
 
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Adauga</a>
-                            </li>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <div class="dropdown" align="center">
-                        <h6 style="color:white ">Dictionare</h6>
-                        <div class="dropdown-content">
-                            <li  class="nav-link text-dark">
-                                <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
-                            </li>
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="County" asp-action="Index">Judete</a>
-                            </li>
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="City" asp-action="Index">Orase</a>
-                            </li>
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
-                            </li>
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="TicketType" asp-action="Index">Tip tichet</a>
-                            </li>
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
-                            </li>
-                        </div>
-                    </div>
-                    <h1 style="color:white ">'   '</h1>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <div class="dropdown" align="left">
-                            <h6 style="color:white ">Obiectiv Turistic     </h6>
-                            <div class="dropdown-content">
-                                
-                                <li class="nav-link text-dark">
-                                    <a asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Adauga</a>
-                                </li>
+            <li class="nav-item dropdown">
 
-                            <li class="nav-link text-dark">
-                                <a asp-area="" asp-controller="TouristicObjective" asp-action="Index">Lista</a>
-                            </li>
-                            <li class="nav-link text-dark">
-                        <a asp-area="" asp-controller="TouristicObjective" asp-action="TouristicObjectiveDetail">Detalii</a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                    Obiective turistice
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Adauga</a>
+                    <a class="dropdown-item" asp-area="" asp-controller="TouristicObjective" asp-action="Index">Lista</a>
+                </div>
+            </li>
+            
+            @*<div class="dropdown" align="center">
+            <h6>Dictionare</h6>
+            <div class="dropdown-content">
+                <li class="nav-link text-dark">
+                    <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
+                </li>
+                <li class="nav-link text-dark">
+                    <a asp-area="" asp-controller="County" asp-action="Index">Judete</a>
+                </li>
+                <li class="nav-link text-dark">
+                    <a asp-area="" asp-controller="City" asp-action="Index">Orase</a>
+                </li>
+                <li class="nav-link text-dark">
+                    <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
+                </li>
+                <li class="nav-link text-dark">
+                    <a asp-area="" asp-controller="TicketType" asp-action="Index">Tip tichet</a>
+                </li>
+                <li class="nav-link text-dark">
+                    <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
+                </li>
+            </div>
+        </div>
+        <h1>'   '</h1>
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+            <div class="dropdown" align="left">
+                <h6>Obiectiv Turistic     </h6>
+                <div class="dropdown-content">
+
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Adauga</a>
                     </li>
-                        </div>
-                    </div>
-                </div>*@
+        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+            <div class="dropdown" align="center">
+                <h6 style="color:white ">Dictionare</h6>
+                <div class="dropdown-content">
+                    <li  class="nav-link text-dark">
+                        <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
+                    </li>
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="County" asp-action="Index">Judete</a>
+                    </li>
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="City" asp-action="Index">Orase</a>
+                    </li>
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="OpenSeason" asp-action="Index">Sezoane</a>
+                    </li>
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="TicketType" asp-action="Index">Tip tichet</a>
+                    </li>
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="Index">Categorii atractii</a>
+                    </li>
+                </div>
+            </div>
+            <h1 style="color:white ">'   '</h1>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <div class="dropdown" align="left">
+                    <h6 style="color:white ">Obiectiv Turistic     </h6>
+                    <div class="dropdown-content">
 
-</nav>
+                        <li class="nav-link text-dark">
+                            <a asp-area="" asp-controller="TouristicObjective" asp-action="AddOrEdit">Adauga</a>
+                        </li>
+
+                    <li class="nav-link text-dark">
+                        <a asp-area="" asp-controller="TouristicObjective" asp-action="Index">Lista</a>
+                    </li>
+                    <li class="nav-link text-dark">
+                <a asp-area="" asp-controller="TouristicObjective" asp-action="TouristicObjectiveDetail">Detalii</a>
+            </li>
+                </div>
+            </div>
+        </div>*@
+
+        </nav>
         <br />
         <br />
         
