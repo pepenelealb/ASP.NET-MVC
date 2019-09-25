@@ -215,10 +215,11 @@
         <input type="text" asp-for="Latitude" />
         <br />
         <br />
+    </div><br/>
+        
+   <div class="k-content"> 
+       @Html.TextBoxFor(model => model.PictureName, new { type = "file", multiple = "multiple", value = "", id = "files" })
     </div>
-
-    @Html.TextBoxFor(model => model.PictureName, new { type = "file", multiple = "multiple", value = "", id = (string)null })
-
     <p align="center">
         <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
         <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
@@ -291,7 +292,9 @@
     function isEmptyOrSpaces(str) {
         return str === null || str.match(/^ *$/) !== null;
     }
-
+    $(document).ready(function() {
+                    $("#files").kendoUpload();
+                });
 
 
     window.onload = set();
