@@ -34,7 +34,7 @@ namespace iWasHere.Domain.DTOs
 
         public List<string> PictureName { get; set; }
 
-        public List<int?> Ratings { get; set; }
+        public List<int> Ratings { get; set; }
         public float Rating { get; set; }
         public int FeedbackId { get; set; }
 
