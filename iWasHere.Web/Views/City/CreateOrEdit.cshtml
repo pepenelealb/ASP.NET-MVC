@@ -3,6 +3,11 @@
 @{
     ViewData["Title"] = "CreateOrEdit";
 }
+<style>
+    input {
+        width: 60%;
+    }
+    </style>
 
 <style>
     .help-block ul {
@@ -15,18 +20,27 @@
     .myvalidation{
         color:red;
     }
+    .myHeader {
+         
+        color: black;
+        padding: 45px;
+        text-align: center;
+        font-family: Georgia;
+      
+    }
 </style>
-
+<h1 class="myHeader"> Adauga/Modifica oras</h1>
 <span class="help-block">
     @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
 </span>
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post, new { id = "form" }))
-{
+{ <div align="center">
     <label>Adauga un Oras:</label>
-    <input type="text" asp-for="cityName" id="textBox" />
+    <input type="text" asp-for="cityName" id="textBox" placeholder="Introdu numele orasului...." style="font-style:italic" />
 
     <br />
+    <br/>
     <label>Selecteaza un Judet:</label>
     @(Html.Kendo().ComboBoxFor(model => model.countyId)
                .DataValueField("countyId")
@@ -42,14 +56,17 @@
                .ServerFiltering(true);
            })
     )
-    <br />
-    <button type="submit" id="save" class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
-    <br />
-
-    <button type="submit" id="new" class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
-    <br />
-
+    </div>
+    <br/>
+    <br/>
+    <div align="center">
+    
+    <button type="submit" onclick="validateData()"  id="save" class="btn btn-primary" name="submitButton" value="Save">Salveaza</button>
+    
+    <button type="submit" onclick="validateData()"  id="new" class="btn btn-dark" name="submitButton" value="SaveAndNew">Salveaza si Nou</button>
+  
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
+        </div>
 }
 <script type="text/javascript">
 

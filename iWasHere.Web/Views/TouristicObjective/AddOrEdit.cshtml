@@ -17,20 +17,26 @@
         border-style: solid;
         border-width: 1px;
         border-color: darkcyan;
+        padding: 30px;
     }
 
     .myHeader {
-        background-color: lightblue;
+        
         color: black;
-        padding: 40px;
+        padding: 45px;
         text-align: center;
         font-family: Georgia;
-        color: white;
-    }
+       font-size: 320%;
 
+    }
+        input {
+    width: 60%;
+}
     #myDiv {
         display: grid;
         align-self: center;
+        
+        /*border: 1px solid #4CAF50*/
     }
 
     .help-block ul {
@@ -45,7 +51,7 @@
     .myvalidation {
         color: red;
 </style>
-<h1 class="myHeader"> Obiectiv Turistic-Add</h1>
+<h1 class="myHeader"> Adauga obiectiv turistic</h1>
 <span class="help-block">
     @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
 </span>
@@ -53,81 +59,84 @@
 
 @using (Html.BeginForm("Create", "City", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {<div id="myDiv">
+     <div class="ticket">
+         <label>Nume Atractie: </label><br/>
 
-    <label>Nume Atractie: </label>
+         <input style="size:260px" type="text" asp-for="TouristicObjectiveName" id="nameAttraction" maxlength="200"/>
 
-    <input type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
+         <br />
+         <br />
 
+         <label>Cod Atractie:</label><br/>
+         <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" maxlength="255"/>
+         <br />
+         <br />
+
+         <label>Descriere:</label><br/>
+         <textarea id="txtdescription" rows="5" cols="150" type="text" asp-for="TouristicObjectiveDescription" maxlength="1000"></textarea>    
+     </div>
     <br />
     <br />
-
-    <label>Cod Atractie:</label>
-    <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
-    <br />
-    <br />
-
-    <label>Descriere:</label>
-    <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtDescription"> </textarea>
-
-    <br />
-    <br />
-
-    <label>Are bilet:</label>
-    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" />
-
-    <br />
+    <div>
+    <label>Are bilet:</label><br/>
+    <input type="checkbox" onclick="hidePrice()" asp-for="HasEntry" id="entry" style="text-align:left" />
+        </div>
+  
     <br />
 
     <div id="ticket" class="ticket">
+        <div style="padding: 30px">
+            <br />
+
+            <label id="pricelbl">Pret:</label>
+            <input type="text" asp-for="Price" id="price" maxlength="20"/>
+
+        <br />
         <br />
 
-        <label id="pricelbl">Pret:</label>
-        <input type="text" asp-for="Price" id="price" />
-
-        <br />
-        <br />
-
-        <label>Selecteaza tipul biletului</label>
-        @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
-               .DataValueField("DictionaryTicketId")
-               .DataTextField("TicketCategory")
-               .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
-           .Filter("StartsWith")
-           .DataSource(source =>
-           {
-               source.Read(read =>
+            <label>Selecteaza tipul biletului:</label><br />
+            @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
+                   .DataValueField("DictionaryTicketId")
+                   .DataTextField("TicketCategory")
+                   .HtmlAttributes(new { style = "width:60%", id = "ticketCategory" })
+               .Filter("StartsWith")
+               .DataSource(source =>
                {
-                   read.Action("Read_Ticket_Category", "TouristicObjective");
+                   source.Read(read =>
+                   {
+                       read.Action("Read_Ticket_Category", "TouristicObjective");
+                   })
+                   .ServerFiltering(true);
                })
-               .ServerFiltering(true);
-           })
-        )
+            )
 
         <br />
         <br />
 
-        <label>Selecteaza o moneda:</label>
-        @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
-              .DataValueField("Id")
-              .DataTextField("Currency")
-              .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
-          .Filter("StartsWith")
-          .DataSource(source =>
-          {
-              source.Read(read =>
+            <label>Selecteaza o moneda:</label><br />
+            @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
+                  .DataValueField("Id")
+                  .DataTextField("Currency")
+                  .HtmlAttributes(new { style = "width:60%", id = "ticketCurrency" })
+              .Filter("StartsWith")
+              .DataSource(source =>
               {
-                  read.Action("Read_Currency", "TouristicObjective");
+                  source.Read(read =>
+                  {
+                      read.Action("Read_Currency", "TouristicObjective");
+                  })
+                  .ServerFiltering(true);
               })
-              .ServerFiltering(true);
-          })
-        )
+            )
 
-        <br />
-        <br />
+            <br />
+            <br />
+        </div>
     </div>
-
-    <label>Selecteaza Tipul Atractiei</label>
-    @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
+    <br/>
+<div class="ticket">
+    <label>Selecteaza tipul atractiei:</label>
+   <p> @(Html.Kendo().ComboBoxFor(model => model.AttractionCategoryId)
                .DataValueField("AttractionCategoryId")
                .DataTextField("AttractionCategoryName")
                .HtmlAttributes(new { style = "width:60%", id = "attraction" })
@@ -141,13 +150,14 @@
                .ServerFiltering(true);
            })
     )
-
+    </p>
     <br />
     <br />
 
-    <label>Selecteaza sezonul</label>
-    @(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
+    <label>Selecteaza sezonul:  </label>
+    <p>@(Html.Kendo().ComboBoxFor(model => model.OpenSeasonId)
                .DataValueField("Id")
+               
                .DataTextField("Type")
                .HtmlAttributes(new { style = "width:60%", id = "season" })
            .Filter("StartsWith")
@@ -160,12 +170,13 @@
                .ServerFiltering(true);
            })
     )
-
+    </p>
     <br />
     <br />
 
     <label>Selecteaza orasul</label>
-    @(Html.Kendo().ComboBoxFor(model => model.CityId)
+
+    <p>@(Html.Kendo().ComboBoxFor(model => model.CityId)
                .DataValueField("cityId")
                .DataTextField("cityName")
                .HtmlAttributes(new { style = "width:60%", id = "city" })
@@ -179,16 +190,31 @@
                .ServerFiltering(true);
            })
     )
+        </p>
+
+    </div>
+    <br />
+    <br />
+    <div class="ticket">
+    <label>Longitudine :</label><br/>
+    <input type="text" asp-for="Longitude"  maxlength="10"/>
 
     <br />
     <br />
 
-    <label>Longitudine :</label>
-    <input type="text" asp-for="Longitude" />
-
+    <label>Latitudine :</label><br/>
+    <input type="text" asp-for="Latitude" maxlength="10"/>
+        </div>
+    <br />
+    <input type="file" name="upload_images" id="imgs" />
     <br />
     <br />
-
+    <p align="center">
+        <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
+        <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
+        <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
+    </p>
+</div>
     <label>Latitudine :</label>
     <input type="text" asp-for="Latitude" />
     <br />
@@ -204,6 +230,7 @@
 </div>
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 }
+
 
 <script type="text/javascript">
     window.onload = hidePrice();
@@ -229,13 +256,4 @@
 
 
 </script>
-<style>
-    #myDiv {
-        display: grid;
-        align-self: center;
-    }
 
-    #txtDescription {
-        height: 170px;
-    }
-</style>

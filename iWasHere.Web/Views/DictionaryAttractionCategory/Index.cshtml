@@ -1,30 +1,33 @@
-﻿@{
+﻿
+
+@{
     ViewData["Title"] = "Index";
 }
-<style>
 
+<style type="text/css">
+    @@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap');   
     .myHeader {
-        background-color: lightblue;
-        color: white;
-        padding: 40px;
+        color: black;
+        padding: 45px;
         text-align: center;
-        font-family: Georgia;
-        text-shadow: 2px 2px 4px #000000;
+        font-family: 'Open Sans Condensed', sans-serif;
+       
         font-size: 320%;
     }
 
     .filter {
-        border: 2px light blue;
+        border-style: ridge;
         border-radius: 3px;
-        background-color: hsla(120, 100%, 25%, 0.3);
+        padding: 25px;
+    }
+
+    input {
+        width: 60%;
     }
 </style>
 
 <h1 class="myHeader"> Dictionar categorii de actractii</h1>
 
-
-
-<br />
 
 <script type="text/javascript">
     getRequestedAttractionCategory = function (e) {
@@ -44,7 +47,7 @@
     }
 
     function deleteFiltersAndRefresh() {
-         $('#attractionCategory').val("");
+        $('#attractionCategory').val("");
         refresh();
     }
 
@@ -54,20 +57,19 @@
         localStorage.setItem("storageName", "edit");
     }
 
-     function setAdd() {
+    function setAdd() {
         localStorage.setItem("storageName", "add");
     }
 
 </script>
 
-<h1>Categorii de atractii</h1><br />
-<h4>Filtreaza dupa: </h4>
+<h5>Filtreaza dupa: </h5>
 
-<form>
+<form class="filter">
     <label>Tip atractie: </label>
     <input id="attractionCategory" type="text" name="attractionCategory" value="" />
     <button onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Filtreaza</button>
-    <button onclick="deleteFiltersAndRefresh()"  type="button" class="btn btn-danger" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Sterge Filtru</button>
+    <button onclick="deleteFiltersAndRefresh()" type="button" class="btn btn-danger" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Sterge Filtru</button>
 </form>
 <br />
 
@@ -77,7 +79,7 @@
         {
             columns.Bound(c => c.AttractionCategoryId).Visible(false);
             columns.Bound(c => c.AttractionCategoryName);
-            columns.Template("<a onclick='setEdit()' class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>");
+            columns.Template("<a onclick='setEdit()' class = 'btn btn-success' href='" + @Url.Action("AddAttractionCategory", "DictionaryAttractionCategory") + "?id=#=AttractionCategoryId#'>Modifica</a>").Width(170);
             columns.Command(command => { command.Destroy(); }).Width(200);
         })
         .HtmlAttributes(new { style = "height: 550px;" })
@@ -90,10 +92,13 @@
         .DataSource(dataSource => dataSource
             .Ajax()
             .PageSize(10)
-            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))   
+            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))
             .Model(model => model.Id(t => t.AttractionCategoryId))
-            .Destroy(delete =>delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
+            .Destroy(delete => delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
      )
 )
 
-<br /><a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+<br />
+<div align="center">
+    <a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+</div>

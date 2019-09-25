@@ -171,6 +171,9 @@ namespace iWasHere.Domain.Service
         }
         public string Delete_County(int id)
         {
+            
+            string err = "";
+
             try
             {
                 _bwContext.Remove(_bwContext.DictionaryCounty.Single(a => a.CountyId == id));
@@ -270,7 +273,7 @@ namespace iWasHere.Domain.Service
             {
                 if (String.IsNullOrWhiteSpace(model.Type))
                 {
-                    return "Numele orasului este obligatoriu";
+                    return "Numele este obligatoriu";
                 }
                 else
                 {
@@ -402,13 +405,27 @@ namespace iWasHere.Domain.Service
 
         public string AddCountry(DictionaryCountryModel dictionaryCountryModel)
         {
-            _bwContext.DictionaryCountry.Add(new DictionaryCountry
+            try
             {
-                CountryName = dictionaryCountryModel.Name,
-                CountryId = dictionaryCountryModel.Id
-            });
-            _bwContext.SaveChanges();
-            return null;
+                if (String.IsNullOrWhiteSpace(dictionaryCountryModel.Name))
+                {
+                    return "Trebuie sa introduceti obligatoriu o tara!";
+                }
+                else
+                {
+                    _bwContext.DictionaryCountry.Add(new DictionaryCountry
+                    {
+                        CountryName = dictionaryCountryModel.Name,
+                        CountryId = dictionaryCountryModel.Id
+                    });
+                    _bwContext.SaveChanges();
+                    return null;
+                }
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
         }
 
         public DictionaryCountryModel UpdateCountry(int id)
@@ -429,15 +446,22 @@ namespace iWasHere.Domain.Service
         {
             try
             {
-                DictionaryCountry dictionaryCountry = _bwContext.DictionaryCountry.Find(dictionaryCountryModel.Id);
-                dictionaryCountry.CountryName = dictionaryCountryModel.Name;
-                _bwContext.DictionaryCountry.Update(dictionaryCountry);
-                _bwContext.SaveChanges();
-                return null;
+                if (String.IsNullOrWhiteSpace(dictionaryCountryModel.Name))
+                {
+                    return "Numele tarii este obligatoriu";
+                }
+                else
+                {
+                    DictionaryCountry dictionaryCountry = _bwContext.DictionaryCountry.Find(dictionaryCountryModel.Id);
+                    dictionaryCountry.CountryName = dictionaryCountryModel.Name;
+                    _bwContext.DictionaryCountry.Update(dictionaryCountry);
+                    _bwContext.SaveChanges();
+                    return null;
+                }
             }
             catch (Exception e)
             {
-                return "Campul de tara trebuie completat obligatoriu!";
+                return e.Message;
             }
         }
 

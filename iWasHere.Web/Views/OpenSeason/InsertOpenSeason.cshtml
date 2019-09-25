@@ -2,17 +2,34 @@
 @{
     ViewData["Title"] = "InsertOpenSeason";
 }
-
+<style>
+    .myHeader {
+         
+        color: black;
+        padding: 45px;
+        text-align: center;
+        font-family: Georgia;
+    }
+    input {
+    width: 29%;
+    text-align: center
+}
+</style>
+<h1 class="myHeader">Adauga sezon</h1> <br/><br/>
 @using (Html.BeginForm("Create", "OpenSeason", FormMethod.Post))
 {
-    <div>
+    <div align="center">
         <label>Tip sezon:</label><br />
-        <input id="openSeasonType" asp-for="Type" type="text" />
-        <button type="submit" onclick="success()" class="btn btn-success" name="submitButton" value="save">Salveaza</button>
+        <input id="openSeasonType" asp-for="Type" type="text" maxlength="215"><br/>
+        </div> <br/>
+        <div align="center">
+        <button type="submit" onclick="success()" class="btn btn-success" name="submitButton" value="Save">Salveaza</button>
         <button type="submit" onclick="success()" class="btn btn-info" name="submitButton" id="saveAndNew" value="SaveAndNew">Salveaza si Nou</button>
-        <br />
         <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
-    </div>
+        </div>
+        <br />
+        
+    
 }
 
 <script type="text/javascript">

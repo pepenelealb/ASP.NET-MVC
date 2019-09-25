@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DocumentFormat.OpenXml.Packaging;
 using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Identity;
 
 namespace iWasHere.Web.Controllers
 {
@@ -140,41 +141,38 @@ namespace iWasHere.Web.Controllers
             return Json(JsonVariable);
         }
 
-        public IActionResult AddFeedback(string id)
-        {
-            if (Convert.ToInt32(id) == 0)
-            {
-                return View();
-            }
-            else
-            {
-                FeedbackDTO feedbackModel = new FeedbackDTO() { touristicObjectiveId = Convert.ToInt32(id) };
-                return View(feedbackModel);
-            }
-        }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddFeedback(FeedbackDTO model, string btn, string id)
+        public IActionResult TouristicObjectiveDetail(TouristicObjectiveDTO model, string feedbackName , int RatingName)
         {
+            FeedbackDTO modelFeedback=null;
+            var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);// Specify the type of your UserId;
+            var userName = HttpContext.User.FindFirstValue(ClaimTypes.Name);
             if (model != null)
             {
-                string errorMessage = _dictionaryObjective.InsertFeedback(model);
+                modelFeedback = new FeedbackDTO()
+                {
+                    CommentTitle = model.FeedbackDTO.CommentTitle,
+                    Comment = model.FeedbackDTO.Comment,
+                    Rating = model.FeedbackDTO.Rating,
+                    TouristicObjectiveId = model.TouristicObjectiveId,
+                    UserName = model.FeedbackDTO.UserName,
+                    UserId = model.FeedbackDTO.UserId
+                };
+                string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, userName, feedbackName, RatingName);
                 if (!String.IsNullOrEmpty(errorMessage))
                 {
                     ModelState.AddModelError("e", errorMessage);
-                    return View();
+                    return View(model);
                 }
             }
-            return View();
+            model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
+            ModelState.Clear();
+            return View(model);
         }
-
-        public void accessUserId()
-        {
-            _ = this.HttpContext.User.Claims;
-            /*var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);*/ // Specify the type of your UserId;
-        }
-
+        
 
         public IActionResult Download(string id)
         {
@@ -182,5 +180,6 @@ namespace iWasHere.Web.Controllers
             Stream stream = _dictionaryObjective.ExportToWord(model);
             return File(stream, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "ObiectivTuristicDetaliere.docx");            
         }
+
     }
 }

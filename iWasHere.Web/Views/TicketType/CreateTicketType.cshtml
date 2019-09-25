@@ -3,22 +3,39 @@
 @{
     ViewData["Title"] = "CreateTicketType";
 }
+    <style>
+        .btn {
+            background-color: #ff9999;
+            border: none;
+            color: white;
+            padding: 12px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
 
-<h1>Adauga tip bilet</h1>
+        input {
+            width: 60%;
+        }
+    </style>
+<div align="center"><h1>Adauga tip bilet</h1></div> <br/><br/>
 
 @using (Html.BeginForm("Create", "TicketType", FormMethod.Post))
-{<label> Adauga:  </label>
-    <input type="text" asp-for="TicketCategory" id="txtInputValue" />
+{
+    <div align="center"><label> Adauga:  </label>
+    <input type="text" asp-for="TicketCategory" id="txtInputValue" maxlength="10" />
+    </div>
     <br/>
     <br />
+    <div align="center">
     <button type="submit" class="btn btn-primary" name="submitButton" value="Save" id="save">Salveaza</button>
     <br />
     <br />
     <button type="submit" class="btn btn-dark" name="submitButton" value="SaveAndNew" id="new">Salveaza si Nou</button>
 
-    <br />
-    <br />
     <a asp-action="Index" class="btn btn-success">Anuleaza</a>
+    </div>
 }
 
 <script >
@@ -33,15 +50,3 @@
     }
 
 </script>
-<style>
-    .btn {
-        background-color: #ff9999;
-        border: none;
-        color: white;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
-</style>

@@ -4,6 +4,7 @@
 <html>
 <head>
     <style>
+     
      .dropdown {
   position: relative;
   display: inline-block;
@@ -19,14 +20,29 @@
   z-index: 1;
 }
 
+.imagine{
+    width: 50px;
+    height: 50px;
+}
+
 .dropdown:hover .dropdown-content {
   display: block;
 }
+.bg { 
+    position:fixed;      
+                      left: -500px;        
+                      top: 71px;              
+                      height: auto;       
+                      width: 100%;             
+                      opacity: 0.4;       
+
+}
+
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Black Widow Web</title>
-    @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />*@
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -52,7 +68,7 @@
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></style>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
         <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
         <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
@@ -81,11 +97,11 @@
     </environment>
 </head>
 <body>
-    <header>
+    <header >
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Black Widow</a>
+        <nav class="  navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div  class="container" >
+                <a style="color:white " class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img src="~/Img/87794.png" alt="Smiley face" height="50" width="50"> Black Widow</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -93,9 +109,9 @@
                 @*meniu de dropdow*@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <div class="dropdown" align="center">
-                        <h6>Dictionare</h6>
+                        <h6 style="color:white ">Dictionare</h6>
                         <div class="dropdown-content">
-                            <li class="nav-link text-dark">
+                            <li  class="nav-link text-dark">
                                 <a asp-area="" asp-controller="DictionaryCountry" asp-action="Index">Tari</a>
                             </li>
                             <li class="nav-link text-dark">
@@ -115,10 +131,10 @@
                             </li>
                         </div>
                     </div>
-                    <h1>'   '</h1>
+                    <h1 style="color:white ">'   '</h1>
                     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                         <div class="dropdown" align="left">
-                            <h6>Obiectiv Turistic     </h6>
+                            <h6 style="color:white ">Obiectiv Turistic     </h6>
                             <div class="dropdown-content">
                                 
                                 <li class="nav-link text-dark">
@@ -184,4 +200,6 @@
 
     @RenderSection("Scripts", required: false)
 </body>
+
+
 </html>
