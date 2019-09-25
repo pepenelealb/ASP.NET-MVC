@@ -169,7 +169,6 @@ namespace iWasHere.Web.Controllers
                 }
             }
             model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
-            ModelState.Clear();
             return View(model);
         }
         

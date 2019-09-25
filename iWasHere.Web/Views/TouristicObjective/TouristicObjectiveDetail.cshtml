@@ -112,7 +112,7 @@
                 <label>Titlul comentariului: </label>    <br /><input asp-for="FeedbackDTO.CommentTitle" id="commentTitle" type="text"><br />
                 <label>Descrierea comentariului: </label>    <br /><input id="commentDesc" type="text" asp-for="FeedbackDTO.Comment"><br />
                 <br />   <br />
-                <button type="submit" onclick="handleErrorUpdate()" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
+                <button type="submit" id="btnAdd" name="btn" value="saveFeedback">Salveaza</button>
             </div>
 
         </div>
@@ -122,7 +122,6 @@
 
     @foreach (var feedback in Model.feedbacks)
     {
-
         <span class="rounded-sm">
             <b>Nume utilizator: </b> @feedback.UserName<br />
             <b>Titlu Comentariu: </b>@feedback.CommentTitle<br />
