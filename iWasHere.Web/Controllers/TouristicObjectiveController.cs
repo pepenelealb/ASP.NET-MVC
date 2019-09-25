@@ -16,15 +16,16 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using DocumentFormat.OpenXml.Packaging;
+using Microsoft.AspNetCore.Hosting.Internal;
 
 namespace iWasHere.Web.Controllers
 {
     public class TouristicObjectiveController : Controller
     {
         private readonly DictionaryTouristicObjectiveService _dictionaryObjective;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly HostingEnvironment _hostingEnvironment;
 
-        public TouristicObjectiveController(DictionaryTouristicObjectiveService dictionaryObjective, IHostingEnvironment hostingEnvironment)
+        public TouristicObjectiveController(DictionaryTouristicObjectiveService dictionaryObjective, HostingEnvironment hostingEnvironment)
         {
             _dictionaryObjective = dictionaryObjective;
             _hostingEnvironment = hostingEnvironment;
@@ -71,11 +72,12 @@ namespace iWasHere.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton, string id)
+        
+        public IActionResult AddOrEdit(TouristicObjectiveDTO model, string submitButton, string id, [FromForm (Name = "PictureName")] List<IFormFile> file )
         {
-            if (Convert.ToInt32(id) == 0)
+            if (Convert.ToInt32(id) == 0)                
             {
-                string errorMessage = _dictionaryObjective.Insert(model);
+                string errorMessage = _dictionaryObjective.Insert(model, _hostingEnvironment, file);
                 if (String.IsNullOrWhiteSpace(errorMessage))
                 {
                     if (submitButton == "Save")

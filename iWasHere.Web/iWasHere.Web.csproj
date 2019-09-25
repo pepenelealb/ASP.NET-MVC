@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\TouristicObjective\Img\**" />
+    <Compile Remove="wwwroot\Img\60\**" />
     <Compile Remove="wwwroot\lib\kendo-ui\**" />
+    <Content Remove="Views\TouristicObjective\Img\**" />
+    <Content Remove="wwwroot\Img\60\**" />
     <Content Remove="wwwroot\lib\kendo-ui\**" />
+    <EmbeddedResource Remove="Views\TouristicObjective\Img\**" />
+    <EmbeddedResource Remove="wwwroot\Img\60\**" />
     <EmbeddedResource Remove="wwwroot\lib\kendo-ui\**" />
+    <None Remove="Views\TouristicObjective\Img\**" />
+    <None Remove="wwwroot\Img\60\**" />
     <None Remove="wwwroot\lib\kendo-ui\**" />
   </ItemGroup>
 
@@ -29,8 +37,6 @@
 
 
   <ItemGroup>
-    <Folder Include="Views\TouristicObjective\Img\" />
-    <Folder Include="wwwroot\Img\60\" />
     <Folder Include="wwwroot\lib\" />
   </ItemGroup>
 

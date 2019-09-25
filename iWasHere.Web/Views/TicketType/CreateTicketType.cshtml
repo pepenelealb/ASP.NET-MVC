@@ -14,7 +14,7 @@
     <button type="submit" class="btn btn-primary" name="submitButton" value="Save" id="save">Salveaza</button>
     <br />
     <br />
-    <button type="submit" class="btn btn-dark" name="submitButton" value="SaveAndNew" id="saveAndNew">Salveaza si Nou</button>
+    <button type="submit" class="btn btn-dark" name="submitButton" value="SaveAndNew" id="new">Salveaza si Nou</button>
 
     <br />
     <br />
@@ -24,13 +24,13 @@
 <script >
       
 
-          window.onload = check();
-        function check() {
-            var verify = localStorage.getItem("storageName");
-            if (verify == "edit") {
-                document.getElementById("saveAndNew").style.visibility = "hidden";
-
-            }
+    window.onload = set();
+    function set() {
+        var verify = localStorage.getItem("storageName");
+        if (verify == "edit") {
+            document.getElementById("new").style.visibility = "hidden";
+        }
+    }
 
 </script>
 <style>
