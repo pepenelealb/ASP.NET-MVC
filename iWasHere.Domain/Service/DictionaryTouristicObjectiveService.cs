@@ -377,44 +377,44 @@ namespace iWasHere.Domain.Service
             return stream;
         }
 
-        public string InsertFeedback(FeedbackDTO model, string userId, string feedbackName, int RatingName)
+        public string InsertFeedback(FeedbackDTO model, string userId, string userName, string feedbackName, int RatingName)
         {
-            //try
-            //{
-            if (feedbackName != "Anonim")
+            try
             {
-                _dbContext.Feedback.Add(new Feedback
+                if (feedbackName != "Anonim")
                 {
-                    CommentTitle = model.CommentTitle,
-                    Comment = model.Comment,
-                    Rating = RatingName,
-                    TouristicObjectiveId = model.TouristicObjectiveId,
-                    UserId = userId,
-                    UserName = feedbackName
-                });
-                _dbContext.SaveChanges();
-                return null;
+                        _dbContext.Feedback.Add(new Feedback
+                        {
+                            CommentTitle = model.CommentTitle,
+                            Comment = model.Comment,
+                            Rating = RatingName,
+                            TouristicObjectiveId = model.TouristicObjectiveId,
+                            UserId = userId,
+                            UserName = userName
+                        });
+                        _dbContext.SaveChanges();
+                        return null;
+                    }
+                else
+                { 
+                        _dbContext.Feedback.Add(new Feedback
+                        {
+                            CommentTitle = model.CommentTitle,
+                            Comment = model.Comment,
+                            Rating = RatingName,
+                            TouristicObjectiveId = model.TouristicObjectiveId,
+                            UserId = null,
+                            UserName = feedbackName
+                        });
+                        _dbContext.SaveChanges();
+                    return null;
+                }
             }
-            else
+            catch (Exception e)
             {
-                _dbContext.Feedback.Add(new Feedback
-                {
-                    CommentTitle = model.CommentTitle,
-                    Comment = model.Comment,
-                    Rating = RatingName,
-                    TouristicObjectiveId = model.TouristicObjectiveId,
-                    UserId = null,
-                    UserName = feedbackName
-                });
-                _dbContext.SaveChanges();
-                return null;
+                return e.Message;
             }
-            //}
-            //catch (Exception e)
-            //{
-            //    return "Comentariul trebuie sa contina descriere si nume feedback!";
-            //}
-        }
+}
 
         public bool ValidateData(TouristicObjectiveDTO model, out string message)
         {
