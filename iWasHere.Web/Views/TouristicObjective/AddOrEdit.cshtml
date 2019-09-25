@@ -227,9 +227,11 @@
 
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    
+
+    @*<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @if (Model.PictureName != null)
+            @if (Model.PictureName.Count >0)
             {
 
 
@@ -258,7 +260,10 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-    </div><br /><br /><br /><br /><br /><br /><br />
+    </div><br /><br /><br /><br /><br /><br /><br />*@
+
+    
+
 </div>
 }
 
