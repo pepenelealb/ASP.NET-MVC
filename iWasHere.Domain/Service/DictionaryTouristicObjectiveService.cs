@@ -270,7 +270,7 @@ namespace iWasHere.Domain.Service
                     CityId = a.CityId,
                     Longitude = a.Longitude,
                     Latitude = a.Latitude,
-                    Ratings =_dbContext.Feedback.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.Rating).ToList(),
+                    Rating  = (a.Feedback.Any() ? (float)a.Feedback.Average(b => b.Rating) : 0),
                  
                     PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
@@ -324,8 +324,8 @@ namespace iWasHere.Domain.Service
                     MainImgPath = a.Picture.FirstOrDefault().PictureName,
                     Name = a.TouristicObjectiveName,
                     OpenSeason = a.OpenSeason.OpenSeasonType,
-                    Price = (a.Ticket.Any() ? a.Ticket.Average(b => b.Price) : (decimal?)null),
-                    Rank = (a.Feedback.Any() ? a.Feedback.Average(b => b.Rating) : (double?)null),
+                    Price = (a.Ticket.Any() ? a.Ticket.Average(b => b.Price) : 0),
+                    Rank = (a.Feedback.Any() ? a.Feedback.Average(b => b.Rating) : 0),
                     TouristicObjectiveId = a.TouristicObjectiveId
                 });
 
