@@ -154,7 +154,7 @@ namespace iWasHere.Web.Controllers
             {
                 modelFeedback = new FeedbackDTO()
                 {
-                    CommentTitle = model.FeedbackDTO.CommentTitle,
+                    CommentTitle =model.FeedbackDTO.CommentTitle,
                     Comment = model.FeedbackDTO.Comment,
                     Rating = model.FeedbackDTO.Rating,
                     TouristicObjectiveId = model.TouristicObjectiveId,
@@ -169,7 +169,6 @@ namespace iWasHere.Web.Controllers
                 }
             }
             model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
-            ModelState.Clear();
             return View(model);
         }
         
