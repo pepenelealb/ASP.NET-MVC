@@ -9,14 +9,13 @@
         padding: 45px;
         text-align: center;
         font-family: Georgia;
-        color: white;
-        background-image:radial-gradient(red, black);
+      
     }
     .filter {
-        border-style: ridge;
-         /*border: 2px light blue;*/
+
+        border-style: double;
          border-radius: 3px;
-        /*background-color: hsla(120, 100%, 25%, 0.3);*/
+        
 }
     input {
     width: 60%;
@@ -29,7 +28,7 @@
     @using (Html.BeginForm())
     { <div style="text-align:center">
         <h3 style="font-family:Georgia;">Filtre Oras: &nbsp;</h3><br />
-        <input type="text" id="textBox" placeholder="Numele Orasului...." style="font-style:italic"/><br />
+        <input type="text" id="textBox" placeholder="Intodu numele orasului...." style="font-style:italic"/><br />
         <label style="font-family:courier;"> Judet: </label><br />
 
 
@@ -53,7 +52,7 @@
     <div align="center">
         <button onclick="refresh()" id="btn_filter" type="submit" class="btn btn-primary">Filtreaza &nbsp;</button>
         <button type="button" id="btnDelete" class="btn btn-dark" onclick="deleteFilters()" asp-controller="City" asp-action="Index">Sterge Filtre</button>
-    </div>
+    </div><br/>
 
 </div>
 

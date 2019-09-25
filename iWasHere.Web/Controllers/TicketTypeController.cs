@@ -83,6 +83,7 @@ namespace iWasHere.Web.Controllers
                 _dictionaryService.InsertTicket(model);
                 if (submitButton == "SaveAndNew")
                 {
+                    ModelState.Clear();
                     return View();
                 }
                 else

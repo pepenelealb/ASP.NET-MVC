@@ -21,27 +21,13 @@
         padding: 38px;
         text-align: center;
         font-family: Georgia;
-        color: white;
-        background-image: radial-gradient(pink, black);
-    }
-    .filter {
-        border-style: ridge;
-         border-radius: 3px;
+        font-size: 320%;
        
-}
+    }
+    
     input {
     width: 60%;
 }
-    .btn {
-        background-color: #ff9999;
-        border: none;
-        color: white;
-        padding: 9px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-    }
     .btn2 {
         background-color: #ff9999;
         border: none;
@@ -51,19 +37,26 @@
         display: inline-block;
         font-size: 20px;
     }
+    .filter {
+       
+        border-style: double;
+         border: 2px light blue;
+         border-radius: 3px;
+       
+    }
 </style>
 
 
-<h1 class="myHeader">Tip Bilete</h1>
+<h1 class="myHeader">Dictionar Bilete</h1>
 
 
 <br/>
 @using (Html.BeginForm("Filter", "Ticket", FormMethod.Post))
 {
-    <div style="text-align:center">
-
-        <label> Tip bilet:  </label>
-        <input type="text" id="txtSearchedValue" /><br/> <br/>
+    <div style="text-align:center" class="filter">
+        
+       
+        <br /><input type="text" id="txtSearchedValue" placeholder="Introdu denumire tichet...."; style="font-style: italic" max="100"/><br/> <br/>
         <!-- <input type="submit" value="Filtreaza" /> -->
         <button class="btn2" type="button" onclick="refresh()" asp-controller="TicketType" asp-action="TicketsRead">Filtreaza</button>
         <!-- <button onclick="tickets.getFilter()">Filtreaza</button> -->

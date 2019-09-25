@@ -20,8 +20,16 @@
     .myvalidation{
         color:red;
     }
+    .myHeader {
+         
+        color: black;
+        padding: 45px;
+        text-align: center;
+        font-family: Georgia;
+      
+    }
 </style>
-
+<h1 class="myHeader"> Adauga/Modifica oras</h1>
 <span class="help-block">
     @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
 </span>
@@ -29,7 +37,7 @@
 @using (Html.BeginForm("Create", "City", FormMethod.Post, new { id = "form" }))
 { <div align="center">
     <label>Adauga un Oras:</label>
-    <input type="text" asp-for="cityName" id="textBox" placeholder="Numele Orasului...." style="font-style:italic" />
+    <input type="text" asp-for="cityName" id="textBox" placeholder="Introdu numele orasului...." style="font-style:italic" />
 
     <br />
     <br/>
@@ -62,13 +70,13 @@
 }
 <script type="text/javascript">
 
-    window.onload = set();
-    function set() {
-        var verify = localStorage.getItem("storageName");
-        if (verify == "edit") {
-            document.getElementById("new").style.visibility = "hidden";
-        }
-    }
+    //window.onload = set();
+    //function set() {
+    //    var verify = localStorage.getItem("storageName");
+    //    if (verify == "edit") {
+    //        document.getElementById("new").style.visibility = "hidden";
+    //    }
+    //}
 
     function isEmptyOrSpaces(str) {
         return str === null || str.match(/^ *$/) !== null;
