@@ -531,7 +531,7 @@ namespace iWasHere.Domain.Service
 
         public bool ValidateImage(List<IFormFile> file, out string message)
         {
-            List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+            List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".BMP", ".GIF", ".PNG" };
             foreach ( var img in file)
             {
                 var extension = Path.GetExtension(img.FileName);

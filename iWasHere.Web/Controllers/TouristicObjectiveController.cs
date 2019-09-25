@@ -50,7 +50,8 @@ namespace iWasHere.Web.Controllers
         {
             if (Convert.ToInt32(id) == 0)
             {
-                return View();
+                TouristicObjectiveDTO turistObjective = new TouristicObjectiveDTO();
+                return View(turistObjective);
             }
             else
             {
