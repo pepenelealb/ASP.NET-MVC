@@ -61,6 +61,7 @@ namespace iWasHere.Web.Controllers
                 {
                     if (submitbutton == "SaveAndNew")
                     {
+                        ModelState.Clear();
                         return View();
                     }
                     else

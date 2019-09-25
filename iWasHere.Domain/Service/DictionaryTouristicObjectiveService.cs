@@ -3,6 +3,9 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using iWasHere.Domain.DTOs;
 using iWasHere.Domain.Model;
+using iWasHere.Domain.Utility;
+using Microsoft.AspNetCore.Hosting.Internal;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,7 +21,7 @@ namespace iWasHere.Domain.Service
 
         public DictionaryTouristicObjectiveService(BlackWidowContext databaseContext)
         {
-            _dbContext = databaseContext;
+            _dbContext = databaseContext;           
         }
 
         public List<DictionaryAttractionCategoryModel> GetAttraction()
@@ -43,27 +46,7 @@ namespace iWasHere.Domain.Service
 
             return dictionaryOpenSeasons;
         }
-        /// <summary>
-        /// img
-        /// </summary>
-        /// <returns></returns>
-        public List<String> Get_IMG(int id)
-        {
-            List<Picture_DTO> paths = _dbContext.Picture.Where(a => a.TouristicObjectiveId == id).Select(a => new Picture_DTO()
-            {
-                PictureName = a.PictureName,
-            }).ToList();
-            List<String> filepaths = new List<String>();
-            foreach (Picture_DTO ph in paths)
-            {
-                filepaths.Add(ph.PictureName);
-            }
-            return filepaths;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+       
         public List<CityDTO> GetCity()
         {
             List<CityDTO> city = _dbContext.DictionaryCity.Select(a => new CityDTO()
@@ -190,7 +173,7 @@ namespace iWasHere.Domain.Service
             }
         }
 
-        public string Insert(TouristicObjectiveDTO model)
+        public string Insert(TouristicObjectiveDTO model, HostingEnvironment _hostingEnvironment, List<IFormFile> file)
         {
             string message;
             if (!ValidateData(model, out message))
@@ -200,40 +183,65 @@ namespace iWasHere.Domain.Service
 
             try
             {
-                int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
-                if (id != 0)
+            int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+            if (id != 0)
+            {
+                return "Codul atractiei trebuie sa fie unic";
+            }
+            else
+            {
+                _dbContext.TouristicObjective.Add(new TouristicObjective
                 {
-                    return "Codul atractiei trebuie sa fie unic";
-                }
-                else
+                    TouristicObjectiveDescription = model.TouristicObjectiveDescription,
+                    TouristicObjectiveName = model.TouristicObjectiveName,
+                    TouristicObjectiveCode = model.TouristicObjectiveCode,
+                    HasEntry = model.HasEntry,
+                    OpenSeasonId = model.OpenSeasonId,
+                    CityId = model.CityId,
+                    AttractionCategoryId = model.AttractionCategoryId,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude
+                });
+                _dbContext.SaveChanges();
+                if (model.HasEntry)
                 {
-                    _dbContext.TouristicObjective.Add(new TouristicObjective
+                    model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
+                   
+                        _dbContext.Ticket.Add(new Ticket
                     {
-                        TouristicObjectiveDescription = model.TouristicObjectiveDescription,
-                        TouristicObjectiveName = model.TouristicObjectiveName,
-                        TouristicObjectiveCode = model.TouristicObjectiveCode,
-                        HasEntry = model.HasEntry,
-                        OpenSeasonId = model.OpenSeasonId,
-                        CityId = model.CityId,
-                        AttractionCategoryId = model.AttractionCategoryId,
-                        Latitude = model.Latitude,
-                        Longitude = model.Longitude
+                        Price = model.Price,
+                        DictionaryCurrencyId = model.CurrencyId,
+                        DictionaryTicketId = model.DictionaryTicketId,
+                        DictionaryExchangeRateId = 1,
+                        TouristicObjectiveId = model.TouristicObjectiveId
                     });
                     _dbContext.SaveChanges();
-                    if (model.HasEntry)
-                    {
+                }
+                    if (file.Count > 0)
                         model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
+                    foreach (var image in file)
+                    {
+                        string guid = Guid.NewGuid().ToString();
+                        string webRootPath = _hostingEnvironment.WebRootPath;
+                        var uploads = Path.Combine(webRootPath, SD.ImageFolder);
+                        var extension = Path.GetExtension(image.FileName);
+                        
 
-
-                        _dbContext.Ticket.Add(new Ticket
+                        _dbContext.Picture.Add(new Model.Picture()
                         {
-                            Price = model.Price,
-                            DictionaryCurrencyId = model.CurrencyId,
-                            DictionaryTicketId = model.DictionaryTicketId,
-                            DictionaryExchangeRateId = 1,
+                            PictureName = guid + extension,
                             TouristicObjectiveId = model.TouristicObjectiveId
                         });
                         _dbContext.SaveChanges();
+
+
+                        var fileName = guid + Path.GetExtension(image.FileName);
+                        using (var filestream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
+                        {
+                            image.CopyTo(filestream);
+                        }
+
+
                     }
                     return null;
 
@@ -262,7 +270,7 @@ namespace iWasHere.Domain.Service
                     CityId = a.CityId,
                     Longitude = a.Longitude,
                     Latitude = a.Latitude,
-                    Ratings =_dbContext.Feedback.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.Rating).ToList(),
+                    Rating  = (a.Feedback.Any() ? (float)a.Feedback.Average(b => b.Rating) : 0),
                  
                     PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
@@ -316,8 +324,8 @@ namespace iWasHere.Domain.Service
                     MainImgPath = a.Picture.FirstOrDefault().PictureName,
                     Name = a.TouristicObjectiveName,
                     OpenSeason = a.OpenSeason.OpenSeasonType,
-                    Price = (a.Ticket.Any() ? a.Ticket.Average(b => b.Price) : (decimal?)null),
-                    Rank = (a.Feedback.Any() ? a.Feedback.Average(b => b.Rating) : (double?)null),
+                    Price = (a.Ticket.Any() ? a.Ticket.Average(b => b.Price) : 0),
+                    Rank = (a.Feedback.Any() ? a.Feedback.Average(b => b.Rating) : 0),
                     TouristicObjectiveId = a.TouristicObjectiveId
                 });
 
@@ -351,7 +359,7 @@ namespace iWasHere.Domain.Service
                            new Text("\n Numele atractiei turistice este: " + model.AttractionCategoryName))),
                            new Paragraph(
                         new Run(
-                          new Text("\n :Descrierea atractiei este: " + model.TouristicObjectiveDescription))),
+                          new Text("\n Descrierea atractiei este: " + model.TouristicObjectiveDescription))),
                              new Paragraph(
                         new Run(
                               new Text("\n Tipul de atractie este: " + model.AttractionCategoryName))),

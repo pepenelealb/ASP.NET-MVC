@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2017.1.118/styles/kendo.mobile.all.min.css" />
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script src="https://kendo.cdn.telerik.com/2017.1.118/js/kendo.all.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 @model iWasHere.Domain.DTOs.TouristicObjectiveDTO
 
@@ -56,11 +57,11 @@
 </span>
 
 
-@using (Html.BeginForm("Create", "City", FormMethod.Post))
+@using (Html.BeginForm("Create", "City", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {<div id="myDiv">
      <div class="ticket">
          <label>Nume Atractie: </label><br/>
-
+         <input type="text" asp-for="TouristicObjectiveId" id="id" hidden />
          <input style="size:260px" type="text" asp-for="TouristicObjectiveName" id="nameAttraction" maxlength="200"/>
 
          <br />
@@ -87,11 +88,11 @@
         <div style="padding: 30px">
             <br />
 
-            <label id="pricelbl">Pret:</label>
+            <label id="pricelbl">Pret:</label><br/>
             <input type="text" asp-for="Price" id="price" maxlength="20"/>
 
-            <br />
-            <br />
+        <br />
+        <br />
 
             <label>Selecteaza tipul biletului:</label><br />
             @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
@@ -109,8 +110,8 @@
                })
             )
 
-            <br />
-            <br />
+        <br />
+        <br />
 
             <label>Selecteaza o moneda:</label><br />
             @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
@@ -195,30 +196,34 @@
     <br />
     <br />
     <div class="ticket">
-    <label>Longitudine :</label><br/>
-    <input type="text" asp-for="Longitude"  maxlength="10"/>
+        <label>Longitudine :</label><br />
+        <input type="text" asp-for="Longitude" maxlength="10" />
 
         <br />
         <br />
 
-    <label>Latitudine :</label><br/>
-    <input type="text" asp-for="Latitude" maxlength="10"/>
-        </div>
-    <br />
-    <input type="file" name="upload_images" id="imgs" class=""/>
-    <br />
-    <br />
+        <label>Latitudine :</label><br/>
+        <input type="text" asp-for="Latitude" />
+        <br />
+        <br />
+    </div>
+        
+    @Html.TextBoxFor(model => model.PictureName, new { type = "file", multiple = "multiple", value = "", id = (string)null })
+
     <p align="center">
         <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
         <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
         <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
     </p>
-</div>
+
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
+    </div>
 }
 
 
 <script type="text/javascript">
+
+
     window.onload = hidePrice();
     function hidePrice() {
         var checkBox = document.getElementById("entry");
@@ -239,15 +244,17 @@
     function isEmptyOrSpaces(str) {
         return str === null || str.match(/^ *$/) !== null;
     }
-     $("#imgs").kendoUpload({
-         async: {
-            //saveUrl: "https://localhost:5001/wwwroot/Img",
-            saveUrl: "/wwwroot/Img",
-            autoUpload: false
+
+
+
+    window.onload = set();
+    function set() {
+        var id = $("#id").val();
+        if (id != 0) {
+            document.getElementById("new").style.visibility = "hidden";
         }
-    });
-    function uploadSelected() {
-        $(".k-upload-selected").click();
-    }
+    }    
+
+
 </script>
 

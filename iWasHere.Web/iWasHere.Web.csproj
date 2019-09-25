@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\TouristicObjective\Img\**" />
+    <Compile Remove="wwwroot\Img\60\**" />
     <Compile Remove="wwwroot\lib\kendo-ui\**" />
+    <Content Remove="Views\TouristicObjective\Img\**" />
+    <Content Remove="wwwroot\Img\60\**" />
     <Content Remove="wwwroot\lib\kendo-ui\**" />
+    <EmbeddedResource Remove="Views\TouristicObjective\Img\**" />
+    <EmbeddedResource Remove="wwwroot\Img\60\**" />
     <EmbeddedResource Remove="wwwroot\lib\kendo-ui\**" />
+    <None Remove="Views\TouristicObjective\Img\**" />
+    <None Remove="wwwroot\Img\60\**" />
     <None Remove="wwwroot\lib\kendo-ui\**" />
   </ItemGroup>
 
@@ -17,6 +25,7 @@
   <ItemGroup>
     <PackageReference Include="FontAwesome" Version="4.7.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2019.2.619" />
