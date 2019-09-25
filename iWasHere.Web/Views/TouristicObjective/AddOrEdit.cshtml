@@ -61,7 +61,7 @@
 {<div id="myDiv">
      <div class="ticket">
          <label>Nume Atractie: </label><br/>
-
+         <input type="text" asp-for="TouristicObjectiveId" id="id" hidden />
          <input style="size:260px" type="text" asp-for="TouristicObjectiveName" id="nameAttraction" maxlength="200"/>
 
          <br />
@@ -196,43 +196,34 @@
     <br />
     <br />
     <div class="ticket">
-    <label>Longitudine :</label><br/>
-    <input type="text" asp-for="Longitude"  maxlength="10"/>
+        <label>Longitudine :</label><br />
+        <input type="text" asp-for="Longitude" maxlength="10" />
 
-    <br />
-    <br />
+        <br />
+        <br />
 
-    <label>Latitudine :</label><br/>
-    <input type="text" asp-for="Latitude" maxlength="10"/>
-        </div>
-    <br />
-    <input type="file" name="upload_images" id="imgs" />
-    <br />
-    <br />
-    <p align="center">
-        <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
-        <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
-        <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
-    </p>
-</div>
-    <label>Latitudine :</label>
-    <input type="text" asp-for="Latitude" />
-    <br />
-    <br />
+        <label>Latitudine :</label><br/>
+        <input type="text" asp-for="Latitude" />
+        <br />
+        <br />
+    </div>
         
     @Html.TextBoxFor(model => model.PictureName, new { type = "file", multiple = "multiple", value = "", id = (string)null })
- @*<input asp-for="PictureName" class="forupload" type="file" name="file">*@
+
     <p align="center">
         <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
         <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
         <a asp-action="Index" class="btn btn-primary">Anuleaza</a>
     </p>
-</div>
+
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
+    </div>
 }
 
 
 <script type="text/javascript">
+
+
     window.onload = hidePrice();
     function hidePrice() {
         var checkBox = document.getElementById("entry");
@@ -253,6 +244,16 @@
     function isEmptyOrSpaces(str) {
         return str === null || str.match(/^ *$/) !== null;
     }
+
+
+
+    window.onload = set();
+    function set() {
+        var id = $("#id").val();
+        if (id != 0) {
+            document.getElementById("new").style.visibility = "hidden";
+        }
+    }    
 
 
 </script>
