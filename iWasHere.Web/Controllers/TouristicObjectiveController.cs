@@ -164,7 +164,8 @@ namespace iWasHere.Web.Controllers
                 string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, userName, feedbackName, RatingName);
                 if (!String.IsNullOrEmpty(errorMessage))
                 {
-                    ModelState.AddModelError("e", errorMessage);
+                    ModelState.AddModelError(string.Empty, errorMessage);
+                    model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
                     return View(model);
                 }
             }
