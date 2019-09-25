@@ -59,38 +59,38 @@
 <div class='col-md-8'>
     <div class='row'>
         <div class='col-md-8'>
-            <h1>#=Name#</h1>
+            <h1 style='text-align:center; font-family:colibri light; font-size: 600%'>#=Name#</h1>
                 </div>
                 <div class='col-md-4'>
-                    <h3 style='text-align:right'>#=Code#</h3>
+                   <h3 style='text-align:right'>#=Code#</h3>
+                </div>
+            </div><br/>
+            <div class='row'>
+                <div class='col-md-4'>
+                    Cu Intrare: #if(HasEntry==true){#<i class='fa fa-check-square'></i>#}else{#<i class='fa fa-times'></i>#}#
+                </div>
+                <div class='col-md-4'>
+                   Pret: <b>#=Price#</b> RON
+                </div>
+                <div class='col-md-4'>
+                   Rating: <b>#=Rank#</b><i class='fa fa-star'></i>
                 </div>
             </div>
             <div class='row'>
                 <div class='col-md-4'>
-                    Entry: #if(HasEntry==true){#<i class='fa fa-check-square'></i>#}else{#<i class='fa fa-times'></i>#}#
+                    Atractie tip: <b>#=AttractionCategory#</b>
                 </div>
                 <div class='col-md-4'>
-                    <b>#=Price#</b> RON
+                    Sezon: <b>#=OpenSeason#</b>
                 </div>
                 <div class='col-md-4'>
-                    <b>#=Rank#</b><i class='fa fa-star'></i>
-                </div>
-            </div>
-            <div class='row'>
-                <div class='col-md-4'>
-                    AttractionCategory: <b>#=AttractionCategory#</b>
-                </div>
-                <div class='col-md-4'>
-                    OpenSeason: <b>#=OpenSeason#</b>
-                </div>
-                <div class='col-md-4'>
-                    City: <b>#=City#</b>
+                    Oras: <b>#=City#</b>
                 </div>
             </div>
             <br />
             <div class='row'>
-                <div class='col-md-12'>
-                  #=Description# </div>
+               Despre obiectiv:    <div class='col-md-12'> 
+               #=Description# </div>
             </div>
         </div>
     </div>
