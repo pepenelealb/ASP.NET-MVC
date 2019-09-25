@@ -418,6 +418,16 @@ namespace iWasHere.Domain.Service
 
         public string InsertFeedback(FeedbackDTO model, string userId, string userName, string feedbackName, int RatingName)
         {
+            if (String.IsNullOrWhiteSpace(model.Comment))
+            {
+                return "Introdu un comentariu";
+            }else if (String.IsNullOrWhiteSpace(model.CommentTitle))
+            {
+                return "Introdu un titlu pentru comentariul tau";
+            }else if (RatingName == 0)
+            {
+                return "Te rog sa ne dai un rating";
+            }
             try
             {
                 if (feedbackName != "Anonim")
