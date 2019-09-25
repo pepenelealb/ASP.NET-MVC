@@ -245,15 +245,6 @@
         return str === null || str.match(/^ *$/) !== null;
     }
 
-    function handleErrorUpdate(e) {
-        if (isEmptyOrSpaces($('#commentTitle').val())) {
-            alert("Trebuie sa introduceti titlul comentariului!")
-        }
-        if (isEmptyOrSpaces($('#commentDesc').val()))
-            alert("Trebuie sa introduceti obligatoriu o descriere!")
-
-    }
-
     function myCheckBoxChecked() {
         if (document.getElementById('checkBox').checked) {
             $("#feedbackName").val("");
@@ -268,16 +259,22 @@
             $("#feedbackName").val("");
         }
         else {
-            $("#feedbackName").val();
+            $("#feedbackName").val("Anonim");
         }
         if (document.getElementById("str1").checked || document.getElementById("str2").checked || document.getElementById("str3").checked
             || document.getElementById("str4").checked || document.getElementById("str5").checked || document.getElementById("str6").checked
             || document.getElementById("str9").checked || document.getElementById("str8").checked || document.getElementById("str9").checked
             || document.getElementById("str10").checked) {
-            alert("e bineeeeee")
-        } else {
+            alert("Super, Ratingul a fost completat!")
+        }
+         else {
             alert("completeaza rating")
         }
+        if (isEmptyOrSpaces($('#commentTitle').val())||isEmptyOrSpaces($('#commentDesc').val())) {
+            alert("Comentariul trebuie sa contina obligatoriu titlu si descriere!")
+        }  
+       
+        
     }
 
     $(document).ready(function () {
