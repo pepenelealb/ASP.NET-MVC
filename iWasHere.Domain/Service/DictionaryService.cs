@@ -273,7 +273,7 @@ namespace iWasHere.Domain.Service
             {
                 if (String.IsNullOrWhiteSpace(model.Type))
                 {
-                    return "Numele orasului este obligatoriu";
+                    return "Numele este obligatoriu";
                 }
                 else
                 {

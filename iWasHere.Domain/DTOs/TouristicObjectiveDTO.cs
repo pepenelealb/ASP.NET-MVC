@@ -38,5 +38,8 @@ namespace iWasHere.Domain.DTOs
         public int FeedbackId { get; set; }
 
         public List<FeedbackDTO> feedbacks { get; set; }
+
+        public FeedbackDTO FeedbackDTO { get; set; }
+      
     }
 }

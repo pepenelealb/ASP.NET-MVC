@@ -51,7 +51,7 @@
     .myvalidation {
         color: red;
 </style>
-<h1 class="myHeader"> Obiectiv Turistic-Add</h1>
+<h1 class="myHeader"> Adauga obiectiv turistic</h1>
 <span class="help-block">
     @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
 </span>
@@ -62,18 +62,18 @@
      <div class="ticket">
          <label>Nume Atractie: </label><br/>
 
-         <input style="size:260px" type="text" asp-for="TouristicObjectiveName" id="nameAttraction" />
+         <input style="size:260px" type="text" asp-for="TouristicObjectiveName" id="nameAttraction" maxlength="200"/>
 
          <br />
          <br />
 
          <label>Cod Atractie:</label><br/>
-         <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" />
+         <input type="text" asp-for="TouristicObjectiveCode" id="nameCode" maxlength="255"/>
          <br />
          <br />
 
          <label>Descriere:</label><br/>
-         <textarea id="txtdescription" rows="5" cols="150" type="text" asp-for="TouristicObjectiveDescription"></textarea>    
+         <textarea id="txtdescription" rows="5" cols="150" type="text" asp-for="TouristicObjectiveDescription" maxlength="1000"></textarea>    
      </div>
     <br />
     <br />
@@ -89,12 +89,12 @@
             <br />
 
             <label id="pricelbl">Pret:</label>
-            <input type="text" asp-for="Price" id="price" />
+            <input type="text" asp-for="Price" id="price" maxlength="20"/>
 
             <br />
             <br />
 
-            <label>Selecteaza tipul biletului:</label><br/>
+            <label>Selecteaza tipul biletului:</label><br />
             @(Html.Kendo().ComboBoxFor(model => model.DictionaryTicketId)
                    .DataValueField("DictionaryTicketId")
                    .DataTextField("TicketCategory")
@@ -113,7 +113,7 @@
             <br />
             <br />
 
-            <label>Selecteaza o moneda:</label><br/>
+            <label>Selecteaza o moneda:</label><br />
             @(Html.Kendo().ComboBoxFor(model => model.CurrencyId)
                   .DataValueField("Id")
                   .DataTextField("Currency")
@@ -197,13 +197,13 @@
     <br />
     <div class="ticket">
     <label>Longitudine :</label><br/>
-    <input type="text" asp-for="Longitude" />
+    <input type="text" asp-for="Longitude"  maxlength="10"/>
 
         <br />
         <br />
 
     <label>Latitudine :</label><br/>
-    <input type="text" asp-for="Latitude" />
+    <input type="text" asp-for="Latitude" maxlength="10"/>
         </div>
     <br />
     <input type="file" name="upload_images" id="imgs" />
