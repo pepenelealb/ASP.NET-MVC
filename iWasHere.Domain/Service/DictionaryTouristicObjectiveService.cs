@@ -83,7 +83,7 @@ namespace iWasHere.Domain.Service
             return currency;
         }
 
-        public string UpdateDB(TouristicObjectiveDTO model)
+        public string UpdateDB(TouristicObjectiveDTO model, HostingEnvironment _hostingEnvironment, List<IFormFile> file)
         {
             string message;
             if (!ValidateData(model, out message))
@@ -144,6 +144,33 @@ namespace iWasHere.Domain.Service
                     }
                 }
 
+                if (file.Count > 0)
+                    model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
+                foreach (var image in file)
+                {
+                    string guid = Guid.NewGuid().ToString();
+                    string webRootPath = _hostingEnvironment.WebRootPath;
+                    var uploads = Path.Combine(webRootPath, SD.ImageFolder);
+                    var extension = Path.GetExtension(image.FileName);
+
+
+                    _dbContext.Picture.Add(new Model.Picture()
+                    {
+                        PictureName = guid + extension,
+                        TouristicObjectiveId = model.TouristicObjectiveId
+                    });
+                    _dbContext.SaveChanges();
+
+
+                    var fileName = guid + Path.GetExtension(image.FileName);
+                    using (var filestream = new FileStream(Path.Combine(uploads, fileName), FileMode.Create))
+                    {
+                        image.CopyTo(filestream);
+                    }
+
+
+                }
+
                 return null;
             }
             catch (Exception e)
@@ -153,18 +180,18 @@ namespace iWasHere.Domain.Service
 
         }
 
-        public string Update(TouristicObjectiveDTO model)
+        public string Update(TouristicObjectiveDTO model, HostingEnvironment _hostingEnvironment, List<IFormFile> file)
         {
             if (model.Unique == 0)
             {
-                return UpdateDB(model);
+                return UpdateDB(model, _hostingEnvironment, file);
             }
             else
             {
                 int code = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
                 if (code == 0)
                 {
-                    return UpdateDB(model);
+                    return UpdateDB(model, _hostingEnvironment, file);
                 }
                 else
                 {

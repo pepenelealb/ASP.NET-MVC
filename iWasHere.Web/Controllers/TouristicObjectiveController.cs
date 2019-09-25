@@ -98,7 +98,7 @@ namespace iWasHere.Web.Controllers
             else
             {
                 model.TouristicObjectiveId = Convert.ToInt32(id);
-                string errorMessage = _dictionaryObjective.Update(model);
+                string errorMessage = _dictionaryObjective.Update(model, _hostingEnvironment, file);
                 if (String.IsNullOrWhiteSpace(errorMessage))
                 {
                     return View("Index");
