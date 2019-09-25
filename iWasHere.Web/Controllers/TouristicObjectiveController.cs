@@ -98,7 +98,7 @@ namespace iWasHere.Web.Controllers
             else
             {
                 model.TouristicObjectiveId = Convert.ToInt32(id);
-                string errorMessage = _dictionaryObjective.Update(model);
+                string errorMessage = _dictionaryObjective.Update(model, _hostingEnvironment, file);
                 if (String.IsNullOrWhiteSpace(errorMessage))
                 {
                     return View("Index");
@@ -154,7 +154,7 @@ namespace iWasHere.Web.Controllers
             {
                 modelFeedback = new FeedbackDTO()
                 {
-                    CommentTitle = model.FeedbackDTO.CommentTitle,
+                    CommentTitle =model.FeedbackDTO.CommentTitle,
                     Comment = model.FeedbackDTO.Comment,
                     Rating = model.FeedbackDTO.Rating,
                     TouristicObjectiveId = model.TouristicObjectiveId,
@@ -164,12 +164,12 @@ namespace iWasHere.Web.Controllers
                 string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, userName, feedbackName, RatingName);
                 if (!String.IsNullOrEmpty(errorMessage))
                 {
-                    ModelState.AddModelError("e", errorMessage);
+                    ModelState.AddModelError(string.Empty, errorMessage);
+                    model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
                     return View(model);
                 }
             }
             model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
-            ModelState.Clear();
             return View(model);
         }
         
