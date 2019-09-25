@@ -7,11 +7,19 @@
 
     .myHeader {
         background-color: lightblue;
-        color: black;
         padding: 40px;
         text-align: center;
         font-family: Georgia;
         color: white;
+    }
+    #TITLU {
+        border-style: none;
+        color: black;
+        font-size: 80px;
+    }
+    #input {
+         border-style: none;
+         font-family:courier;
     }
 </style>
 
@@ -19,60 +27,67 @@
 <br />
 @using (Html.BeginForm("TouristicObjectiveDetail", "TouristicObjective", FormMethod.Post, new { id = "form" }))
 {
-    <div class="divu_mare" >
-    <input type="text" hidden asp-for="TouristicObjectiveId" id="touristicObjectiveId">
-    <div class="nume_picture">
-        <div class="numeObiectiv" align="center">
-        <input type="text" asp-for="TouristicObjectiveName" id="txtObjectiveName" readonly />
+<div class="divu_mare">
+        <div align="center">
+            <input type="text" hidden asp-for="TouristicObjectiveId" id="touristicObjectiveId">
+        </div>
+    <div class="bordura"> <div style="padding:20px">
+        <div class="nume_picture">
+            <div class="numeObiectiv" align="center">
+                <input class="k-textbox" type="text" asp-for="TouristicObjectiveName" id="TITLU" readonly />
+
+            </div>
+            <br />
+            @*<div class="show_img">*@
+            @foreach (var item in Model.PictureName)
+            {
+                <img style='max-height:200px' src="/img/@item" />
+            }
+            @*</div>*@
+            <br /><br /><br />
+            <input type="text" asp-for="Latitude" hidden id="Latitude" />
+            <input type="text" asp-for="Longitude" hidden id="Longitude" />
+        </div>
+            <div class="cod_obiectiv">
+                <label>Cod:</label><input id="input" class="k-textbox" type="text" asp-for="TouristicObjectiveCode" readonly />
+            </div> <br />
+        <div class="pret">
+            Pret:  RON<input id="input" class="k-textbox" type="text" asp-for="Price" readonly />
         </div>
         <br />
-        @*<div class="show_img">*@
-        @foreach (var item in Model.PictureName)
-        {
-            <img style='max-height:200px' src="/img/@item" />
-        }
-        @*</div>*@
-        <br />
-        <input type="text" asp-for="Latitude" hidden id="Latitude" />
-        <input type="text" asp-for="Longitude" hidden id="Longitude" />
-    </div>
-      <div class="cod_obiectiv" >
-       <label>Cod:</label><input type="text" asp-for="TouristicObjectiveCode"  readonly />
-      </div> <br />
-         <div class="pret">
-                Pret: <input type="text" asp-for="Price"  readonly />RON
-            </div>
-            <br />
-            <div class="rating">
-                <input type="text" asp-for="Rating"  readonly /><i class='fa fa-star'></i>
-            </div>
-            <div class="categorie_actractie" >
-                Categorie:<input type="text" asp-for="AttractionCategoryName" id="txtObjectiveCategory" readonly />
-            </div>
-            <br />
-            <div class="sezon">
-                Sezon:<input type="text" asp-for="Type" id="txtObjectiveOpenSeason" readonly />
-            </div>
-            <br />
-       
-            <div class="ora">
-                Oras: <b><input type="text" asp-for="cityName" id="txtObjectiveCity" /></b>
-            </div>
-            <br />
-            <div class="tara">
-                Tara: <b><input type="text" asp-for="countryName" id="txtObjectiveCountry" /></b>
-            </div>
-        <br />
-
-        <div class='row'>
-            <div class='col-md-12'>
-
-                Descriere:  <textarea type="text" asp-for="TouristicObjectiveDescription" id="txtObjectiveDescription" readonly> </textarea>
-            </div>
+        <div class="rating">
+            Feedback<br /><input style="text-align:right" id="input" class="k-textbox" type="text" asp-for="Rating" readonly /><i class='fa fa-star'></i>
         </div>
+        <div class="categorie_actractie">
+            Categorie:<input class="k-textbox" type="text" asp-for="AttractionCategoryName" id="input" readonly />
+        </div>
+        <br />
+        <div class="sezon">
+            Sezon:<input id="input" class="k-textbox" type="text" asp-for="Type" readonly />
+        </div>
+        <br />
 
-        <div>
-            <h1>Sectiune de comentarii</h1>
+        <div class="ora">
+            Oras: <b><input id="input" class="k-textbox" type="text" asp-for="cityName" readonly /></b>
+        </div>
+        <br />
+        <div class="tara">
+            Tara: <b><input id="input" class="k-textbox" type="text" asp-for="countryName" readonly /></b>
+        </div>
+        <br />
+                           </div> 
+     </div><br />
+    <div class="bordura" style="padding:20px;">
+        <br />
+        Descriere:<br /><br />
+        <textarea type="text" rows="11" cols="150" asp-for="TouristicObjectiveDescription" style="border:transparent;" readonly> </textarea>
+    </div><br />
+    <div align="left" class="mapp" id="map"></div>
+    <br />
+    <div class="bordura">
+        <br />
+        <h1>Adauga Comentariu</h1>
+        <div style="padding:20px">
             <input type="text" hidden asp-for="TouristicObjectiveId" />
             <label>Nume utilizator: </label><input id="feedbackName" asp-for="FeedbackDTO.UserName" type="text" name="feedbackName" value="Anonim" /><br />
             <label>Utilizator logat: </label><input type="checkbox" id="checkBox" asp-action="TouristicObjectiveDetail" asp-controller="TouristicObjective" onclick="myCheckBoxChecked()" /><br />
@@ -98,120 +113,41 @@
             </div>
 
         </div>
-
-
-
-        @foreach (var feedback in Model.feedbacks)
-        {
-
-            <span class="rounded-sm">
-                <b>Nume utilizator: </b> @feedback.UserName<br />
-                <b>Titlu Comentariu: </b>@feedback.CommentTitle<br />
-                <b>Comentariu: </b>@feedback.Comment<br />
-                <b>Rating: </b>@feedback.Rating/10<br />
-            </span>
-            <br />
-
-        }
-
     </div>
-
-        <style>
-            .rounded-sm {
-                border-style: ridge
-              
-            }
+    <br/>
 
 
-            #div1 {
-                float: left;
-            }
+    @foreach (var feedback in Model.feedbacks)
+    {
 
-            #map {
-                top: 70px;
-                height: 250px;
-                width: 400px;
-                display: flex;
-                left: 300px;
-            }
+        <span class="rounded-sm">
+            <b>Nume utilizator: </b> @feedback.UserName<br />
+            <b>Titlu Comentariu: </b>@feedback.CommentTitle<br />
+            <b>Comentariu: </b>@feedback.Comment<br />
+            <b>Rating: </b>@feedback.Rating/10<br />
+        </span>
+        <br />
 
-            #txtObjectiveRank {
-                border: transparent;
-                text-align: right;
-            }
+    }
 
-            #txtObjectiveName {
-                font-style: oblique;
-                font-size: xx-large;
-                font-weight: bold;
-                border: transparent;
-                text-align: right;
-            }
-
-            #txtObjectiveCountry {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-            }
-
-            #txtObjectiveCity {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-            }
-
-            #txtObjectiveCategory {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-            }
-
-            #txtObjectiveCode {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-            }
-
-            #txtObjectiveDescription {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-                width: 700px;
-                height: 200px;
-            }
-
-            #txtObjectiveOpenSeason {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-                top: 150px;
-            }
-
-            #txtObjectivePrice {
-                border: transparent;
-                font-size: medium;
-                text-align: left;
-            }
-            </style>
-    <div>        
-    <div class="bordura" align="center">
-        <br/>
-                Descriere:<br/><br/>
-                <textarea type="text"  rows="11" cols="150" asp-for="TouristicObjectiveDescription" style="border:transparent;" readonly> </textarea>
-            </div></div>
-    <div ><div align ="center" id="map"></div> </div>
+</div>
+   
 <style>
+    
     .bordura {
         border-style: solid;
         border-width: 1px;
         border-color: darkcyan;
     }
-    #map {
-        top: 70px;
-        height: 350px;
-        width: 600px;
-        display: flex;
-        left: 200px;
+    .mapp {
+      
+        height: 300px;
+        width: 1200px;
+       margin:0px auto; 
+       display:inline-block;
+           border-style: solid;
+        border-width: 1px;
+        border-color: darkcyan;
     }
     
 
