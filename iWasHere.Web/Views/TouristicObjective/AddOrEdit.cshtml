@@ -219,7 +219,7 @@
         
    <div class="k-content"> 
        @Html.TextBoxFor(model => model.PictureName, new { type = "file", multiple = "multiple", value = "", id = "files" })
-    </div>
+    </div><br/><br/>
     <p align="center">
         <button type="submit" onClick="checkValue()" id="save" class="btn btn-success" name="submitButton" value="Save"><i class="fas fa-save"></i>&nbsp; Salveaza</button>
         <button type="submit" id="new" class="btn btn-success" name="submitButton" value="Nou"><i class="fas fa-save"></i>&nbsp; Salveaza si Nou</button>
@@ -228,9 +228,11 @@
 
     @Html.HiddenFor(model => model.Unique, new { id = "unique" })
 
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    
+
+    @*<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            @if (Model.PictureName != null)
+            @if (Model.PictureName.Count >0)
             {
 
 
@@ -259,7 +261,10 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
-    </div><br /><br /><br /><br /><br /><br /><br />
+    </div><br /><br /><br /><br /><br /><br /><br />*@
+
+    
+
 </div>
 }
 
