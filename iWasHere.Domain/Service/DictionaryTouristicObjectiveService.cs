@@ -261,11 +261,18 @@ namespace iWasHere.Domain.Service
                     CityId = a.CityId,
                     Longitude = a.Longitude,
                     Latitude = a.Latitude,
-                    Rating =Convert.ToInt32( _dbContext.Feedback.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault()),
-            PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
+                    Ratings =_dbContext.Feedback.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.Rating).ToList(),
+                 
+                    PictureName = _dbContext.Picture.Where(x => x.TouristicObjectiveId == a.TouristicObjectiveId).Select(x => x.PictureName).ToList()
                 }).First();
-           
-        //   obj.Rating = _dbContext.Feedback.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault();
+            int sum = 0;
+            for ( int i=0; i< obj.Ratings.Count; i++)
+            {
+                sum += Convert.ToInt32(obj.Ratings[i]);
+                
+            }
+            obj.Rating = sum / obj.Ratings.Count;
+            //   obj.Rating = _dbContext.Feedback.Where(x => x.TouristicObjectiveId == obj.TouristicObjectiveId).Select(x => x.Rating).FirstOrDefault();
             obj.cityName = _dbContext.DictionaryCity.Where(a => a.CityId == obj.CityId).Select(a => a.CityName).FirstOrDefault();
             obj.AttractionCategoryName = _dbContext.DictionaryAttractionCategory.Where(a => a.AttractionCategoryId == obj.AttractionCategoryId).Select
                 (a => a.AttractionCategoryName).FirstOrDefault();
