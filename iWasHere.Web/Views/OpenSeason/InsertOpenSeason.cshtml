@@ -12,17 +12,21 @@
         color: white;
         background-image:radial-gradient(red, black);
     }
+    input {
+    width: 29%;
+    text-align: center
+}
 </style>
-<h1 class="myHeader">_/_/_/ Adauga sezon \_\_\_</h1> <br/><br/>
+<h1 class="myHeader">Adauga sezon</h1> <br/><br/>
 @using (Html.BeginForm("Create", "OpenSeason", FormMethod.Post))
 {
     <div align="center">
         <label>Tip sezon:</label><br />
-        <input id="openSeasonType" asp-for="Type" type="text" /><br/>
+        <input id="openSeasonType" asp-for="Type" type="text" maxlength="215"><br/>
         </div> <br/>
         <div align="center">
         <button type="submit" onclick="success()" class="btn btn-success" name="submitButton" value="Save">Salveaza</button>
-        <button type="submit" onclick="success()" class="btn btn-info" name="submitButton" id="SaveAndNew" value="SaveAndNew">Salveaza si Nou</button>
+        <button type="submit" onclick="success()" class="btn btn-info" name="submitButton" id="saveAndNew" value="SaveAndNew">Salveaza si Nou</button>
         <a asp-action="Index" class="btn btn-danger">Anuleaza</a>
         </div>
         <br />
