@@ -4,6 +4,7 @@
 <html>
 <head>
     <style>
+     
      .dropdown {
   position: relative;
   display: inline-block;
@@ -19,13 +20,19 @@
   z-index: 1;
 }
 
+.imagine{
+    width: 50px;
+    height: 50px;
+}
+
 .dropdown:hover .dropdown-content {
   display: block;
 }
     </style>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Black Widow Web</title>
+   
+    <title> @ViewData["Title"] - Black Widow Web</title>
     @*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous" />*@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <environment include="Development">
@@ -83,9 +90,9 @@
 <body>
     <header>
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Black Widow</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"> <img class="imagine" src="/img/87794.png" alt="Italian Trulli" /> Black Widow</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

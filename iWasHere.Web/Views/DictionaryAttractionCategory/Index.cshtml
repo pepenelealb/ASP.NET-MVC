@@ -1,26 +1,30 @@
-﻿@{
+﻿
+
+@{
     ViewData["Title"] = "Index";
 }
-<style>
 
+<style type="text/css">
+    @@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap');   
     .myHeader {
-         color: black;
+        color: black;
         padding: 45px;
         text-align: center;
-        font-family: Georgia;
+        font-family: 'Open Sans Condensed', sans-serif;
         color: white;
-        background-image:radial-gradient(red, black);
+        background-image: radial-gradient(red, black);
         font-size: 320%;
     }
 
     .filter {
         border-style: ridge;
-         border-radius: 3px;
-       padding: 25px;
-}
+        border-radius: 3px;
+        padding: 25px;
+    }
+
     input {
-    width: 60%;
-}
+        width: 60%;
+    }
 </style>
 
 <h1 class="myHeader"> Dictionar categorii de actractii</h1>
@@ -44,7 +48,7 @@
     }
 
     function deleteFiltersAndRefresh() {
-         $('#attractionCategory').val("");
+        $('#attractionCategory').val("");
         refresh();
     }
 
@@ -54,7 +58,7 @@
         localStorage.setItem("storageName", "edit");
     }
 
-     function setAdd() {
+    function setAdd() {
         localStorage.setItem("storageName", "add");
     }
 
@@ -66,7 +70,7 @@
     <label>Tip atractie: </label>
     <input id="attractionCategory" type="text" name="attractionCategory" value="" />
     <button onclick="refresh()" type="button" class="btn btn-primary" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Filtreaza</button>
-    <button onclick="deleteFiltersAndRefresh()"  type="button" class="btn btn-danger" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Sterge Filtru</button>
+    <button onclick="deleteFiltersAndRefresh()" type="button" class="btn btn-danger" asp-area="" asp-controller="DictionaryAttractionCategory" asp-action="GetFilteredAttraction">Sterge Filtru</button>
 </form>
 <br />
 
@@ -89,12 +93,13 @@
         .DataSource(dataSource => dataSource
             .Ajax()
             .PageSize(10)
-            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))   
+            .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))
             .Model(model => model.Id(t => t.AttractionCategoryId))
-            .Destroy(delete =>delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
+            .Destroy(delete => delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
      )
 )
 
 <br />
-<div align="center"><a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
+<div align="center">
+    <a onclick="setAdd()" href=@Url.Action("AddAttractionCategory", "DictionaryAttractionCategory", 0) type="button" class="btn btn-primary">Adauga</a>
 </div>
