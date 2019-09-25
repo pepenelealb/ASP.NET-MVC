@@ -62,6 +62,7 @@ namespace iWasHere.Web.Controllers
                 }
                 else
                 {
+                    ModelState.Clear();
                     return View();
                 }
             }
