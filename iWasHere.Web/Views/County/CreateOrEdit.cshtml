@@ -1,15 +1,14 @@
 ﻿@model iWasHere.Domain.DTOs.County_DTO
 @{
-    ViewData["Title"] = "Adauga sau modifica Judet";
+    ViewData["Title"] = "Adauga/modifica Judet";
 }
 <style>
     .myHeader {
-        background-color: lightblue;
+       
         color: black;
         padding: 40px;
         text-align: center;
         font-family: Georgia;
-        color: white;
     }
 
     .f1 {
@@ -19,6 +18,12 @@
         border: 2px solid black;
         border-radius: 4px;
     }
+    .filter {
+       
+         border: 2px light blue;
+         border-radius: 3px;
+        background-color: rgba(194, 124, 124, 0.31);
+}
     .help-block ul {
     list-style-type: none;
     }
@@ -43,7 +48,7 @@
 
         {
             <h4>Judet:</h4>
-            <input type="text" asp-for="CountyName" class="f1" placeholder=" Numele judetului...." style="font-style:italic" maxlength="100"/>
+            <input type="text" asp-for="CountyName" class="f1" placeholder="Introdu numele judetului...." style="font-style:italic" maxlength="100"/>
             <br />
             <br />
             <h4>Tara:</h4>
@@ -63,12 +68,13 @@
             )
             <br />
             <br />
-            <button type="submit" id="new" class="btn k-primary" name="submitbutton" value="SaveAndNew">Salveaza si nou</button>
-            <button type="submit" id="btn_save_or_saveEdit" class="btn k-primary" name="submitbutton" value="Save">Salveaza</button>
+            <div class="filter"><br/>
+                 <button type="submit" id="new" class="btn k-primary" name="submitbutton" value="SaveAndNew">Salveaza si nou</button>
+                <button type="submit" id="btn_save_or_saveEdit" class="btn k-primary" name="submitbutton" value="Save">Salveaza</button>
 
-            <a id="exit" class="btn k-primary" asp-action="Index">Renunta</a>
-
-            <br />
+                <a id="exit" class="btn k-primary" asp-action="Index">Renunta</a><br />
+        
+            </div>
         }
 
 </div>

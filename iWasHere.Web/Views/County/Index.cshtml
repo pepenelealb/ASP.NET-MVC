@@ -5,42 +5,22 @@
 
 <style>
     .myHeader {
-        background-color: lightblue;
-        color: white;
+       
         padding: 40px;
         text-align: center;
         font-family: Georgia;
-        text-shadow: 2px 2px 4px #000000;
+        text-shadow: 2px 2px 4px #808080;
         font-size: 320%;
     }
     .filter {
-       
-         border: 2px light blue;
+
+        border-style: double;
          border-radius: 3px;
-        background-color: hsla(120, 100%, 25%, 0.3);
+        background-color: rgba(241, 235, 235, 0.75);
 }
 </style>
 <h1 class="myHeader"> Dictionar Judete</h1>
 
-
-@*<div id="filter">
-        <br />
-        @(Html.Kendo().AutoComplete()
-               .Name("Judete")
-               .DataTextField("Name")
-               .HtmlAttributes(new { style = "width:50%" })
-               .Filter("StartsWith")
-               .DataSource(source =>
-                       {
-                   source.Read(read =>
-                   {
-                       read.Action("Read_Country", "County").Data("f_autocomplete");
-                   })
-                   .ServerFiltering(true);
-               })
-        )
-
-    </div>*@
 <script type="text/javascript">
     var getInput;
 
@@ -95,10 +75,10 @@
 <form > <div class="div2" align="center">
     <br/>
     <h3 style="font-family:courier; text-align:left; padding-left:135px;">Filtru:</h3>
-   <input style="width:50%" id="txt_county" type="text" name="adumi judet" placeholder="Nume judet...." style="font-style:italic"/>
+   <input maxlength="100" style="width:50%" id="txt_county" type="text" name="adumi judet" placeholder="Introdu nume judet...."; style="font-style: italic"/>
    <button id="btn_filter" onclick="refresh()" type="button" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
     <button id="btn_r_filter" onclick="deleteFilters()" type="button" >Sterge filtru</button> </div>
-</form>
+</form> <br/>
 </div>
 <br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.County_DTO>()
@@ -137,7 +117,9 @@
 
 )
 <br />
-<p align="right">
-    <a href="@Url.Action("CreateOrEdit", "County", 0)" onclick='setAdd()' id="btn_add" class="k-primary">Adauga Judet</a>
+<div class="filter"><br/>
+<p align="center">
+    <a href="@Url.Action("CreateOrEdit", "County", 0)" onclick='setAdd()' id="btn_add" class="k-button">Adauga Judet</a>
 
-</p>
+</p><br/>
+</div>

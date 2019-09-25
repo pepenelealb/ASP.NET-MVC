@@ -9,26 +9,29 @@
         padding: 45px;
         text-align: center;
         font-family: Georgia;
-        color: white;
-        background-image:radial-gradient(red, black);
+        
+        
+    }
+     .filter {
+       
+        border-style: double;
+         border: 2px light blue;
+         border-radius: 3px;
+       
     }
     input {
     width: 60%;
 }
 </style>
-<h1 class="myHeader">Sezonabilitate</h1><br/><br />
-<form ><div align="center">
-    <h4 style="font-family:courier;">Cauta:</h4>
+<h1 class="myHeader">Sezonabilitate</h1>
+<form >
+<div align="center" class="filter">
+  <br/> <h4 style="font-family:courier;">Cauta:</h4>
 <input type="text" id="textBox" /><br/><br/>
 <button onclick="refresh()" type="button" id="btnSearch" asp-controller="OpenSeason" asp-action="GetOpenSeason">Filtreaza</button>
-<button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="OpenSeason" asp-action="GetOpenSeason">Sterge Filtre</button>
-</div>
-<br/>
-    </form>
-<br />
-
-<br />
-
+<button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="OpenSeason" asp-action="GetOpenSeason">Sterge Filtre</button><br/>
+</div><br/>
+</form>
 <table>
     <tr>
         @(Html.Kendo().Grid<iWasHere.Domain.DTOs.DictionaryOpenSeasonModel>
