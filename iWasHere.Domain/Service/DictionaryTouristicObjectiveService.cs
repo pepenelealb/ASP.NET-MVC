@@ -90,6 +90,10 @@ namespace iWasHere.Domain.Service
             {
                 return message;
             }
+            if (!ValidateImage(file, out message))
+            {
+                return message;
+            }
             try
             {
                 int id;
@@ -204,6 +208,11 @@ namespace iWasHere.Domain.Service
         {
             string message;
             if (!ValidateData(model, out message))
+            {
+                return message;
+            }
+
+            if(!ValidateImage(file, out message))
             {
                 return message;
             }
@@ -515,6 +524,22 @@ namespace iWasHere.Domain.Service
                     message = "Selecteaza tipul de bilet";
                     return false;
                 }
+            }
+            message = null;
+            return true;
+        }
+
+        public bool ValidateImage(List<IFormFile> file, out string message)
+        {
+            List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+            foreach ( var img in file)
+            {
+                var extension = Path.GetExtension(img.FileName);
+                if (!ImageExtensions.Contains(extension))
+                {
+                    message = "Te rog sa introduci imagini valide.";
+                    return false;
+                }            
             }
             message = null;
             return true;
