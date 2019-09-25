@@ -55,21 +55,37 @@ namespace iWasHere.Web.Controllers
         {
             if (Convert.ToInt32(dictionaryAttractionCategoryModel.AttractionCategoryId) == 0)
             {
-                dictionaryService.AddAttractionCategory(dictionaryAttractionCategoryModel.AttractionCategoryName);
-                if(submitButton == "save")
+                string errorMessage = dictionaryService.AddAttractionCategory(dictionaryAttractionCategoryModel.AttractionCategoryName);
+                if (String.IsNullOrWhiteSpace(errorMessage))
                 {
-                    return View("Index");
+                    if (submitButton == "save")
+                    {
+                        return View("Index");
+                    }
+                    else
+                    {
+                        ModelState.Clear();
+                        return View();
+                    }
                 }
                 else
                 {
-                    ModelState.Clear();
+                    ModelState.AddModelError(String.Empty, errorMessage);
                     return View();
                 }
             }
             else
             {
-                dictionaryService.UpdateAttractionCategory(dictionaryAttractionCategoryModel);
-                return View("Index");
+                string errorMessage = dictionaryService.UpdateAttractionCategory(dictionaryAttractionCategoryModel);
+                if (String.IsNullOrWhiteSpace(errorMessage))
+                {
+                    return View("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError(String.Empty, errorMessage);
+                    return View();
+                }
             }
 
         }
