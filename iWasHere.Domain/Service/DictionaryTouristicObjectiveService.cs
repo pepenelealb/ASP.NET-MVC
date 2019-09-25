@@ -562,7 +562,7 @@ namespace iWasHere.Domain.Service
             List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".BMP", ".GIF", ".PNG" };
             foreach ( var img in file)
             {
-                var extension = Path.GetExtension(img.FileName).ToLower();
+                var extension = Path.GetExtension(img.FileName).ToUpper();
                 if (!ImageExtensions.Contains(extension))
                 {
                     message = "Te rog sa introduci imagini valide.";
