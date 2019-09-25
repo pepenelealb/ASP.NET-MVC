@@ -90,23 +90,17 @@
     });
 
 </script>
-<br />
+
 <div class="filter">
 <form > <div class="div2" align="center">
     <br/>
-    <h3 style="font-family:courier;">Cauta Judet:</h3>
-   <input style="width:50%" id="txt_county" type="text" name="adumi judet" value="" />
+    <h3 style="font-family:courier; text-align:left; padding-left:135px;">Filtru:</h3>
+   <input style="width:50%" id="txt_county" type="text" name="adumi judet" placeholder="Nume judet...." style="font-style:italic"/>
    <button id="btn_filter" onclick="refresh()" type="button" asp-area="" asp-controller="CountyController" asp-action="Read">Filtreaza</button>
     <button id="btn_r_filter" onclick="deleteFilters()" type="button" >Sterge filtru</button> </div>
 </form>
-    <br/>
 </div>
-
-
-
-
-
-<br />
+<br/>
 @(Html.Kendo().Grid<iWasHere.Domain.DTOs.County_DTO>()
          .Name("grid_county")
          .Columns(columns =>
