@@ -22,7 +22,7 @@ namespace iWasHere.Domain.Service
 
         public DictionaryTouristicObjectiveService(BlackWidowContext databaseContext)
         {
-            _dbContext = databaseContext;           
+            _dbContext = databaseContext;
         }
 
         public List<DictionaryAttractionCategoryModel> GetAttraction()
@@ -47,7 +47,7 @@ namespace iWasHere.Domain.Service
 
             return dictionaryOpenSeasons;
         }
-       
+
         public List<CityDTO> GetCity()
         {
             List<CityDTO> city = _dbContext.DictionaryCity.Select(a => new CityDTO()
@@ -220,40 +220,40 @@ namespace iWasHere.Domain.Service
 
             try
             {
-            int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
-            if (id != 0)
-            {
-                return "Codul atractiei trebuie sa fie unic";
-            }
-            else
-            {
-                _dbContext.TouristicObjective.Add(new TouristicObjective
+                int id = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Count();
+                if (id != 0)
                 {
-                    TouristicObjectiveDescription = model.TouristicObjectiveDescription,
-                    TouristicObjectiveName = model.TouristicObjectiveName,
-                    TouristicObjectiveCode = model.TouristicObjectiveCode,
-                    HasEntry = model.HasEntry,
-                    OpenSeasonId = model.OpenSeasonId,
-                    CityId = model.CityId,
-                    AttractionCategoryId = model.AttractionCategoryId,
-                    Latitude = model.Latitude,
-                    Longitude = model.Longitude
-                });
-                _dbContext.SaveChanges();
-                if (model.HasEntry)
+                    return "Codul atractiei trebuie sa fie unic";
+                }
+                else
                 {
-                    model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
-                   
-                        _dbContext.Ticket.Add(new Ticket
+                    _dbContext.TouristicObjective.Add(new TouristicObjective
                     {
-                        Price = model.Price,
-                        DictionaryCurrencyId = model.CurrencyId,
-                        DictionaryTicketId = model.DictionaryTicketId,
-                        DictionaryExchangeRateId = 1,
-                        TouristicObjectiveId = model.TouristicObjectiveId
+                        TouristicObjectiveDescription = model.TouristicObjectiveDescription,
+                        TouristicObjectiveName = model.TouristicObjectiveName,
+                        TouristicObjectiveCode = model.TouristicObjectiveCode,
+                        HasEntry = model.HasEntry,
+                        OpenSeasonId = model.OpenSeasonId,
+                        CityId = model.CityId,
+                        AttractionCategoryId = model.AttractionCategoryId,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude
                     });
                     _dbContext.SaveChanges();
-                }
+                    if (model.HasEntry)
+                    {
+                        model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
+
+                        _dbContext.Ticket.Add(new Ticket
+                        {
+                            Price = model.Price,
+                            DictionaryCurrencyId = model.CurrencyId,
+                            DictionaryTicketId = model.DictionaryTicketId,
+                            DictionaryExchangeRateId = 1,
+                            TouristicObjectiveId = model.TouristicObjectiveId
+                        });
+                        _dbContext.SaveChanges();
+                    }
                     if (file.Count > 0)
                         model.TouristicObjectiveId = _dbContext.TouristicObjective.Where(x => x.TouristicObjectiveCode.ToLower() == model.TouristicObjectiveCode.ToLower()).Select(x => x.TouristicObjectiveId).FirstOrDefault();
                     foreach (var image in file)
@@ -262,7 +262,7 @@ namespace iWasHere.Domain.Service
                         string webRootPath = _hostingEnvironment.WebRootPath;
                         var uploads = Path.Combine(webRootPath, SD.ImageFolder);
                         var extension = Path.GetExtension(image.FileName);
-                        
+
 
                         _dbContext.Picture.Add(new Model.Picture()
                         {
@@ -447,30 +447,30 @@ namespace iWasHere.Domain.Service
             {
                 if (feedbackName != "Anonim")
                 {
-                        _dbContext.Feedback.Add(new Feedback
-                        {
-                            CommentTitle = model.CommentTitle,
-                            Comment = model.Comment,
-                            Rating = RatingName,
-                            TouristicObjectiveId = model.TouristicObjectiveId,
-                            UserId = userId,
-                            UserName = userName
-                        });
-                        _dbContext.SaveChanges();
-                        return null;
-                    }
+                    _dbContext.Feedback.Add(new Feedback
+                    {
+                        CommentTitle = model.CommentTitle,
+                        Comment = model.Comment,
+                        Rating = RatingName,
+                        TouristicObjectiveId = model.TouristicObjectiveId,
+                        UserId = userId,
+                        UserName = userName
+                    });
+                    _dbContext.SaveChanges();
+                    return null;
+                }
                 else
-                { 
-                        _dbContext.Feedback.Add(new Feedback
-                        {
-                            CommentTitle = model.CommentTitle,
-                            Comment = model.Comment,
-                            Rating = RatingName,
-                            TouristicObjectiveId = model.TouristicObjectiveId,
-                            UserId = null,
-                            UserName = feedbackName
-                        });
-                        _dbContext.SaveChanges();
+                {
+                    _dbContext.Feedback.Add(new Feedback
+                    {
+                        CommentTitle = model.CommentTitle,
+                        Comment = model.Comment,
+                        Rating = RatingName,
+                        TouristicObjectiveId = model.TouristicObjectiveId,
+                        UserId = null,
+                        UserName = feedbackName
+                    });
+                    _dbContext.SaveChanges();
                     return null;
                 }
             }
@@ -478,7 +478,7 @@ namespace iWasHere.Domain.Service
             {
                 return e.Message;
             }
-}
+        }
 
         public bool ValidateData(TouristicObjectiveDTO model, out string message)
         {
@@ -534,6 +534,30 @@ namespace iWasHere.Domain.Service
             message = null;
             return true;
         }
+
+        public bool ValidateDataFeedback(FeedbackDTO model, out string message)
+        {
+            message = null;
+            if (String.IsNullOrWhiteSpace(model.CommentTitle))
+            {
+                message = "Titlul comentariului trebuie adaugat!";
+                return false;
+            }
+            else if (String.IsNullOrWhiteSpace(model.Comment))
+            {
+                message = "Descrierea comentariului trebuie adaugata!";
+                return false;
+            }
+            else if(model.Rating == 0)
+            {
+                message = "Nu ati selectat raiting-ul!";
+                return false;
+            } 
+
+            return true;
+        }
+    }
+    
 
         public bool ValidateImage(List<IFormFile> file, out string message)
         {
