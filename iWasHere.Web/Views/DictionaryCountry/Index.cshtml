@@ -8,13 +8,14 @@
         padding: 38px;
         text-align: center;
         font-family: Georgia;
-        color: white;
-        background-image:radial-gradient(red, black);
+        font-size: 320%;
     }
 
     .filter {
        
-        border-radius: 3px;
+        border-style: double;
+         border: 2px light blue;
+         border-radius: 3px;
        
     }
      input {
@@ -23,13 +24,14 @@
 </style>
 <h1 class="myHeader"> Dictionar Tari</h1>
 <form class="filter">
+    <br/>
     <div align="center">
-      
-        <h4 style="font-family:courier;">Cauta tara:</h4> <input id="searchCountryName" type="text" /><br/><br/>
+        <h4 style="font-family:courier;">Cauta tara:</h4> <input id="searchCountryName" type="text" placeholder="Introdu tara...."; style="font-style: italic"/><br/><br/>
         <button type="button" id="btnSearch" onclick="refreshFunction()" asp-controller="DictionaryCountry" asp-action="GetCountries">Filtreaza</button>
         <button type="button" id="btnDeleteFilters" onclick="deleteFilters()" asp-controller="DictionaryCountry" asp-action="GetCountries">Sterge Filtre</button>
-    </br>
+    <br/>
     </div>
+    <br/>
 </form>
 
 <br />

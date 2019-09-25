@@ -147,6 +147,7 @@ namespace iWasHere.Web.Controllers
         {
             FeedbackDTO modelFeedback=null;
             var userId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);// Specify the type of your UserId;
+            var userName = HttpContext.User.FindFirstValue(ClaimTypes.Name);
             if (model != null)
             {
                 modelFeedback = new FeedbackDTO()
@@ -158,7 +159,7 @@ namespace iWasHere.Web.Controllers
                     UserName = model.FeedbackDTO.UserName,
                     UserId = model.FeedbackDTO.UserId
                 };
-                string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, feedbackName, RatingName);
+                string errorMessage = _dictionaryObjective.InsertFeedback(modelFeedback, userId, userName, feedbackName, RatingName);
                 if (!String.IsNullOrEmpty(errorMessage))
                 {
                     ModelState.AddModelError("e", errorMessage);
@@ -166,6 +167,7 @@ namespace iWasHere.Web.Controllers
                 }
             }
             model = _dictionaryObjective.GetTouristicObjectiveById(Convert.ToInt32(modelFeedback.TouristicObjectiveId));
+            ModelState.Clear();
             return View(model);
         }
         

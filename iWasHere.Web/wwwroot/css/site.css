@@ -5,12 +5,14 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+ 
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
+    font-family: 'Abel'
 }
 @media (min-width: 768px) {
   html {
@@ -33,7 +35,9 @@ button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
-
+.navbar {
+    background-color: #39870C;
+}
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
@@ -43,7 +47,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 40px;
 }
 .footer {
   position: absolute;
@@ -51,12 +55,13 @@ body {
   width: 100%;
   white-space: nowrap;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  height: 40px;
   line-height: 60px; /* Vertically center the text there */
 }
 .subnav {
     float: left;
     overflow: hidden;
+
 }
 
     /* Subnav button */
@@ -64,7 +69,7 @@ body {
         font-size: 16px;
         border: none;
         outline: none;
-        color: white;
+        color: black;
         padding: 14px 16px;
         background-color: inherit;
         font-family: inherit;
@@ -84,6 +89,7 @@ body {
         float: left;
         color: white;
         text-decoration: none;
+    
     }
 
 .k-widget .row * {
