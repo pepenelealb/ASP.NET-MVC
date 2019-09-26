@@ -294,14 +294,25 @@ namespace iWasHere.Domain.Service
 
         }
 
-        public void AddAttractionCategory(string attractionCategoryName)
+        public string AddAttractionCategory(string attractionCategoryName)
         {
-            _bwContext.DictionaryAttractionCategory.Add(new DictionaryAttractionCategory
+            if (String.IsNullOrWhiteSpace(attractionCategoryName))
             {
-                AttractionCategoryName = attractionCategoryName
-            });
+                return "Te rog sa introduci un nume de atractie.";
+            }
+            try
+            {
+                _bwContext.DictionaryAttractionCategory.Add(new DictionaryAttractionCategory
+                {
+                    AttractionCategoryName = attractionCategoryName
+                });
 
-            _bwContext.SaveChanges();
+                _bwContext.SaveChanges();
+                return null;
+            }catch(Exception e)
+            {
+                return e.Message;
+            }
         }
 
         public List<DictionaryCountryModel> GetDictionaryCountryModels()
@@ -480,12 +491,23 @@ namespace iWasHere.Domain.Service
             return attractionCategory;
         }
 
-        public void UpdateAttractionCategory(DictionaryAttractionCategoryModel model)
+        public string UpdateAttractionCategory(DictionaryAttractionCategoryModel model)
         {
-            DictionaryAttractionCategory attractionCategory = _bwContext.DictionaryAttractionCategory.Find(model.AttractionCategoryId);
-            attractionCategory.AttractionCategoryName = model.AttractionCategoryName;
-            _bwContext.DictionaryAttractionCategory.Update(attractionCategory);
-            _bwContext.SaveChanges();
+            if (String.IsNullOrWhiteSpace(model.AttractionCategoryName))
+            {
+                return "Nu ai introdus o atractie";
+            }
+            try
+            {
+                DictionaryAttractionCategory attractionCategory = _bwContext.DictionaryAttractionCategory.Find(model.AttractionCategoryId);
+                attractionCategory.AttractionCategoryName = model.AttractionCategoryName;
+                _bwContext.DictionaryAttractionCategory.Update(attractionCategory);
+                _bwContext.SaveChanges();
+                return null;
+            }catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         public string DeleteAttractionCategory(int id)

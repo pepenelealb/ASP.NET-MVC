@@ -15,7 +15,19 @@
         font-family: Georgia;
        font-size: 320%;
     }
+
+    .validation-summary-errors ul { 
+    list-style: none;
+    padding-left: 0;
+    }
+    .myvalidation{
+        color:red;
+    }
 </style>
+
+<span class="help-block">
+    @Html.ValidationSummary(true, "", new { @class = "alert alert-danger myvalidation" })
+</span>
 <h2 class="myHeader">Adauga o categorie </h2>
 @using (Html.BeginForm("AddAttractionCategory", "DictionaryAttractionCategory", FormMethod.Post))
 {
