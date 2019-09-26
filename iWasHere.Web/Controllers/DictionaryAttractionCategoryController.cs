@@ -94,8 +94,16 @@ namespace iWasHere.Web.Controllers
         {
             if (attractionCategoryModel != null)
             {
-                dictionaryService.DeleteAttractionCategory(attractionCategoryModel.AttractionCategoryId);
-
+                string err = dictionaryService.DeleteAttractionCategory(attractionCategoryModel.AttractionCategoryId);
+                if (string.IsNullOrWhiteSpace(err))
+                {
+                    return Json(ModelState.ToDataSourceResult());
+                }
+                else
+                {
+                    ModelState.AddModelError("a", err);
+                    return Json(ModelState.ToDataSourceResult());
+                }
             }
 
             return Json(ModelState.ToDataSourceResult());
