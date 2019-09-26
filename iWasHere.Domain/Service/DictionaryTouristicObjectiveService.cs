@@ -550,25 +550,23 @@ namespace iWasHere.Domain.Service
 
             return true;
         }
-    }
-    
 
         public bool ValidateImage(List<IFormFile> file, out string message)
         {
-            List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
-            foreach ( var img in file)
+            List<string> ImageExtensions = new List<string> { ".JPG", ".JPEG", ".BMP", ".GIF", ".PNG" };
+            foreach (var img in file)
             {
-                var extension = Path.GetExtension(img.FileName);
+                var extension = Path.GetExtension(img.FileName).ToUpper();
                 if (!ImageExtensions.Contains(extension))
                 {
                     message = "Te rog sa introduci imagini valide.";
                     return false;
-                }            
+                }
             }
             message = null;
             return true;
         }
-    }
+    }   
 }
 
 

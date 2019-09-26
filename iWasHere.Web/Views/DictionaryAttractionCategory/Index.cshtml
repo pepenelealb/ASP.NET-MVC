@@ -50,14 +50,16 @@
         refresh();
     }
 
-
-
     function setEdit() {
         localStorage.setItem("storageName", "edit");
     }
 
     function setAdd() {
         localStorage.setItem("storageName", "add");
+    }
+
+    function info(e) {
+        alert("Categoria de atractie nu poate fi steara");
     }
 
 </script>
@@ -92,6 +94,7 @@
             .Ajax()
             .PageSize(10)
             .Read(read => read.Action("GetAttractionCategory", "DictionaryAttractionCategory").Data("getRequestedAttractionCategory"))
+            .Events(events => events.Error("info"))
             .Model(model => model.Id(t => t.AttractionCategoryId))
             .Destroy(delete => delete.Action("DeleteAttractionCategory", "DictionaryAttractionCategory"))
      )
